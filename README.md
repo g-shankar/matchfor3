@@ -18,10 +18,10 @@ The existing Firebase project is configured as `mathfor3-53583`.
 ```sh
 firebase login
 npm run build
-firebase deploy --only hosting --project mathfor3-53583
+firebase deploy --only hosting,auth,firestore:rules --project mathfor3-53583
 ```
 
-Firebase Hosting serves the `dist` directory with a single-page fallback, following the [official hosting workflow](https://firebase.google.com/docs/hosting/quickstart). No Firestore database or authentication setup is needed for this version.
+Firebase Hosting serves the `dist` directory with a single-page fallback, following the [official hosting workflow](https://firebase.google.com/docs/hosting/quickstart). The default Firestore database is provisioned in `us-east1`. Anonymous Authentication and owner-only Firestore rules are configured in `firebase.json`; deploy them alongside Hosting. See the [official provider configuration workflow](https://firebase.google.com/docs/auth/configure-providers-cli).
 
 ## Learning behavior
 
@@ -34,13 +34,15 @@ Firebase Hosting serves the `dist` directory with a single-page fallback, follow
 
 ## Saved progress and limitations
 
-Progress is stored locally under `mathquest-v1` in browser localStorage. It survives refreshes and normal browser restarts. It does not sync between devices, and clearing browser data removes it. Private browsing may not preserve it. Parent corner can export practice history as JSON. The parent corner is a navigation view, not a password-protected account.
+Progress is saved locally under `mathquest-v1` in localStorage and backed up to Firestore using a persistent anonymous Firebase Auth identity. Existing browser history is migrated on connection. The parent corner shows connection/saving/backup status and offers a retry when saving fails. Cloud and browser histories merge without counting the same challenge twice. Browser saving lets play continue during connection failures; cloud connection times out so it cannot indefinitely block play. Reconnecting to the network retries cloud saving.
 
-No cloud learning data, analytics, child accounts, school details, or assessment scores are uploaded. The site displays a first name. Google Fonts requests font assets; system fonts are fallbacks.
+An anonymous identity belongs to this browser: cross-device access and recovery after clearing authentication data require a future parent account. Private browsing may not preserve it. Parent corner can export practice history as JSON. The parent corner is a navigation view, not a password-protected account.
+
+Practice history is uploaded to your Firebase project: skills, challenge fingerprints, attempts, sessions, and generator state. School reports, assessment scores, names, and school details are not in the database payload. An anonymous account ID secures the profile; Firestore rules deny access to other users and unsigned visitors. The site displays a first name. Google Fonts requests font assets; system fonts are fallbacks.
 
 Attempts retain skill, difficulty, fingerprint, representation, hint/retry/skip information, and duration. The latest 3,000 attempts and 365 sessions are retained; the seen-challenge list stays intact. Session time means elapsed time between beginning and ending an adventure, including pauses, not active learning time. Browser text-to-speech is optional and depends on device support.
 
-This first version focuses on the four reported growth areas. Strong-skill warmups, cross-device parent accounts, cloud sync, and a full third-grade curriculum are future additions.
+This first version focuses on the four reported growth areas. Strong-skill warmups, cross-device parent accounts, and a full third-grade curriculum are future additions.
 
 ## Files
 
@@ -49,3 +51,9 @@ This first version focuses on the four reported growth areas. Strong-skill warmu
 - `src/style.css`: responsive design, illustrated visual system, keyboard focus and reduced-motion support.
 - `tests/engine.test.js`: generated-question correctness, deduplication, supported-answer handling, difficulty progression.
 - `firebase.json` and `.firebaserc`: Hosting configuration.
+
+## Firestore storage
+
+`players/{authUid}` holds a versioned manifest and server update timestamp. `players/{authUid}/progressChunks/{index}` holds serialized progress in 90,000-character chunks. Reads and writes use transactions so partial backups cannot replace good progress. Chunks keep the growing seen-challenge history below the per-document size limit. Writes are debounced and serialized. Maximum backup size is 450 chunks; the app keeps local history and reports backup unavailable if it reaches this limit. This is a private backup model, not a queryable analytics warehouse.
+
+`npm run test:cloud` explicitly runs live access-rule checks using two temporary anonymous users and a disposable chunk, then removes the test chunk and users. The normal `npm test` suite uses no live Firebase resources.

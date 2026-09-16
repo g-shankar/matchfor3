@@ -1,0 +1,23 @@
+rules_version = '2';
+service cloud.firestore {
+ match /databases/{database}/documents {
+  function owner(uid) { return request.auth != null && request.auth.uid == uid; }
+  match /players/{uid} {
+   allow read: if owner(uid);
+   allow create, update: if owner(uid)
+    && request.resource.data.keys().hasOnly(['schemaVersion', 'chunkCount', 'updatedAt'])
+    && request.resource.data.schemaVersion == 1
+    && request.resource.data.chunkCount is int
+    && request.resource.data.chunkCount >= 1 && request.resource.data.chunkCount <= 450
+    && request.resource.data.updatedAt == request.time;
+   allow delete: if false;
+   match /progressChunks/{chunk} {
+    allow read, delete: if owner(uid);
+    allow create, update: if owner(uid)
+     && request.resource.data.keys().hasOnly(['data'])
+     && request.resource.data.data is string
+     && request.resource.data.data.size() <= 360000;
+   }
+  }
+ }
+}
