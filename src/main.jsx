@@ -23,6 +23,11 @@ import {
   record,
 } from "./engine.js";
 import "./style.css";
+import {skillInfo,skillCount,skillStage,stickerCollection} from './curriculum.js';
+import {answerMatches,misconceptionHint} from './math-utils.js';
+import {ActivityInput} from './activities.jsx';
+import {Visual} from "./visuals.jsx";
+import {SkillTrail,Workshop,Collection,ParentInsights,representationNames} from './learning-pages.jsx';
 import {
   reflectionSchedule,
   reflectionPrompt,
@@ -35,6 +40,7 @@ const Icon = ({ name, ...props }) => {
   return <I {...props} />;
 };
 function Island({ world, large = false }) {
+  if(['numbers','measure'].includes(world.id))return <svg className="island" viewBox="0 0 340 205" aria-hidden="true"><ellipse cx="170" cy="172" rx="128" ry="18" fill={world.color} opacity=".5"/><path d="M45 132Q80 92 132 108Q179 84 228 105Q285 108 300 137L270 160Q162 183 70 154Z" fill={world.color}/>{world.id==='numbers'?<><path d="M125 144L158 91L190 143" stroke="#9b795c" strokeWidth="8" fill="none"/><path d="M157 94L235 58" stroke="#9b795c" strokeWidth="20"/><path d="M229 53L242 73" stroke="#c5a27b" strokeWidth="24"/><path d="M115 114V68H146V112" fill="#e9c795"/><path d="M110 68L130 41L151 68Z" fill="#9e9078"/><g fill="#c9a77c"><path d="M247 32l3 7 7 3-7 3-3 7-3-7-7-3 7-3Z"/><circle cx="86" cy="62" r="4"/></g><text x="204" y="145" fill="#95765b" fontSize="18">123</text></>:<><path d="M86 135Q137 104 173 138Q214 166 275 125" stroke="#79b6b3" strokeWidth="19" fill="none"/><path d="M93 135L108 103L130 132" fill="#85aa82"/><path d="M221 131V88M248 124V77" stroke="#7d966d" strokeWidth="7"/><circle cx="222" cy="76" r="24" fill="#a5be8e"/><circle cx="248" cy="69" r="20" fill="#8eac79"/><ellipse cx="161" cy="122" rx="24" ry="14" fill="#a58268"/><circle cx="147" cy="106" r="15" fill="#b18e74"/><circle cx="142" cy="103" r="2" fill="#405343"/><path d="M163 121Q184 117 190 137" stroke="#a58268" strokeWidth="9" fill="none"/></>}</svg>;
   return (
     <svg
       viewBox="0 0 340 205"
@@ -174,176 +180,20 @@ function Mascot() {
     </svg>
   );
 }
-function Visual({ q, bw, bh }) {
-  if (q.visual === "shape") {
-    const points = {
-      triangle: "100,20 180,140 20,140",
-      rectangle: "30,45 170,45 170,130 30,130",
-      square: "55,30 145,30 145,120 55,120",
-      rhombus: "100,20 175,85 100,150 25,85",
-      parallelogram: "65,40 180,40 135,130 20,130",
-      pentagon: "100,20 180,75 150,145 50,145 20,75",
-      trapezoid: "65,40 135,40 180,130 20,130",
-      hexagon: "60,25 140,25 180,85 140,145 60,145 20,85",
-    };
-    return (
-      <svg
-        className="shape-visual"
-        viewBox="0 0 200 180"
-        role="img"
-        aria-label={`A rotated ${q.shape}`}
-      >
-        <polygon
-          points={points[q.shape]}
-          transform={`rotate(${q.rotation} 100 85)`}
-          fill="#bfdbd1"
-          stroke="#477361"
-          strokeWidth="4"
-          strokeLinejoin="round"
-        />
-      </svg>
-    );
-  }
-  const bar = (n, d, key) => (
-    <div
-      className="fraction-bar"
-      key={key}
-      role="img"
-      aria-label={`${n} of ${d} equal parts colored`}
-    >
-      {Array.from({ length: d }, (_, i) => (
-        <span key={i} className={i < n ? "filled" : ""} />
-      ))}
-    </div>
-  );
-  if (q.visual === "fractionCircle")
-    return (
-      <svg
-        viewBox="0 0 200 200"
-        className="shape-visual"
-        role="img"
-        aria-label={`${q.n} of ${q.d} equal sectors colored`}
-      >
-        {Array.from({ length: q.d }, (_, i) => {
-          let t = (i * 2 * Math.PI) / q.d - Math.PI / 2,
-            u = ((i + 1) * 2 * Math.PI) / q.d - Math.PI / 2;
-          return (
-            <path
-              key={i}
-              d={`M100 100L${100 + 80 * Math.cos(t)} ${100 + 80 * Math.sin(t)}A80 80 0 0 1 ${100 + 80 * Math.cos(u)} ${100 + 80 * Math.sin(u)}Z`}
-              fill={i < q.n ? "#a8c69a" : "#f5eedb"}
-              stroke="#fffdf7"
-              strokeWidth="3"
-            />
-          );
-        })}
-      </svg>
-    );
-  if (["fractionBar", "compare", "sum"].includes(q.visual))
-    return (
-      <div className="bars">
-        {bar(q.n, q.d, "a")}
-        {["compare", "sum"].includes(q.visual) && (
-          <>
-            <span>
-              {q.visual === "sum" ? "+" : `${q.n}/${q.d} and ${q.m}/${q.d}`}
-            </span>
-            {bar(q.m, q.d, "b")}
-          </>
-        )}
-      </div>
-    );
-  if (q.visual === "line")
-    return (
-      <svg
-        className="number-line"
-        viewBox="0 0 440 125"
-        role="img"
-        aria-label={`A line from zero to one with ${q.d} equal intervals and a dot on the ${q.n}th tick`}
-      >
-        <path d="M30 60H410" stroke="#647b56" strokeWidth="3" />
-        {Array.from({ length: q.d + 1 }, (_, i) => (
-          <path
-            key={i}
-            d={`M${30 + (i * 380) / q.d} 50v20`}
-            stroke="#647b56"
-            strokeWidth="3"
-          />
-        ))}
-        <circle cx={30 + (q.n * 380) / q.d} cy="60" r="9" fill="#d89672" />
-        <text x="25" y="100">
-          0
-        </text>
-        <text x="405" y="100">
-          1
-        </text>
-      </svg>
-    );
-  if (q.visual === "missing")
-    return (
-      <div className="missing-diagram">
-        <span>
-          {q.a * q.b}
-          <small>altogether</small>
-        </span>
-        <b>=</b>
-        <span>
-          {q.a}
-          <small>in each group</small>
-        </span>
-        <b>×</b>
-        <span>
-          ?<small>groups</small>
-        </span>
-      </div>
-    );
-  const width = q.type === "build" ? bw : q.a,
-    height = q.type === "build" ? bh : q.b;
-  return (
-    <div className="grid-wrap">
-      <div className="dimension">
-        {width} {q.visual === "missing" ? "per group" : "across"}
-      </div>
-      <div
-        className={`tile-grid ${q.visual === "boundary" ? "boundary" : ""}`}
-        style={{
-          gridTemplateColumns: `repeat(${width},1fr)`,
-          maxWidth: width * 33,
-        }}
-        role="img"
-        aria-label={
-          q.visual === "missing"
-            ? `${q.a * q.b} total, ${q.a} per group`
-            : `${height} rows of ${width} tiles`
-        }
-      >
-        {Array.from({ length: width * height }, (_, i) => (
-          <span
-            key={i}
-            className={
-              q.visual === "split" && i % width >= q.cut ? "split-tile" : ""
-            }
-          >
-            {q.visual === "missing" ? "·" : ""}
-          </span>
-        ))}
-      </div>
-      <div className="dimension">
-        {q.visual === "missing" ? "? groups" : `${height} rows`}
-      </div>
-      {q.visual === "split" && (
-        <p>
-          {q.b} × {q.cut} <b>+</b> {q.b} × {q.a - q.cut}
-        </p>
-      )}
-    </div>
-  );
-}
 function App() {
   const [progress, setProgress] = useState(loadProgress),
     [page, setPage] = useState("home"),
     [q, setQ] = useState(null),
     [worldId, setWorldId] = useState(null),
+    [trailWorld,setTrailWorld]=useState('shapes'),
+    [practiceSkill,setPracticeSkill]=useState(null),
+    [journeyLength,setJourneyLength]=useState(8),
+    [sessionGoal,setSessionGoal]=useState(8),
+    [typed,setTyped]=useState(''),
+    [chosen,setChosen]=useState([]),
+    [painted,setPainted]=useState([]),
+    [point,setPoint]=useState(null),
+    [answerHint,setAnswerHint]=useState(''),
     [count, setCount] = useState(0),
     [sessionSkills, setSessionSkills] = useState([]),
     [hint, setHint] = useState(false),
@@ -376,6 +226,7 @@ function App() {
     }
   }, [progress]);
   useEffect(() => () => window.speechSynthesis?.cancel(), []);
+  useEffect(()=>{window.scrollTo({top:0,behavior:"instant"});},[page,q?.fingerprint]);
   const reset = (q) => {
     window.speechSynthesis?.cancel();
     setQ(q);
@@ -386,19 +237,20 @@ function App() {
     setSelected("");
     setThought("");
     setThoughtShared(false);
+    setTyped('');setChosen([]);setPainted([]);setPoint(null);setAnswerHint('');
     setBw(3);
     setBh(3);
     questionStart.current = Date.now();
   };
-  const start = (id) => {
+  const start = (id,skillId=null) => {
     if (cloudStatus === "connecting") return;
     try {
-      setWorldId(id);
-      reflectionStops.current = reflectionSchedule();
+      setWorldId(id);setPracticeSkill(skillId);setSessionGoal(journeyLength);
+      reflectionStops.current = reflectionSchedule(Math.random,journeyLength);
       setCount(0);
       setSessionSkills([]);
       sessionStart.current = Date.now();
-      reset(nextQuestion(progress, id));
+      reset(nextQuestion(progress, id,[],{skillId}));
       setPage("play");
     } catch (e) {
       setError(e.message);
@@ -416,7 +268,8 @@ function App() {
   };
   const check = (value) => {
     setSelected(value);
-    if (String(value) === q.answer) {
+    const differentGarden=!q.requireDifferent||!([bw,bh].sort((a,b)=>a-b).join(',')===[...q.original].sort((a,b)=>a-b).join(','));
+    if (answerMatches(q,value)&&differentGarden) {
       saveAttempt(false);
       setSolved(true);
       setFeedback(
@@ -426,6 +279,7 @@ function App() {
       );
     } else {
       setRetries((n) => n + 1);
+      setAnswerHint(!differentGarden?'This is the reference garden, perhaps turned around. Try a new pair of side lengths with the same area.':misconceptionHint(q,value));
       setHint(true);
       setFeedback(
         "Let’s explore it together. Try using the picture and this clue.",
@@ -442,7 +296,7 @@ function App() {
           date: Date.now(),
           duration: Date.now() - sessionStart.current,
           count: n,
-          worldId,
+          worldId,skillId:practiceSkill,
         },
       ].slice(-365),
     });
@@ -455,12 +309,12 @@ function App() {
       skills = [...sessionSkills, q.skill];
     setCount(n);
     setSessionSkills(skills);
-    if (n >= 8) {
+    if (n >= sessionGoal) {
       finish(p, n);
       return;
     }
     try {
-      reset(nextQuestion(p, worldId, skills));
+      reset(nextQuestion(p, worldId, skills,{skillId:practiceSkill}));
     } catch (e) {
       setError(e.message);
       finish(p, n);
@@ -472,6 +326,7 @@ function App() {
     if (count || solved) finish(progress, count + (solved ? 1 : 0));
     else setPage("home");
   };
+  const navigate=(target)=>{if(page==="play")leave();window.speechSynthesis?.cancel();setPage(target);};
   const read = () => {
     if ("speechSynthesis" in window) {
       window.speechSynthesis.cancel();
@@ -492,7 +347,7 @@ function App() {
     a.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
-  const total = progress.attempts.length,
+  const total = Object.values(progress.skills).reduce((n,s)=>n+s.total,0),
     minutes = Math.round(
       progress.sessions.reduce((s, x) => s + x.duration, 0) / 60000,
     );
@@ -501,7 +356,7 @@ function App() {
       <header>
         <button
           className="brand"
-          onClick={() => (page === "play" ? leave() : setPage("home"))}
+          onClick={()=>navigate("home")}
         >
           <span className="brand-icon">
             <Compass size={26} />
@@ -510,16 +365,17 @@ function App() {
         </button>
         <nav>
           <button
-            className={page === "home" ? "active" : ""}
-            onClick={() => (page === "play" ? leave() : setPage("home"))}
+            className={["home","trail"].includes(page) ? "active" : ""}
+            onClick={()=>navigate("home")}
           >
             <Map size={17} /> My adventures
           </button>
+          <button className={page==='workshop'?'active':''} onClick={()=>{navigate('workshop');}}><Lightbulb size={17}/> Workshop</button>
+          <button className={page==='collection'?'active':''} onClick={()=>{navigate('collection');}}><Sparkles size={17}/> My keepsakes</button>
           <button
             className={page === "parent" ? "active" : ""}
             onClick={() => {
-              if (page === "play") leave();
-              setPage("parent");
+              navigate("parent");
             }}
           >
             <BarChart3 size={17} /> Parent corner
@@ -550,6 +406,9 @@ function App() {
             <button onClick={() => setError("")}>Dismiss</button>
           </div>
         )}
+        {page==='trail'&&<SkillTrail worldId={trailWorld} progress={progress} onStart={start} onHome={()=>setPage('home')}/>}
+        {page==='workshop'&&<Workshop onHome={()=>setPage('home')} onStart={start}/>}
+        {page==='collection'&&<Collection progress={progress} onHome={()=>setPage('home')}/>}
         {page === "home" && (
           <>
             <section className="hero">
@@ -577,6 +436,7 @@ function App() {
                   <Heart size={15} /> No timers. No lost lives. Just
                   discoveries.
                 </div>
+                <label className="journey-picker">My adventure size <select value={journeyLength} onChange={e=>setJourneyLength(+e.target.value)}><option value={4}>4 discoveries · a little visit</option><option value={8}>8 discoveries · a gentle journey</option></select></label>
               </div>
               <div className="hero-art">
                 <div className="orbit">
@@ -597,11 +457,11 @@ function App() {
                 <div className="eyebrow">FOLLOW YOUR CURIOSITY</div>
                 <h2>Pick a place to play</h2>
                 <p>
-                  Every island is open. Every adventure is a little different.
+                  Six open worlds. Fifty ideas. Every adventure is a little different.
                 </p>
               </div>
               <span className="session-note">
-                <Leaf size={17} /> 8 discoveries · go at your pace
+                <Leaf size={17} /> {journeyLength} discoveries · go at your pace
               </span>
               <div className="worlds">
                 {worlds.map((w, i) => {
@@ -613,7 +473,7 @@ function App() {
                       className="world-card"
                       disabled={cloudStatus === "connecting"}
                       key={w.id}
-                      onClick={() => start(w.id)}
+                      onClick={() => {setTrailWorld(w.id);setPage("trail");}}
                       style={{ "--world-color": w.color, "--world-ink": w.ink }}
                     >
                       <div className="card-top">
@@ -631,7 +491,7 @@ function App() {
                         <span>
                           {practiced
                             ? `${practiced} skills explored`
-                            : "A fresh adventure"}
+                            : `${w.skills.length} ideas to discover`}
                         </span>
                         <span className="round-arrow">
                           <ArrowRight size={18} />
@@ -642,6 +502,7 @@ function App() {
                 })}
               </div>
             </section>
+            <section className="home-extras"><button onClick={()=>setPage('workshop')}><span>🛠️</span><div><h3>Make a discovery of your own</h3><p>Build a garden, paint equal parts, split an array, or move a clock.</p></div><ArrowRight size={19}/></button><button onClick={()=>setPage('collection')}><span>📔</span><div><h3>Your little wonder collection</h3><p>{stickerCollection(progress).filter(s=>s.earned).length} keepsakes from ideas you explored. Take a peek.</p></div><ArrowRight size={19}/></button></section>
             <section className="bottom-note">
               <span className="note-flower">✿</span>
               <div>
@@ -666,13 +527,12 @@ function App() {
                 <ArrowLeft size={17} /> Finish for now
               </button>
               <span>
-                {worlds.find((w) => w.id === worldId)?.name ||
-                  "A little of everything"}
+                {practiceSkill?labels[practiceSkill]:worlds.find((w) => w.id === worldId)?.name || "A little of everything"}
               </span>
-              <span>{count + 1} of 8 discoveries</span>
+              <span>{count + 1} of {sessionGoal} discoveries</span>
             </div>
             <div className="progress-dots">
-              {Array.from({ length: 8 }, (_, i) => (
+              {Array.from({ length: sessionGoal }, (_, i) => (
                 <span
                   key={i}
                   className={
@@ -683,7 +543,7 @@ function App() {
             </div>
             <div className="question-card">
               <div className="eyebrow">
-                {labels[q.skill]} ·{" "}
+                {q.isWarmup?"NUMBER-POWER WARM-UP":labels[q.skill]} ·{" "}
                 {q.level === 1
                   ? "EXPLORE"
                   : q.level === 2
@@ -736,6 +596,7 @@ function App() {
                   </button>
                 </div>
               )}
+              <ActivityInput q={q} solved={solved} typed={typed} setTyped={setTyped} chosen={chosen} setChosen={setChosen} painted={painted} setPainted={setPainted} point={point} setPoint={setPoint} check={check}/>
               {q.type === "choice" && (
                 <div className="answers">
                   {q.choices.map((c) => (
@@ -763,7 +624,7 @@ function App() {
                 {hint && !solved && (
                   <div className="hint">
                     <Lightbulb size={19} />
-                    <p>{q.hint}</p>
+                    <p>{answerHint||q.hint}</p>
                   </div>
                 )}
                 {solved && !waitingForThought && (
@@ -824,7 +685,7 @@ function App() {
                     disabled={waitingForThought}
                     onClick={() => advance()}
                   >
-                    {count === 7 ? "See my discoveries" : "Next discovery"}{" "}
+                    {count === sessionGoal-1 ? "See my discoveries" : "Next discovery"}{" "}
                     <ArrowRight size={18} />
                   </button>
                 ) : (
@@ -873,7 +734,7 @@ function App() {
               <button className="primary" onClick={() => setPage("home")}>
                 Back to my islands <Map size={18} />
               </button>
-              <button className="secondary" onClick={() => start(worldId)}>
+              <button className="secondary" onClick={() => start(worldId,practiceSkill)}>
                 I’d like to explore more
               </button>
             </div>
@@ -898,7 +759,7 @@ function App() {
                 <span>Skills encountered</span>
                 <strong>
                   {Object.keys(progress.skills).length}
-                  <small> / 13</small>
+                  <small> / {skillCount}</small>
                 </strong>
               </div>
               <div>
@@ -922,6 +783,7 @@ function App() {
                 understanding.
               </p>
             </div>
+            <ParentInsights progress={progress} onPractice={start}/>
             <div className="parent-grid">
               {worlds.map((w) => (
                 <article key={w.id}>
@@ -948,6 +810,7 @@ function App() {
                             }}
                           />
                         </div>
+                        {s?.representations&&<details className="representation-details"><summary>{Object.keys(s.representations).length} models explored</summary>{Object.entries(s.representations).map(([rep,stat])=><div key={rep}><span>{representationNames[rep]||rep}</span><span>{stat.independent} independent / {stat.total} explored</span></div>)}</details>}
                         {s && s.total < 5 && (
                           <small>Still getting to know this skill</small>
                         )}

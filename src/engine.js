@@ -1,64 +1,7 @@
-export const worlds = [
-  {
-    id: "shapes",
-    name: "Shape Harbor",
-    tag: "A little shape detective work",
-    color: "#c1dce8",
-    ink: "#366d88",
-    icon: "⛵",
-    skills: ["sides", "properties", "families"],
-    activity:
-      "Find shapes around your home. Which have four sides? Which have right angles?",
-  },
-  {
-    id: "area",
-    name: "Garden Island",
-    tag: "Build, measure, and grow",
-    color: "#e8dfac",
-    ink: "#827127",
-    icon: "🌻",
-    skills: ["area", "perimeter", "missingSide"],
-    activity:
-      "Draw two different rectangles with 24 grid squares. Compare their boundaries.",
-  },
-  {
-    id: "fractions",
-    name: "Fraction Forest",
-    tag: "Small pieces, big discoveries",
-    color: "#c9dfc0",
-    ink: "#537c49",
-    icon: "🌳",
-    skills: ["parts", "numberLine", "compare", "fractionSum"],
-    activity:
-      "Fold paper into equal parts. Compare one half with two quarters.",
-  },
-  {
-    id: "multiply",
-    name: "Mountain Makers",
-    tag: "Find another way to multiply",
-    color: "#ddd3ed",
-    ink: "#786291",
-    icon: "⛰️",
-    skills: ["array", "split", "missingFactor"],
-    activity:
-      "Use buttons to make an array. Split it into two smaller arrays and add their totals.",
-  },
-];
-export const labels = {
-  sides: "Counting sides",
-  properties: "Shape properties",
-  families: "Shape families",
-  area: "Area in squares",
-  perimeter: "Around the boundary",
-  missingSide: "Missing side lengths",
-  parts: "Equal parts",
-  numberLine: "Fractions on a line",
-  compare: "Comparing fractions",
-  fractionSum: "Adding equal parts",
-  array: "Equal groups",
-  split: "Breaking apart products",
-  missingFactor: "Missing factors",
-};
+import {worlds,labels,skillInfo,availableSkills,practiceLevel} from "./curriculum.js";
+import {generateExtended} from "./extended-generators.js";
+import {rng} from "./math-utils.js";
+export {worlds,labels,rng};
 export function initialProgress() {
   return {
     version: 1,
@@ -67,15 +10,6 @@ export function initialProgress() {
     attempts: [],
     sessions: [],
     seeds: 0,
-  };
-}
-export function rng(seed) {
-  return () => {
-    seed |= 0;
-    seed = (seed + 0x6d2b79f5) | 0;
-    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
-    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
   };
 }
 const pick = (r, arr) => arr[Math.floor(r() * arr.length)];
@@ -152,21 +86,13 @@ export function generate(skill, level, seed) {
       );
       break;
     }
-    case "families":
-      q.shape = "square";
-      q.visual = "shape";
-      make(
-        pick(r, [
-          "Is a square also a rectangle?",
-          "Is a square also a quadrilateral?",
-          "Is a square also a rhombus?",
-        ]),
-        "Yes",
-        "Look at the properties, not just the name. A shape can belong to more than one family.",
-        "A square has four sides, four right angles, and four equal sides. It belongs to all three families!",
-        ["Yes", "No"],
-      );
-      break;
+    case "families": {
+      q.shape=pick(r,['square','rectangle','rhombus','parallelogram','trapezoid']);q.visual='shape';
+      const family=pick(r,['rectangle','rhombus','parallelogram','quadrilateral','triangle']);
+      const families={square:['rectangle','rhombus','parallelogram','quadrilateral'],rectangle:['rectangle','parallelogram','quadrilateral'],rhombus:['rhombus','parallelogram','quadrilateral'],parallelogram:['parallelogram','quadrilateral'],trapezoid:['quadrilateral']};
+      const belongs=families[q.shape].includes(family);
+      make(`Is this ${q.shape} also a ${family}?`,belongs?'Yes':'No','Look at the properties, not just the name. A shape can belong to more than one family.',belongs?`Yes. This ${q.shape} has the properties needed to be a ${family}.`:`No. This ${q.shape} does not have all the properties of a ${family}.`,['Yes','No']);break;
+    }
     case "area":
       make(
         mode === 0
@@ -289,8 +215,11 @@ export function generate(skill, level, seed) {
       );
       break;
     default:
-      throw Error(`Unknown skill ${skill}`);
+      return generateExtended(skill,level,seed);
   }
+  if(level>1&&mode===2&&['area','perimeter','missingSide','array','split','missingFactor'].includes(skill)&&q.type!=='build')q.type='input';
+  if(level>1&&mode===1&&['array','split'].includes(skill)){q.visual='expression';q.model={a,b,operator:'×'};}
+  if(level>1&&mode===2&&['compare','fractionSum'].includes(skill)){q.visual='expression';q.model={text:skill==='compare'?`${q.n}/${q.d} or ${q.m}/${q.d}`:`${q.n}/${q.d} + ${q.m}/${q.d}`};}
   if (!q.choices && q.type === "choice") {
     const ans = Number(q.answer);
     q.choices = shuffle(r, [
@@ -302,16 +231,14 @@ export function generate(skill, level, seed) {
       ]),
     ]).map(String);
   } else if (q.choices) q.choices = shuffle(r, [...new Set(q.choices)]);
-  q.rotation = pick(r, [0, 0, 15, -15, 30]);
+  q.rotation = pick(r, level===1?[0,0,15,-15,30]:[0,15,-15,30,45,60,90,120,150]);
   q.fingerprint = JSON.stringify([
     skill,
     q.prompt,
     q.visual,
     ...(q.visual === "shape"
       ? [q.shape, q.rotation]
-      : ["fractionCircle", "fractionBar", "line", "compare", "sum"].includes(
-            q.visual,
-          )
+      : ["parts","numberLine","compare","fractionSum"].includes(skill)
         ? [q.n, q.d, q.m]
         : [
             q.type === "build" ? null : q.a,
@@ -321,82 +248,32 @@ export function generate(skill, level, seed) {
   ]);
   return q;
 }
-export function nextQuestion(progress, worldId, sessionSkills = []) {
-  const candidates = worlds
-    .filter((w) => !worldId || w.id === worldId)
-    .flatMap((w) => w.skills);
-  const ranked = candidates
-    .map((skill) => {
-      const s = progress.skills[skill] || { independent: 0, total: 0, last: 0 };
-      const mastery = s.total ? s.independent / s.total : 0;
-      return {
-        skill,
-        priority:
-          (1 - mastery) * 3 +
-          (s.total ? 0 : 1) +
-          (Date.now() - s.last > 3 * 86400000 ? 0.5 : 0) -
-          (sessionSkills.slice(-2).includes(skill) ? 3 : 0),
-      };
-    })
-    .sort((a, b) => b.priority - a.priority);
-  const seen = new Set(progress.seen);
-  let seed = progress.seeds || 0;
-  for (let i = 0; i < 4000; i++) {
-    seed++;
-    const skill = ranked[i % ranked.length].skill,
-      s = progress.skills[skill];
-    const level =
-      s && s.independent >= 8 && s.independent / s.total > 0.8
-        ? 3
-        : s && s.independent >= 3 && s.independent / s.total > 0.65
-          ? 2
-          : 1;
-    const q = generate(skill, level, seed);
-    if (!seen.has(q.fingerprint)) return { ...q, seed };
-  }
-  throw Error("All current variations explored. Try another island.");
+export function nextQuestion(progress,worldId,sessionSkills=[],options={}) {
+ const {skillId}=options;
+ if(skillId&&!skillInfo[skillId])throw Error('Choose a skill from the learning trail.');
+ if(worldId&&!worlds.some(w=>w.id===worldId))throw Error('Choose an island from the map.');
+ let candidates=skillId?[skillId]:availableSkills(progress,worldId);
+ const position=sessionSkills.length;
+ const warmup=!worldId&&!skillId&&(position===0||position===6);
+ if(warmup){const booster=position===0?'numbers':'measure';candidates=availableSkills(progress,booster);}else if(!worldId&&!skillId)candidates=candidates.filter(s=>worlds.find(w=>w.id===skillInfo[s].world).focus);
+ const ranked=candidates.map(skill=>{const s=progress.skills[skill]||{independent:0,total:0,last:0},recent=progress.attempts.filter(a=>a.skill===skill).slice(-12),rate=recent.length?recent.filter(a=>a.independent).length/recent.length:s.total?s.independent/s.total:0;
+ return {skill,priority:(1-rate)*3+(s.total?0:1)+(s.total&&Date.now()-s.last>3*86400000?.7:0)-(sessionSkills.slice(-2).includes(skill)?3:0)+(skillInfo[skill].world==='shapes'?.2:0)};}).sort((a,b)=>b.priority-a.priority);
+ const seen=new Set(progress.seen);let seed=progress.seeds||0;
+ for(let i=0;i<6000;i++){seed++;const skill=ranked[Math.floor(i/8)%ranked.length]?.skill;if(!skill)break;const level=practiceLevel(progress,skill),q=generate(skill,level,seed);if(seen.has(q.fingerprint))continue;
+ const previous=progress.attempts.filter(a=>a.skill===skill).slice(-2);
+ if(i%8<6&&previous.length&&previous.every(a=>a.representation===q.visual))continue;
+ return {...q,seed,worldId:skillInfo[skill].world,isWarmup:warmup};}
+ throw Error('You have explored the available variations here. Pick another skill or island for a fresh discovery.');
 }
+export function updateSkill(old,a){old=old||{total:0,independent:0,supported:0,last:0};const reps={...(old.representations||{})};const rep=reps[a.representation]||{total:0,independent:0,supported:0};reps[a.representation]={total:rep.total+1,independent:rep.independent+(a.independent?1:0),supported:rep.supported+(!a.skipped&&!a.independent?1:0)};return {...old,total:old.total+1,independent:old.independent+(a.independent?1:0),supported:old.supported+(!a.skipped&&!a.independent?1:0),last:Math.max(old.last||0,a.date),representations:reps};}
 export function record(
   progress,
   q,
   { hinted = false, retries = 0, skipped = false, duration = 0 },
 ) {
-  const old = progress.skills[q.skill] || {
-    total: 0,
-    independent: 0,
-    supported: 0,
-    last: 0,
-  };
-  const independent = !hinted && !retries && !skipped;
-  return {
-    ...progress,
-    seeds: q.seed,
-    seen: [...progress.seen, q.fingerprint],
-    skills: {
-      ...progress.skills,
-      [q.skill]: {
-        total: old.total + 1,
-        independent: old.independent + (independent ? 1 : 0),
-        supported: old.supported + (!skipped && !independent ? 1 : 0),
-        last: Date.now(),
-      },
-    },
-    attempts: [
-      ...progress.attempts,
-      {
-        skill: q.skill,
-        level: q.level,
-        fingerprint: q.fingerprint,
-        representation: q.visual,
-        independent,
-        hinted,
-        retries,
-        skipped,
-        duration,
-        date: Date.now(),
-      },
-    ].slice(-3000),
-  };
+  const independent=!hinted&&!retries&&!skipped;
+  const attempt={skill:q.skill,worldId:skillInfo[q.skill]?.world,level:q.level,fingerprint:q.fingerprint,representation:q.visual,interaction:q.type,independent,hinted,retries,skipped,duration,date:Date.now()};
+  return {...progress,seeds:Math.max(progress.seeds||0,q.seed||0),seen:[...new Set([...progress.seen,q.fingerprint])],skills:{...progress.skills,[q.skill]:updateSkill(progress.skills[q.skill],attempt)},attempts:[...progress.attempts,attempt].slice(-3000)};
 }
 export function loadProgress() {
   try {

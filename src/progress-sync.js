@@ -1,4 +1,4 @@
-import { initialProgress } from "./engine.js";
+import { initialProgress,updateSkill } from "./engine.js";
 export function validProgress(p) {
   return (
     p?.version === 1 &&
@@ -28,20 +28,7 @@ export function mergeProgress(remote, local) {
       : a;
   });
   const skills = structuredClone(remote.skills);
-  for (const a of added) {
-    const s = skills[a.skill] || {
-      total: 0,
-      independent: 0,
-      supported: 0,
-      last: 0,
-    };
-    skills[a.skill] = {
-      total: s.total + 1,
-      independent: s.independent + (a.independent ? 1 : 0),
-      supported: s.supported + (!a.skipped && !a.independent ? 1 : 0),
-      last: Math.max(s.last, a.date),
-    };
-  }
+  for(const a of added)skills[a.skill]=updateSkill(skills[a.skill],a);
   // Preserve older aggregate evidence when the local attempt window has been trimmed.
   for (const [key, s] of Object.entries(local.skills)) {
     if (!remote.skills[key] || s.total > (skills[key]?.total || 0))

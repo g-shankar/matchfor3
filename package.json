@@ -17,6 +17,7 @@
     "react-dom": "^19.1.0"
   },
   "devDependencies": {
+    "esbuild": "^0.28.2",
     "vite": "^7.1.0"
   }
 }

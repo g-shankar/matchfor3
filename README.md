@@ -1,6 +1,6 @@
 # MathQuest
 
-A math-only, gentle learning playground for an eight-year-old. Four open islands focus on shape properties, area and perimeter, fractions, and multiplication. React + Vite; deploys as a static site to Firebase Hosting. No paid API or live AI generation is needed.
+A math-only, gentle learning playground for an eight-year-old. Six open worlds cover 50 skills in shapes, area and perimeter, fractions, multiplication and division, number sense, and measurement. The first four worlds remain the main practice focus. React + Vite; deploys as a static site to Firebase Hosting. No paid API or live AI generation is needed.
 
 ## Run
 
@@ -25,11 +25,12 @@ Firebase Hosting serves the `dist` directory with a single-page fallback, follow
 
 ## Learning behavior
 
-- Eight discoveries per adventure, with a visible option to finish at any time. No countdowns, lives, streak pressure, or locked islands.
-- Thirteen skill generators across four domains. Fraction circles, bars, number lines, visual arrays, shape rotation, and a resizable area garden.
+- Choose four or eight discoveries per adventure, with a visible option to finish at any time. No countdowns, lives, streak pressure, or locked islands.
+- Fifty skill generators across six domains. Activities include painting fractions, placing fractions on a line, ordering numbers, selecting all matching shape clues, typing answers, and building gardens. Every skill is available directly from its world’s Explore, Connect, and Stretch trail.
 - Each challenge has a fingerprint based on its actual prompt and relevant visual data. Seen challenges are excluded across sessions on the same browser. Concepts intentionally return in new variations: learning benefits from revisiting an idea. Pools are finite; after exhausting a world, the game asks the explorer to try another island rather than silently repeat a challenge.
-- Mixed adventures initially prioritize unpracticed skills, starting with geometry. Weak independent performance receives more practice; recent skills receive a sequencing penalty. Three difficulty bands increase after at least three/eight independent answers and 65%/80% independent performance. This is a simple practice heuristic, not a validated assessment or curriculum mastery score. Representation diversity is provided by generators; future versions can track mastery per representation.
-- Two random reflection stops per eight-discovery adventure ask her to explain her thinking in a short text box; several retries also trigger a reflection. Next remains disabled until she shares a few words or a math sentence. The worked explanation is shown after sharing so it cannot simply be copied. Writing is not graded, and finishing for now remains available. The latest six explanations appear in Parent corner and are included in browser/cloud backups and exports.
+- Mixed adventures include number and measurement warmups while prioritizing the four focus domains. Automatic practice follows gentle prerequisite recommendations; direct skill selection remains open. Recent independent performance, practice spacing, and varied representations guide sequencing. Difficulty uses the last 12 attempts and can become easier after struggles. These are practice heuristics, not validated assessment or curriculum mastery scores. Parent corner distinguishes evidence across representations and suggests practice from recorded patterns.
+- Free-play Workshop offers an area/perimeter garden, fraction painter, array splitter, and clock explorer. These experiments do not affect practice statistics. Ten keepsake stickers celebrate exploration and sharing thoughts without daily streaks or time pressure.
+- Two random reflection stops per adventure ask her to explain her thinking in a short text box; several retries also trigger a reflection. Next remains disabled until she shares a few words or a math sentence. The worked explanation is shown after sharing so it cannot simply be copied. Writing is not graded, and finishing for now remains available. The latest six explanations appear in Parent corner and are included in browser/cloud backups and exports.
 - A mistake opens a visual clue and allows unlimited retries. Clues and retries never deduct rewards. The parent corner distinguishes independent, supported, and skipped work.
 - A school report informed the initial focus areas. The report and its assessment scores are not stored in the app or repository. Reference-document recommendations were treated as design input, not as authorization to act.
 
@@ -43,14 +44,17 @@ Practice history is uploaded to your Firebase project: skills, challenge fingerp
 
 Attempts retain skill, difficulty, fingerprint, representation, hint/retry/skip information, and duration. The latest 3,000 attempts and 365 sessions are retained; the seen-challenge list stays intact. Session time means elapsed time between beginning and ending an adventure, including pauses, not active learning time. Browser text-to-speech is optional and depends on device support.
 
-This first version focuses on the four reported growth areas. Strong-skill warmups, cross-device parent accounts, and a full third-grade curriculum are future additions.
+This expansion includes strong-skill warmups and broader number, time, money, length, and graph practice. It is not a complete formally mapped third-grade curriculum. Cross-device parent accounts are not implemented.
 
 ## Files
 
-- `src/engine.js`: seeded question generators, challenge deduplication, adaptive sequencing, attempt records.
+- `src/curriculum.js`: 50 skills, prerequisites, world metadata, practice stages, and keepsakes.
+- `src/engine.js` and `src/extended-generators.js`: seeded generators, challenge deduplication, adaptive sequencing, and attempt records.
+- `src/activities.jsx` and `src/visuals.jsx`: mathematical models and interactive answers.
+- `src/learning-pages.jsx`: skill trails, free-play workshop, keepsakes, and parent practice suggestions.
 - `src/main.jsx`: island map, interactive activity screen, short-session ending, parent observations and export.
 - `src/style.css`: responsive design, illustrated visual system, keyboard focus and reduced-motion support.
-- `tests/engine.test.js`: generated-question correctness, deduplication, supported-answer handling, difficulty progression.
+- `tests/*.test.js`: generated-question invariants, deduplication, supported answers, adaptive sequencing, reflection gates, progress merging, and rendering of all skill/difficulty combinations.
 - `firebase.json` and `.firebaserc`: Hosting configuration.
 
 ## Firestore storage
