@@ -447,7 +447,7 @@ function App() {
                   <Heart size={15} /> No timers. No lost lives. Just
                   discoveries.
                 </div>
-                <label className="journey-picker">My adventure size <select value={journeyLength} onChange={e=>setJourneyLength(+e.target.value)}><option value={4}>4 discoveries · a little visit</option><option value={8}>8 discoveries · a gentle journey</option></select></label>
+                <label className="journey-picker">Questions per adventure <select value={journeyLength} onChange={e=>setJourneyLength(+e.target.value)}><option value={4}>4 questions · a little visit</option><option value={8}>8 questions · a gentle journey</option></select></label>
               </div>
               <div className="hero-art">
                 <div className="orbit">
@@ -468,11 +468,11 @@ function App() {
                 <div className="eyebrow">FOLLOW YOUR CURIOSITY</div>
                 <h2>Pick a place to play</h2>
                 <p>
-                  Six open worlds. Fifty ideas. Every adventure is a little different.
+                  Six worlds with 50 math skills. Pick a world, then play a 4- or 8-question adventure.
                 </p>
               </div>
               <span className="session-note">
-                <Leaf size={17} /> {journeyLength} discoveries · go at your pace
+                <Leaf size={17} /> Each adventure: {journeyLength} questions · go at your pace
               </span>
               <div className="worlds">
                 {worlds.map((w, i) => {
@@ -501,8 +501,8 @@ function App() {
                       <div className="card-footer">
                         <span>
                           {practiced
-                            ? `${practiced} skills explored`
-                            : `${w.skills.length} ideas to discover`}
+                            ? `${practiced} of ${w.skills.length} skills explored`
+                            : `${w.skills.length} math skills inside`}
                         </span>
                         <span className="round-arrow">
                           <ArrowRight size={18} />
@@ -540,7 +540,7 @@ function App() {
               <span>
                 {practiceSkill?labels[practiceSkill]:worlds.find((w) => w.id === worldId)?.name || "A little of everything"}
               </span>
-              <span>{count + 1} of {sessionGoal} discoveries</span>
+              <span>Question {count + 1} of {sessionGoal}</span>
             </div>
             <div className="progress-dots">
               {Array.from({ length: sessionGoal }, (_, i) => (
