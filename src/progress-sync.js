@@ -20,6 +20,13 @@ export function mergeProgress(remote, local) {
     (a) =>
       !ids.has(attemptId(a)) && (!a.fingerprint || !seen.has(a.fingerprint)),
   );
+  const localById = new Map(local.attempts.map((a) => [attemptId(a), a]));
+  const updatedRemoteAttempts = remote.attempts.map((a) => {
+    const other = localById.get(attemptId(a));
+    return (other?.reflection?.date || 0) > (a.reflection?.date || 0)
+      ? { ...a, reflection: other.reflection }
+      : a;
+  });
   const skills = structuredClone(remote.skills);
   for (const a of added) {
     const s = skills[a.skill] || {
@@ -47,7 +54,7 @@ export function mergeProgress(remote, local) {
     version: 1,
     skills,
     seen: [...new Set([...remote.seen, ...local.seen])],
-    attempts: [...remote.attempts, ...added]
+    attempts: [...updatedRemoteAttempts, ...added]
       .sort((a, b) => a.date - b.date)
       .slice(-3000),
     sessions: [...sessions.values()]

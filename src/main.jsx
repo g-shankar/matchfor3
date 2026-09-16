@@ -23,6 +23,12 @@ import {
   record,
 } from "./engine.js";
 import "./style.css";
+import {
+  reflectionSchedule,
+  reflectionPrompt,
+  hasThought,
+  saveReflection,
+} from "./reflection.js";
 import { useCloudProgress } from "./use-cloud-progress.js";
 const Icon = ({ name, ...props }) => {
   const I = { map: Map, heart: Heart, leaf: Leaf }[name] || Sparkles;
@@ -345,12 +351,18 @@ function App() {
     [feedback, setFeedback] = useState(""),
     [solved, setSolved] = useState(false),
     [selected, setSelected] = useState(""),
+    [thought, setThought] = useState(""),
+    [thoughtShared, setThoughtShared] = useState(false),
     [bw, setBw] = useState(3),
     [bh, setBh] = useState(3),
     [storageError, setStorageError] = useState(false),
     [error, setError] = useState("");
   const questionStart = useRef(Date.now()),
-    sessionStart = useRef(Date.now());
+    sessionStart = useRef(Date.now()),
+    reflectionStops = useRef([]);
+  const needsThought =
+    solved && (reflectionStops.current.includes(count) || retries >= 2);
+  const waitingForThought = needsThought && !thoughtShared;
   const { status: cloudStatus, retryCloud } = useCloudProgress(
     progress,
     setProgress,
@@ -372,6 +384,8 @@ function App() {
     setFeedback("");
     setSolved(false);
     setSelected("");
+    setThought("");
+    setThoughtShared(false);
     setBw(3);
     setBh(3);
     questionStart.current = Date.now();
@@ -380,6 +394,7 @@ function App() {
     if (cloudStatus === "connecting") return;
     try {
       setWorldId(id);
+      reflectionStops.current = reflectionSchedule();
       setCount(0);
       setSessionSkills([]);
       sessionStart.current = Date.now();
@@ -434,6 +449,7 @@ function App() {
     setPage("done");
   };
   const advance = (skip = false) => {
+    if (!skip && waitingForThought) return;
     const p = skip ? saveAttempt(true) : progress;
     const n = count + 1,
       skills = [...sessionSkills, q.skill];
@@ -750,11 +766,64 @@ function App() {
                     <p>{q.hint}</p>
                   </div>
                 )}
-                {solved && <div className="explanation">{q.explain}</div>}
+                {solved && !waitingForThought && (
+                  <div className="explanation">{q.explain}</div>
+                )}
               </div>
+              {needsThought && (
+                <section
+                  className="reflection-box"
+                  aria-labelledby="thought-heading"
+                >
+                  <div className="eyebrow">
+                    <Lightbulb size={16} /> MILO IS CURIOUS
+                  </div>
+                  <h3 id="thought-heading">How did you figure it out?</h3>
+                  <label htmlFor="thought-text">
+                    {reflectionPrompt(q.skill)}
+                  </label>
+                  <p id="thought-help">
+                    A few words or a math sentence is plenty. Spelling doesn’t
+                    matter. You can say “I guessed” and tell us what you’ll try
+                    next.
+                  </p>
+                  <textarea
+                    id="thought-text"
+                    aria-describedby="thought-help"
+                    maxLength={500}
+                    rows={3}
+                    value={thought}
+                    disabled={thoughtShared}
+                    onChange={(e) => setThought(e.target.value)}
+                    placeholder="I noticed… / I counted… / I broke it into…"
+                  />
+                  {thoughtShared ? (
+                    <p className="thought-thanks" role="status">
+                      Thanks for sharing your thinking! There’s more than one
+                      way to discover.
+                    </p>
+                  ) : (
+                    <button
+                      className="primary"
+                      disabled={!hasThought(thought)}
+                      onClick={() => {
+                        if (!hasThought(thought)) return;
+                        setProgress((p) => saveReflection(p, q, thought));
+                        setThoughtShared(true);
+                      }}
+                    >
+                      Share my thinking <Check size={17} />
+                    </button>
+                  )}
+                </section>
+              )}
               <div className="question-actions">
                 {solved ? (
-                  <button className="primary" onClick={() => advance()}>
+                  <button
+                    className="primary"
+                    disabled={waitingForThought}
+                    onClick={() => advance()}
+                  >
                     {count === 7 ? "See my discoveries" : "Next discovery"}{" "}
                     <ArrowRight size={18} />
                   </button>
@@ -892,6 +961,32 @@ function App() {
                 </article>
               ))}
             </div>
+            <section className="parent-reflections">
+              <h2>In her own words</h2>
+              <p>
+                Her latest explanations. These are conversation starters, not
+                graded writing.
+              </p>
+              {progress.attempts.some((a) => a.reflection) ? (
+                progress.attempts
+                  .filter((a) => a.reflection)
+                  .slice(-6)
+                  .reverse()
+                  .map((a) => (
+                    <article key={`${a.date}-${a.fingerprint}`}>
+                      <div className="eyebrow">{labels[a.skill]}</div>
+                      <h3>{a.reflection.question}</h3>
+                      <p>{a.reflection.prompt}</p>
+                      <blockquote>{a.reflection.text}</blockquote>
+                    </article>
+                  ))
+              ) : (
+                <p>
+                  Occasional “How did you figure it out?” moments will appear
+                  here after she shares her thinking.
+                </p>
+              )}
+            </section>
             <div className="cloud-panel">
               <div>
                 <b>
