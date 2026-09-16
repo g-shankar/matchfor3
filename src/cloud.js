@@ -72,3 +72,11 @@ export function withTimeout(promise, ms = 10000) {
     }),
   ]).finally(() => clearTimeout(timer));
 }
+export async function parentEmailSettings(update) {
+  await auth.authStateReady();
+  if(!auth.currentUser) await signInAnonymously(auth);
+  const {getFunctions,httpsCallable}=await import('firebase/functions');
+  const call=httpsCallable(getFunctions(app,'us-east1'),'parentEmailSettings');
+  return (await call(update||{})).data;
+}
+export function currentProfileId(){return auth.currentUser?.uid||'';}

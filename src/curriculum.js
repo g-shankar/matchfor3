@@ -31,5 +31,5 @@ export function stickerCollection(progress){const completed=Object.values(progre
  {id:'traveler',icon:'🧭',name:'Island wanderer',detail:'Visit all six learning worlds',earned:covered.size>=6},
  {id:'connections',icon:'✨',name:'Making connections',detail:'Explore 25 ideas with or without help',earned:completed>=25},
  {id:'wonder',icon:'🦋',name:'Room to wonder',detail:'Explore 15 different skills',earned:Object.keys(progress.skills).length>=15},
- {id:'journeys',icon:'📔',name:'Adventure keeper',detail:'Finish five adventures at your pace',earned:progress.sessions.length>=5},
+ {id:'journeys',icon:'📔',name:'Adventure keeper',detail:'Keep five adventure memories',earned:progress.sessions.length>=5},
  ];}

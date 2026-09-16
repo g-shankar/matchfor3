@@ -5,6 +5,7 @@ export {worlds,labels,rng};
 export function initialProgress() {
   return {
     version: 1,
+    rewards: {owned:[]},
     skills: {},
     seen: [],
     attempts: [],
@@ -271,6 +272,7 @@ export function record(
   q,
   { hinted = false, retries = 0, skipped = false, duration = 0 },
 ) {
+  if(progress.seen.includes(q.fingerprint))return progress;
   const independent=!hinted&&!retries&&!skipped;
   const attempt={skill:q.skill,worldId:skillInfo[q.skill]?.world,level:q.level,fingerprint:q.fingerprint,representation:q.visual,interaction:q.type,independent,hinted,retries,skipped,duration,date:Date.now()};
   return {...progress,seeds:Math.max(progress.seeds||0,q.seed||0),seen:[...new Set([...progress.seen,q.fingerprint])],skills:{...progress.skills,[q.skill]:updateSkill(progress.skills[q.skill],attempt)},attempts:[...progress.attempts,attempt].slice(-3000)};

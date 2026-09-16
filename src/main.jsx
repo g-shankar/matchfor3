@@ -34,6 +34,9 @@ import {
   hasThought,
   saveReflection,
 } from "./reflection.js";
+import {newKeepsakes,rewardWallet} from "./rewards.js";
+import {Celebration,BuddyBadge} from "./rewards-ui.jsx";
+import {EmailPreferences} from "./email-preferences.jsx";
 import { useCloudProgress } from "./use-cloud-progress.js";
 const Icon = ({ name, ...props }) => {
   const I = { map: Map, heart: Heart, leaf: Leaf }[name] || Sparkles;
@@ -182,6 +185,7 @@ function Mascot() {
 }
 function App() {
   const [progress, setProgress] = useState(loadProgress),
+    [celebration,setCelebration]=useState(null),
     [page, setPage] = useState("home"),
     [q, setQ] = useState(null),
     [worldId, setWorldId] = useState(null),
@@ -226,9 +230,11 @@ function App() {
     }
   }, [progress]);
   useEffect(() => () => window.speechSynthesis?.cancel(), []);
+  useEffect(()=>{if(!celebration)return;const timer=setTimeout(()=>setCelebration(null),7000);return()=>clearTimeout(timer);},[celebration]);
   useEffect(()=>{window.scrollTo({top:0,behavior:"instant"});},[page,q?.fingerprint]);
   const reset = (q) => {
     window.speechSynthesis?.cancel();
+    setCelebration(null);
     setQ(q);
     setHint(false);
     setRetries(0);
@@ -270,7 +276,9 @@ function App() {
     setSelected(value);
     const differentGarden=!q.requireDifferent||!([bw,bh].sort((a,b)=>a-b).join(',')===[...q.original].sort((a,b)=>a-b).join(','));
     if (answerMatches(q,value)&&differentGarden) {
-      saveAttempt(false);
+      if(solved)return;
+      const after=saveAttempt(false),keepsakes=newKeepsakes(progress,after);
+      setCelebration(keepsakes.length?{icon:keepsakes[0].icon,title:`New keepsake: ${keepsakes[0].name}`,text:"A little celebration for your discoveries. +6 sparkles!"}:{icon:"🌟",title:retries||hint?"You kept exploring!":"Discovery celebration!",text:"+6 sparkles for your companion collection."});
       setSolved(true);
       setFeedback(
         retries || hint
@@ -296,10 +304,11 @@ function App() {
           date: Date.now(),
           duration: Date.now() - sessionStart.current,
           count: n,
-          worldId,skillId:practiceSkill,
+          worldId,skillId:practiceSkill,goal:sessionGoal,completed:n>=sessionGoal,
         },
       ].slice(-365),
     });
+    setCelebration({icon:"🎉",title:"An adventure to remember!",text:`You explored ${n} discoveries. Your collected friends are waiting in My keepsakes.`});
     setPage("done");
   };
   const advance = (skip = false) => {
@@ -388,6 +397,7 @@ function App() {
           </div>
         </div>
       </header>
+      <Celebration event={celebration} quiet={progress.rewards?.quiet===true} onClose={()=>setCelebration(null)}/>
       <main>
         {cloudStatus === "connecting" && (
           <div className="cloud-notice">
@@ -408,7 +418,7 @@ function App() {
         )}
         {page==='trail'&&<SkillTrail worldId={trailWorld} progress={progress} onStart={start} onHome={()=>setPage('home')}/>}
         {page==='workshop'&&<Workshop onHome={()=>setPage('home')} onStart={start}/>}
-        {page==='collection'&&<Collection progress={progress} onHome={()=>setPage('home')}/>}
+        {page==='collection'&&<Collection progress={progress} onChange={setProgress} onHome={()=>setPage('home')}/>}
         {page === "home" && (
           <>
             <section className="hero">
@@ -432,6 +442,7 @@ function App() {
                 >
                   Let’s explore <ArrowRight size={19} />
                 </button>
+                <BuddyBadge progress={progress}/>
                 <div className="gentle">
                   <Heart size={15} /> No timers. No lost lives. Just
                   discoveries.
@@ -541,6 +552,7 @@ function App() {
                 />
               ))}
             </div>
+            <BuddyBadge progress={progress}/>
             <div className="question-card">
               <div className="eyebrow">
                 {q.isWarmup?"NUMBER-POWER WARM-UP":labels[q.skill]} ·{" "}
@@ -671,6 +683,7 @@ function App() {
                         if (!hasThought(thought)) return;
                         setProgress((p) => saveReflection(p, q, thought));
                         setThoughtShared(true);
+                        setCelebration({icon:"💬",title:"Your thinking is worth celebrating",text:"Thanks for telling Milo how you worked it out!"});
                       }}
                     >
                       Share my thinking <Check size={17} />
@@ -764,7 +777,7 @@ function App() {
               </div>
               <div>
                 <span>Completed adventures</span>
-                <strong>{progress.sessions.length}</strong>
+                <strong>{progress.sessions.filter(s=>s.completed===true||(s.completed===undefined&&s.count>=8)).length}</strong>
               </div>
               <div>
                 <span>Adventure time</span>
@@ -783,6 +796,8 @@ function App() {
                 understanding.
               </p>
             </div>
+            <EmailPreferences progress={progress}/>
+            <label className="quiet-setting"><input type="checkbox" checked={progress.rewards?.quiet===true} onChange={e=>setProgress(p=>({...p,rewards:{...p.rewards,quiet:e.target.checked,updatedAt:Date.now()}}))}/> Gentle celebrations (without confetti)</label>
             <ParentInsights progress={progress} onPractice={start}/>
             <div className="parent-grid">
               {worlds.map((w) => (
