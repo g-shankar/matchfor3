@@ -1,7 +1,23 @@
 import {worlds,labels,skillInfo,availableSkills,practiceLevel} from "./curriculum.js";
 import {generateExtended} from "./extended-generators.js";
 import {rng} from "./math-utils.js";
+import {varyPrompt} from "./prompt-variation.js";
 export {worlds,labels,rng};
+const MAX_SEEN = 5000;
+const MAX_ATTEMPTS = 550;
+export function fingerprintId(value="") {
+  if (String(value).startsWith("h:")) return String(value);
+  let a=0xdeadbeef,b=0x41c6ce57;
+  for(let i=0;i<String(value).length;i++){
+    const c=String(value).charCodeAt(i);
+    a=Math.imul(a^c,2654435761);
+    b=Math.imul(b^c,1597334677);
+  }
+  a=(Math.imul(a^(a>>>16),2246822507)^Math.imul(b^(b>>>13),3266489909))>>>0;
+  b=(Math.imul(b^(b>>>16),2246822507)^Math.imul(a^(a>>>13),3266489909))>>>0;
+  return `h:${a.toString(36)}${b.toString(36)}`;
+}
+export const normalizeSeen = values => [...new Set((values||[]).map(fingerprintId))].slice(-MAX_SEEN);
 export function initialProgress() {
   return {
     version: 1,
@@ -10,6 +26,7 @@ export function initialProgress() {
     seen: [],
     attempts: [],
     sessions: [],
+    placements: {},
     seeds: 0,
   };
 }
@@ -40,12 +57,13 @@ export function generate(skill, level, seed) {
     });
   switch (skill) {
     case "sides": {
-      const shape = pick(r, ["triangle", "rectangle", "pentagon", "hexagon"]);
+      const shape = pick(r, ["triangle", "square", "rectangle", "rhombus", "parallelogram", "trapezoid", "pentagon", "hexagon"]);
       q.shape = shape;
       q.visual = "shape";
+      const sideCount={triangle:3,square:4,rectangle:4,rhombus:4,parallelogram:4,trapezoid:4,pentagon:5,hexagon:6}[shape];
       make(
-        `How many sides does this ${shape} have?`,
-        { triangle: 3, rectangle: 4, pentagon: 5, hexagon: 6 }[shape],
+        mode===0?`How many sides does this ${shape} have?`:mode===1?`Trace this ${shape}. How many straight edges will your finger pass?`:`A ${shape} is hiding here. Count its sides. How many do you find?`,
+        sideCount,
         "Trace the outline. Count each straight edge once.",
         "A side is one straight edge of a shape.",
         [3, 4, 5, 6],
@@ -232,6 +250,7 @@ export function generate(skill, level, seed) {
       ]),
     ]).map(String);
   } else if (q.choices) q.choices = shuffle(r, [...new Set(q.choices)]);
+  q.prompt = varyPrompt(q.prompt, seed);
   q.rotation = pick(r, level===1?[0,0,15,-15,30]:[0,15,-15,30,45,60,90,120,150]);
   q.fingerprint = JSON.stringify([
     skill,
@@ -250,21 +269,27 @@ export function generate(skill, level, seed) {
   return q;
 }
 export function nextQuestion(progress,worldId,sessionSkills=[],options={}) {
- const {skillId}=options;
+ const {skillId,placement=false,forceLevel}=options;
  if(skillId&&!skillInfo[skillId])throw Error('Choose a skill from the learning trail.');
  if(worldId&&!worlds.some(w=>w.id===worldId))throw Error('Choose an island from the map.');
- let candidates=skillId?[skillId]:availableSkills(progress,worldId);
+ let candidates=skillId?[skillId]:placement?worlds.find(w=>w.id===worldId)?.skills||[]:availableSkills(progress,worldId);
  const position=sessionSkills.length;
  const warmup=!worldId&&!skillId&&(position===0||position===6);
  if(warmup){const booster=position===0?'numbers':'measure';candidates=availableSkills(progress,booster);}else if(!worldId&&!skillId)candidates=candidates.filter(s=>worlds.find(w=>w.id===skillInfo[s].world).focus);
  const ranked=candidates.map(skill=>{const s=progress.skills[skill]||{independent:0,total:0,last:0},recent=progress.attempts.filter(a=>a.skill===skill).slice(-12),rate=recent.length?recent.filter(a=>a.independent).length/recent.length:s.total?s.independent/s.total:0;
  return {skill,priority:(1-rate)*3+(s.total?0:1)+(s.total&&Date.now()-s.last>3*86400000?.7:0)-(sessionSkills.slice(-2).includes(skill)?3:0)+(skillInfo[skill].world==='shapes'?.2:0)};}).sort((a,b)=>b.priority-a.priority);
- const seen=new Set(progress.seen);let seed=progress.seeds||0;
- for(let i=0;i<6000;i++){seed++;const skill=ranked[Math.floor(i/8)%ranked.length]?.skill;if(!skill)break;const level=practiceLevel(progress,skill),q=generate(skill,level,seed);if(seen.has(q.fingerprint))continue;
+ const seen=new Set(normalizeSeen(progress.seen));let seed=progress.seeds||0;
+ for(let i=0;i<6000;i++){seed++;const skill=ranked[Math.floor(i/8)%ranked.length]?.skill;if(!skill)break;const level=forceLevel||practiceLevel(progress,skill),q=generate(skill,level,seed);if(seen.has(fingerprintId(q.fingerprint)))continue;
  const previous=progress.attempts.filter(a=>a.skill===skill).slice(-2);
  if(i%8<6&&previous.length&&previous.every(a=>a.representation===q.visual))continue;
  return {...q,seed,worldId:skillInfo[skill].world,isWarmup:warmup};}
- throw Error('You have explored the available variations here. Pick another skill or island for a fresh discovery.');
+ const error=Error('You explored every challenge in this trail — that is a big achievement! Choose another skill while Milo prepares more.');
+ error.code='EXHAUSTED';
+ throw error;
+}
+export function markPresented(progress,q){
+  if(!q)return progress;
+  return {...progress,seeds:Math.max(progress.seeds||0,q.seed||0)};
 }
 export function updateSkill(old,a){old=old||{total:0,independent:0,supported:0,last:0};const reps={...(old.representations||{})};const rep=reps[a.representation]||{total:0,independent:0,supported:0};reps[a.representation]={total:rep.total+1,independent:rep.independent+(a.independent?1:0),supported:rep.supported+(!a.skipped&&!a.independent?1:0)};return {...old,total:old.total+1,independent:old.independent+(a.independent?1:0),supported:old.supported+(!a.skipped&&!a.independent?1:0),last:Math.max(old.last||0,a.date),representations:reps};}
 export function record(
@@ -272,10 +297,11 @@ export function record(
   q,
   { hinted = false, retries = 0, skipped = false, duration = 0 },
 ) {
-  if(progress.seen.includes(q.fingerprint))return progress;
+  const id=fingerprintId(q.fingerprint);
+  if(normalizeSeen(progress.seen).includes(id))return progress;
   const independent=!hinted&&!retries&&!skipped;
-  const attempt={skill:q.skill,worldId:skillInfo[q.skill]?.world,level:q.level,fingerprint:q.fingerprint,representation:q.visual,interaction:q.type,independent,hinted,retries,skipped,duration,date:Date.now()};
-  return {...progress,seeds:Math.max(progress.seeds||0,q.seed||0),seen:[...new Set([...progress.seen,q.fingerprint])],skills:{...progress.skills,[q.skill]:updateSkill(progress.skills[q.skill],attempt)},attempts:[...progress.attempts,attempt].slice(-3000)};
+  const attempt={skill:q.skill,worldId:skillInfo[q.skill]?.world,level:q.level,fingerprint:id,representation:q.visual,interaction:q.type,independent,hinted,retries,skipped,duration,date:Date.now()};
+  return {...progress,seeds:Math.max(progress.seeds||0,q.seed||0),seen:normalizeSeen([...progress.seen,id]),skills:{...progress.skills,[q.skill]:updateSkill(progress.skills[q.skill],attempt)},attempts:[...progress.attempts,attempt].slice(-MAX_ATTEMPTS)};
 }
 export function loadProgress() {
   try {
@@ -287,7 +313,7 @@ export function loadProgress() {
       Array.isArray(p.attempts) &&
       Array.isArray(p.sessions)
     )
-      return p;
+      return {...p,seen:normalizeSeen(p.seen),attempts:p.attempts.slice(-MAX_ATTEMPTS)};
   } catch {}
   return initialProgress();
 }

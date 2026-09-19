@@ -48,7 +48,7 @@ export function saveReflection(progress, q, text) {
   return {
     ...progress,
     attempts: progress.attempts.map((a) =>
-      a.fingerprint === q.fingerprint
+      fingerprintId(a.fingerprint) === fingerprintId(q.fingerprint)
         ? {
             ...a,
             reflection: {
@@ -62,3 +62,4 @@ export function saveReflection(progress, q, text) {
     ),
   };
 }
+import {fingerprintId} from './engine.js';

@@ -1,7 +1,7 @@
 import {mergeChildProfile} from "./child-profile.js";
 import {mergePreschool} from "./preschool-engine.js";
 import {mergeRewards} from "./rewards.js";
-import { initialProgress,updateSkill } from "./engine.js";
+import { fingerprintId,initialProgress,normalizeSeen,updateSkill } from "./engine.js";
 export function validProgress(p) {
   return (
     p?.version === 1 &&
@@ -13,15 +13,15 @@ export function validProgress(p) {
   );
 }
 const attemptId = (a) =>
-  a.id || `${a.date}|${a.fingerprint || a.skill}|${a.retries}|${a.skipped}`;
+  a.id || `${a.date}|${fingerprintId(a.fingerprint || a.skill)}|${a.retries}|${a.skipped}`;
 const sessionId = (s) => s.id || `${s.date}|${s.worldId}|${s.count}`;
 export function mergeProgress(remote, local) {
   if (!validProgress(remote)) remote = initialProgress();
   const ids = new Set(remote.attempts.map(attemptId)),
-    seen = new Set(remote.seen);
+    seen = new Set(normalizeSeen(remote.seen));
   const added = local.attempts.filter(
     (a) =>
-      !ids.has(attemptId(a)) && (!a.fingerprint || !seen.has(a.fingerprint)),
+      !ids.has(attemptId(a)) && (!a.fingerprint || !seen.has(fingerprintId(a.fingerprint))),
   );
   const localById = new Map(local.attempts.map((a) => [attemptId(a), a]));
   const updatedRemoteAttempts = remote.attempts.map((a) => {
@@ -46,10 +46,11 @@ export function mergeProgress(remote, local) {
     ...((remote.profile || local.profile) ? {profile: mergeChildProfile(remote.profile,local.profile)} : {}),
     ...((remote.preschool || local.preschool) ? {preschool: mergePreschool(remote.preschool,local.preschool)} : {}),
     skills,
-    seen: [...new Set([...remote.seen, ...local.seen])],
+    placements:{...(remote.placements||{}),...(local.placements||{})},
+    seen: normalizeSeen([...remote.seen, ...local.seen]),
     attempts: [...updatedRemoteAttempts, ...added]
       .sort((a, b) => a.date - b.date)
-      .slice(-3000),
+      .slice(-550),
     sessions: [...sessions.values()]
       .sort((a, b) => a.date - b.date)
       .slice(-365),

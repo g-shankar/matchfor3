@@ -5,6 +5,7 @@ import {
   generate,
   initialProgress,
   nextQuestion,
+  markPresented,
   record,
 } from "../src/engine.js";
 test("every generated challenge has valid arithmetic and one correct choice", () => {
@@ -59,4 +60,39 @@ test("difficulty grows after independent evidence, not supported answers", () =>
   assert.equal(nextQuestion(p, "area").level, 3);
   for (const s of worlds[1].skills) p.skills[s].independent = 0;
   assert.equal(nextQuestion(p, "area").level, 1);
+});
+test("twenty consecutive questions per skill do not repeat a prompt",()=>{
+  for(const skill of worlds.flatMap(w=>w.skills)){
+    const prompts=Array.from({length:20},(_,i)=>generate(skill,2,1000+i).prompt);
+    assert.equal(new Set(prompts).size,20,skill);
+  }
+});
+test("the formerly shallow skills now sustain broad fresh pools",()=>{
+  for(const skill of ['sides','symmetry','areaVsPerimeter','areaUnits','unitFractions']){
+    const fingerprints=new Set(Array.from({length:120},(_,i)=>generate(skill,2,2000+i).fingerprint));
+    assert.ok(fingerprints.size>=100,`${skill} only made ${fingerprints.size} variations`);
+  }
+});
+test("leaving an unanswered question advances to a different question",()=>{
+  const p=initialProgress(),first=nextQuestion(p,'area'),afterShowing=markPresented(p,first),next=nextQuestion(afterShowing,'area');
+  assert.notEqual(next.fingerprint,first.fingerprint);
+  assert.ok(next.seed>first.seed);
+});
+test("long-term progress stays compact while aggregate learning evidence remains",()=>{
+  let p=initialProgress();
+  for(let i=0;i<3000;i++){
+    const q=nextQuestion(p,null,[]);
+    p=record(markPresented(p,q),q,{hinted:i%4===0});
+  }
+  assert.equal(p.attempts.length,550);
+  assert.equal(Object.values(p.skills).reduce((n,s)=>n+s.total,0),3000);
+  assert.ok(Buffer.byteLength(JSON.stringify(p),'utf8')<200000);
+});
+test("a five-question world placement can start later practice at stretch",()=>{
+  const p=initialProgress();
+  p.placements.area={level:3,score:5,total:5,date:Date.now()};
+  const q=nextQuestion(p,'area');
+  assert.equal(q.level,3);
+  const diagnostic=nextQuestion(initialProgress(),'area',[],{placement:true,forceLevel:2});
+  assert.equal(diagnostic.level,2);
 });

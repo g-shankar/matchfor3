@@ -16,12 +16,14 @@ import {
   Download,
   Gamepad2,
   Dices,
+  Mic,
 } from "lucide-react";
 import {
   worlds,
   labels,
   loadProgress,
   nextQuestion,
+  markPresented,
   record,
 } from "./engine.js";
 import "./style.css";
@@ -36,7 +38,7 @@ import {
   hasThought,
   saveReflection,
 } from "./reflection.js";
-import {newKeepsakes,rewardWallet} from "./rewards.js";
+import {companions,newKeepsakes,rewardWallet} from "./rewards.js";
 import {Celebration,BuddyBadge} from "./rewards-ui.jsx";
 import {EmailPreferences} from "./email-preferences.jsx";
 import {BirthdatePrompt} from "./birthdate-prompt.jsx";
@@ -203,6 +205,7 @@ function App() {
     [worldId, setWorldId] = useState(null),
     [trailWorld,setTrailWorld]=useState('shapes'),
     [practiceSkill,setPracticeSkill]=useState(null),
+    [placementMode,setPlacementMode]=useState(false),
     [journeyLength,setJourneyLength]=useState(8),
     [sessionGoal,setSessionGoal]=useState(8),
     [typed,setTyped]=useState(''),
@@ -219,6 +222,8 @@ function App() {
     [selected, setSelected] = useState(""),
     [thought, setThought] = useState(""),
     [thoughtShared, setThoughtShared] = useState(false),
+    [listening,setListening]=useState(false),
+    [buddyBoost,setBuddyBoost]=useState(true),
     [bw, setBw] = useState(3),
     [bh, setBh] = useState(3),
     [storageError, setStorageError] = useState(false),
@@ -252,6 +257,7 @@ function App() {
     window.speechSynthesis?.cancel();
     setCelebration(null);
     setQ(q);
+    setProgress((p)=>markPresented(p,q));
     setHint(false);
     setRetries(0);
     setFeedback("");
@@ -264,18 +270,21 @@ function App() {
     setBh(3);
     questionStart.current = Date.now();
   };
-  const start = (id,skillId=null) => {
+  const start = (id,skillId=null,placement=false) => {
     if (cloudStatus === "connecting") return;
     try {
-      setWorldId(id);setPracticeSkill(skillId);setSessionGoal(journeyLength);
-      reflectionStops.current = reflectionSchedule(Math.random,journeyLength);
+      const goal=placement?5:journeyLength;
+      setWorldId(id);setPracticeSkill(skillId);setPlacementMode(placement);setSessionGoal(goal);
+      reflectionStops.current = placement?[]:reflectionSchedule(Math.random,goal);
       setCount(0);
       setSessionSkills([]);
+      setBuddyBoost(true);
       sessionStart.current = Date.now();
-      reset(nextQuestion(progress, id,[],{skillId}));
+      reset(nextQuestion(progress, id,[],{skillId,placement,forceLevel:placement?1:undefined}));
       setPage("play");
     } catch (e) {
-      setError(e.message);
+      if(e.code==='EXHAUSTED')setCelebration({icon:'🏆',title:'You completed this whole trail!',text:'That is a huge math achievement. Choose another trail while Milo prepares new discoveries.'});
+      else setError(e.message);
     }
   };
   const saveAttempt = (skipped) => {
@@ -312,19 +321,25 @@ function App() {
   };
   const finish = (p, n) => {
     window.speechSynthesis?.cancel();
+    let saved=p;
+    if(placementMode){
+      const evidence=p.attempts.filter(a=>a.date>=sessionStart.current&&a.worldId===worldId),rate=evidence.length?evidence.filter(a=>a.independent).length/evidence.length:0,level=rate>=.8?3:rate>=.4?2:1;
+      saved={...p,placements:{...(p.placements||{}),[worldId]:{level,score:evidence.filter(a=>a.independent).length,total:evidence.length,date:Date.now()}}};
+    }
     setProgress({
-      ...p,
+      ...saved,
       sessions: [
-        ...p.sessions,
+        ...saved.sessions,
         {
           date: Date.now(),
           duration: Date.now() - sessionStart.current,
           count: n,
-          worldId,skillId:practiceSkill,goal:sessionGoal,completed:n>=sessionGoal,
+          worldId,skillId:practiceSkill,goal:sessionGoal,completed:n>=sessionGoal,placement:placementMode,
         },
       ].slice(-365),
     });
-    setCelebration({icon:"🎉",title:"An adventure to remember!",text:`You explored ${n} discoveries. Your collected friends are waiting in My keepsakes.`});
+    const placed=saved.placements?.[worldId]?.level;
+    setCelebration(placementMode?{icon:"🧭",title:`Your starting point is ${['','Explore','Connect','Stretch'][placed]}`,text:'Milo will use this to choose questions that feel interesting without being overwhelming.'}:{icon:"🎉",title:"An adventure to remember!",text:`You explored ${n} discoveries. Your collected friends are waiting in My keepsakes.`});
     setPage("done");
   };
   const advance = (skip = false) => {
@@ -339,11 +354,37 @@ function App() {
       return;
     }
     try {
-      reset(nextQuestion(p, worldId, skills,{skillId:practiceSkill}));
+      const placementLevels=[1,2,2,3,3];
+      reset(nextQuestion(p, worldId, skills,{skillId:practiceSkill,placement:placementMode,forceLevel:placementMode?placementLevels[n]:undefined}));
     } catch (e) {
-      setError(e.message);
       finish(p, n);
+      if(e.code==='EXHAUSTED')setCelebration({icon:'🏆',title:'Every challenge explored!',text:'You finished this trail. Your next adventure can begin on any other island.'});
+      else setError(e.message);
     }
+  };
+  const useBuddyBoost=()=>{
+    if(!buddyBoost||solved)return;
+    try{
+      const placementLevels=[1,2,2,3,3];
+      const next=nextQuestion(progress,worldId,sessionSkills,{skillId:practiceSkill,placement:placementMode,forceLevel:placementMode?placementLevels[count]:undefined});
+      setBuddyBoost(false);
+      reset(next);
+      setFeedback('Your buddy found a fresh way to practice this idea!');
+    }catch(e){
+      if(e.code==='EXHAUSTED')setCelebration({icon:'🏆',title:'This trail is complete!',text:'You explored every challenge here.'});
+      else setError(e.message);
+    }
+  };
+  const dictateThought=()=>{
+    const Recognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+    if(!Recognition){setError('Voice notes are not available in this browser. You can still type a few words.');return;}
+    const recognition=new Recognition();
+    recognition.lang='en-US';recognition.interimResults=false;recognition.maxAlternatives=1;
+    recognition.onstart=()=>setListening(true);
+    recognition.onend=()=>setListening(false);
+    recognition.onerror=()=>{setListening(false);setError('I could not hear that. Tap the microphone and try once more.');};
+    recognition.onresult=(event)=>setThought(t=>`${t}${t?' ':''}${event.results[0][0].transcript}`.slice(0,500));
+    recognition.start();
   };
   const leave = () => {
     window.speechSynthesis?.cancel();
@@ -552,7 +593,7 @@ function App() {
                 <ArrowLeft size={17} /> Finish for now
               </button>
               <span>
-                {practiceSkill?labels[practiceSkill]:worlds.find((w) => w.id === worldId)?.name || "A little of everything"}
+                {placementMode?'Starting-point check':practiceSkill?labels[practiceSkill]:worlds.find((w) => w.id === worldId)?.name || "A little of everything"}
               </span>
               <span>Question {count + 1} of {sessionGoal}</span>
             </div>
@@ -567,6 +608,7 @@ function App() {
               ))}
             </div>
             <BuddyBadge progress={progress}/>
+            {progress.rewards?.selected&&buddyBoost&&!solved&&<button className="buddy-boost" onClick={useBuddyBoost}><span>{companions.find(c=>c.id===progress.rewards.selected)?.icon||'✨'}</span><span><b>Buddy boost</b><small>Swap this question once</small></span></button>}
             <div className="question-card">
               <div className="eyebrow">
                 {q.isWarmup?"NUMBER-POWER WARM-UP":labels[q.skill]} ·{" "}
@@ -684,6 +726,7 @@ function App() {
                     onChange={(e) => setThought(e.target.value)}
                     placeholder="I noticed… / I counted… / I broke it into…"
                   />
+                  {!thoughtShared&&<button type="button" className={`voice-thought ${listening?'listening':''}`} onClick={dictateThought} disabled={listening}><Mic size={18}/>{listening?'Listening…':'Tell Milo with my voice'}</button>}
                   {thoughtShared ? (
                     <p className="thought-thanks" role="status">
                       Thanks for sharing your thinking! There’s more than one
