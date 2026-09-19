@@ -18,7 +18,7 @@ export function BalloonKeepy({voiceName,onSave,onExit}){
     <div className="balloon-arena" ref={arena} aria-label="Balloon keepy-uppy play area">
       <div className="balloon-cloud cloud-one">☁️</div><div className="balloon-cloud cloud-two">☁️</div>
       <button className="play-balloon" aria-label="Tap the balloon" onClick={bump} style={{transform:`translate(${position.x}px, ${position.y}px)`,'--balloon':colors[0],'--balloon-shadow':colors[1]}}><span>▲</span></button>
-      {!running&&<button className="balloon-start" onClick={start}><Play fill="currentColor"/> Start bouncing</button>}
+      {!running&&<button className="balloon-start" onClick={start}><span className="coach-hand" aria-hidden="true">👆</span><Play fill="currentColor"/> Start bouncing</button>}
       <div className="balloon-floor">🌼　🌱　🌼　🌱　🌼　🌱</div>
     </div>
     <div className="balloon-controls"><button className="secondary" onClick={()=>{setRunning(r=>!r);motion.current.last=0}}>{running?<><Pause/> Pause</>:<><Play/> Keep playing</>}</button><button className="secondary" onClick={()=>speakFriendly(message,{voiceName})}><Volume2/> Hear it</button><p aria-live="polite"><b>{message}</b>{drops>0&&<small>{drops} funny floor {drops===1?'bounce':'bounces'} — no lives lost!</small>}</p></div>
