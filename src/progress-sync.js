@@ -1,3 +1,4 @@
+import {mergeChildProfile} from "./child-profile.js";
 import {mergePreschool} from "./preschool-engine.js";
 import {mergeRewards} from "./rewards.js";
 import { initialProgress,updateSkill } from "./engine.js";
@@ -42,6 +43,7 @@ export function mergeProgress(remote, local) {
   return {
     version: 1,
     rewards: mergeRewards(remote.rewards,local.rewards),
+    ...((remote.profile || local.profile) ? {profile: mergeChildProfile(remote.profile,local.profile)} : {}),
     ...((remote.preschool || local.preschool) ? {preschool: mergePreschool(remote.preschool,local.preschool)} : {}),
     skills,
     seen: [...new Set([...remote.seen, ...local.seen])],

@@ -37,6 +37,7 @@ import {
 import {newKeepsakes,rewardWallet} from "./rewards.js";
 import {Celebration,BuddyBadge} from "./rewards-ui.jsx";
 import {EmailPreferences} from "./email-preferences.jsx";
+import {BirthdatePrompt} from "./birthdate-prompt.jsx";
 import {speakFriendly} from "./speech.js";
 import {PreschoolApp,ProfileChooser} from "./preschool-app.jsx";
 import {initialPreschool} from "./preschool-engine.js";
@@ -189,6 +190,7 @@ function Mascot() {
 function App() {
   const [progress, setProgress] = useState(loadProgress),
     [activeChild,setActiveChild]=useState(()=>localStorage.getItem("mathquest-active-child")||"shivani"),
+    [birthdayDismissed,setBirthdayDismissed]=useState(false),
     [celebration,setCelebration]=useState(null),
     [page, setPage] = useState("home"),
     [q, setQ] = useState(null),
@@ -236,7 +238,7 @@ function App() {
   useEffect(() => () => window.speechSynthesis?.cancel(), []);
   useEffect(()=>{if(!celebration)return;const timer=setTimeout(()=>setCelebration(null),7000);return()=>clearTimeout(timer);},[celebration]);
   useEffect(()=>{window.scrollTo({top:0,behavior:"instant"});},[page,q?.fingerprint]);
-  const switchChild=id=>{window.speechSynthesis?.cancel();localStorage.setItem("mathquest-active-child",id);setActiveChild(id);setPage("home");};
+  const switchChild=id=>{window.speechSynthesis?.cancel();localStorage.setItem("mathquest-active-child",id);setBirthdayDismissed(false);setActiveChild(id);setPage("home");};
   const setPreschool=update=>setProgress(p=>({...p,preschool:typeof update==="function"?update(p.preschool||initialPreschool()):update}));
   if(activeChild==="pranav")return <PreschoolApp value={progress.preschool} onChange={setPreschool} onSwitch={switchChild} cloudStatus={cloudStatus}/>;
   const reset = (q) => {
@@ -394,8 +396,9 @@ function App() {
             <BarChart3 size={17} /> Parent corner
           </button>
         </nav>
-        <ProfileChooser active="shivani" onSwitch={switchChild}/>
+        <ProfileChooser active="shivani" birthDate={progress.profile?.birthDate} onSwitch={switchChild}/>
       </header>
+      {activeChild==="shivani"&&cloudStatus!=="connecting"&&!progress.profile?.birthDate&&!birthdayDismissed&&<BirthdatePrompt onLater={()=>setBirthdayDismissed(true)} onSave={birthDate=>setProgress(p=>({...p,profile:{birthDate,updatedAt:Date.now()}}))}/>}
       <Celebration event={celebration} quiet={progress.rewards?.quiet===true} onClose={()=>setCelebration(null)}/>
       <main>
         {cloudStatus === "connecting" && (
