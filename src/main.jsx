@@ -39,6 +39,7 @@ import {Celebration,BuddyBadge} from "./rewards-ui.jsx";
 import {EmailPreferences} from "./email-preferences.jsx";
 import {BirthdatePrompt} from "./birthdate-prompt.jsx";
 import {validBirthDate} from "./child-profile.js";
+import {ThemePicker,validTheme} from "./theme-picker.jsx";
 import {speakFriendly} from "./speech.js";
 import {PreschoolApp,ProfileChooser} from "./preschool-app.jsx";
 import {initialPreschool} from "./preschool-engine.js";
@@ -237,6 +238,7 @@ function App() {
     }
   }, [progress]);
   useEffect(() => () => window.speechSynthesis?.cancel(), []);
+  useEffect(()=>{if(activeChild==="shivani")document.documentElement.dataset.theme=validTheme(progress.rewards?.theme);},[activeChild,progress.rewards?.theme]);
   useEffect(()=>{if(!celebration)return;const timer=setTimeout(()=>setCelebration(null),7000);return()=>clearTimeout(timer);},[celebration]);
   useEffect(()=>{window.scrollTo({top:0,behavior:"instant"});},[page,q?.fingerprint]);
   const switchChild=id=>{window.speechSynthesis?.cancel();localStorage.setItem("mathquest-active-child",id);setBirthdayDismissed(false);setActiveChild(id);setPage("home");};
@@ -451,6 +453,7 @@ function App() {
                   discoveries.
                 </div>
                 <label className="journey-picker">Questions per adventure <select value={journeyLength} onChange={e=>setJourneyLength(+e.target.value)}><option value={4}>4 questions · a little visit</option><option value={8}>8 questions · a gentle journey</option></select></label>
+                <ThemePicker compact value={progress.rewards?.theme} onChange={theme=>setProgress(p=>({...p,rewards:{...p.rewards,theme,updatedAt:Date.now()}}))}/>
               </div>
               <div className="hero-art">
                 <div className="orbit">
