@@ -1,4 +1,4 @@
-import React,{useEffect,useMemo,useState} from 'react';
+import React,{useEffect,useMemo,useRef,useState} from 'react';
 import {ArrowLeft,ArrowRight,Sparkles,RefreshCw} from 'lucide-react';
 import {speakFriendly} from './speech.js';
 
