@@ -38,6 +38,7 @@ import {newKeepsakes,rewardWallet} from "./rewards.js";
 import {Celebration,BuddyBadge} from "./rewards-ui.jsx";
 import {EmailPreferences} from "./email-preferences.jsx";
 import {BirthdatePrompt} from "./birthdate-prompt.jsx";
+import {validBirthDate} from "./child-profile.js";
 import {speakFriendly} from "./speech.js";
 import {PreschoolApp,ProfileChooser} from "./preschool-app.jsx";
 import {initialPreschool} from "./preschool-engine.js";
@@ -398,7 +399,7 @@ function App() {
         </nav>
         <ProfileChooser active="shivani" birthDate={progress.profile?.birthDate} onSwitch={switchChild}/>
       </header>
-      {activeChild==="shivani"&&cloudStatus!=="connecting"&&!progress.profile?.birthDate&&!birthdayDismissed&&<BirthdatePrompt onLater={()=>setBirthdayDismissed(true)} onSave={birthDate=>setProgress(p=>({...p,profile:{birthDate,updatedAt:Date.now()}}))}/>}
+      {activeChild==="shivani"&&cloudStatus!=="connecting"&&!validBirthDate(progress.profile?.birthDate)&&!birthdayDismissed&&<BirthdatePrompt onLater={()=>setBirthdayDismissed(true)} onSave={birthDate=>setProgress(p=>({...p,profile:{birthDate,updatedAt:Date.now()}}))}/>} 
       <Celebration event={celebration} quiet={progress.rewards?.quiet===true} onClose={()=>setCelebration(null)}/>
       <main>
         {cloudStatus === "connecting" && (
