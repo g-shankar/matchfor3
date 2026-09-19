@@ -40,6 +40,10 @@ Use the child selector in the header to switch profiles. Each child can choose a
 
 ## Saved progress and limitations
 
+Pranav’s profile also includes a complete First 100 Library: five shelves with 100 cards each for animals, vegetarian foods, numbers/colors/shapes, things that move, and first words. Every card uses a locally bundled Wikimedia Commons photo with CC0, public-domain, or CC-BY attribution and a locally bundled pronunciation clip. Cards support iPad swiping, optional auto-advance, shelf progress, and a gentle three-picture “Find it!” quiz. Missed words return first in later quiz rounds. Its grown-up view shows pictures explored and per-shelf quiz accuracy; these records join Pranav’s normal local/Firestore merge without affecting his other skills or rewards.
+
+Run `npm run first100:images:validate` to require all 500 photos and their license records. `npm run first100:audio` rebuilds or resumes the 500 word clips, five shelf introductions, and five quiz prompts. Photo credits live in `public/first100/attribution.json` and are linked from the grown-up view.
+
 Progress is saved locally under `mathquest-v1` in localStorage and backed up to Firestore using a persistent anonymous Firebase Auth identity. Existing browser history is migrated on connection. The parent corner shows connection/saving/backup status and offers a retry when saving fails. Cloud and browser histories merge without counting the same challenge twice. Browser saving lets play continue during connection failures; cloud connection times out so it cannot indefinitely block play. Reconnecting to the network retries cloud saving.
 
 An anonymous identity belongs to this browser: cross-device access and recovery after clearing authentication data require a future parent account. Private browsing may not preserve it. Parent corner can export practice history as JSON. The parent corner is a navigation view, not a password-protected account.

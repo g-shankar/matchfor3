@@ -7,6 +7,9 @@
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
     "test": "node --test tests/*.test.js",
+    "first100:images": "node scripts/fetch-first100-images.mjs",
+    "first100:images:validate": "node scripts/validate-first100-images.mjs",
+    "first100:audio": "node scripts/generate-first100-audio.mjs",
     "preview": "vite preview --host 0.0.0.0",
     "test:cloud": "node tests/cloud-integration.mjs"
   },

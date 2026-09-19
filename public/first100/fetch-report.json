@@ -1,0 +1,2434 @@
+{
+  "generatedAt": "2026-09-19T19:51:24.204Z",
+  "totalDatasetItems": 500,
+  "attempted": 100,
+  "downloaded": [
+    {
+      "key": "concepts/concepts-2",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Charlton_No._2_Schoolhouse_sign_2024-10-06.jpg",
+      "bytes": 230378,
+      "alternatives": [
+        {
+          "title": "Boulevard Hotel (Neon sign), Miami Beach",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Boulevard_Hotel_(Neon_sign),_Miami_Beach.jpg",
+          "score": 28
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-1",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Number_1_Cause_of_Death_Sign.jpg",
+      "bytes": 285052,
+      "alternatives": [
+        {
+          "title": "Boulevard Hotel (Neon sign), Miami Beach",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Boulevard_Hotel_(Neon_sign),_Miami_Beach.jpg",
+          "score": 28
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-3",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:PRS_Custom_24_rear_headstock_sign_To_Pierre_%26_serial_number_3_73078_10_-_clinicprs_custom_(2004-09-19_09.10.36_by_Pierre_Journel).jpg",
+      "bytes": 287761,
+      "alternatives": [
+        {
+          "title": "Boulevard Hotel (Neon sign), Miami Beach",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Boulevard_Hotel_(Neon_sign),_Miami_Beach.jpg",
+          "score": 28
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-4",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Number_4_Division_Sign_Fremantle_Prison_SMC_2005.jpg",
+      "bytes": 100473,
+      "alternatives": []
+    },
+    {
+      "key": "concepts/concepts-5",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Florida_I75nb_VMS_Distance_road_sign_FL_143_5_dashcam.jpg",
+      "bytes": 165757,
+      "alternatives": [
+        {
+          "title": "Sign Alligator River NWR ncwetlands am (5)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sign_Alligator_River_NWR_ncwetlands_am_(5).jpg",
+          "score": 60
+        },
+        {
+          "title": "Boulevard Hotel (Neon sign), Miami Beach",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Boulevard_Hotel_(Neon_sign),_Miami_Beach.jpg",
+          "score": 28
+        },
+        {
+          "title": "Number five sign (cropped)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Number_five_sign_(cropped).jpg",
+          "score": 20
+        },
+        {
+          "title": "Number five sign",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Number_five_sign.jpg",
+          "score": 20
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-6",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Street_sign_%E2%80%94_6_Konstantine_Andriadze_Street,_Tbilisi_(Georgian%E2%80%93English,_2025).jpg",
+      "bytes": 123735,
+      "alternatives": [
+        {
+          "title": "Nature's Number 6",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Nature%27s_Number_6.jpg",
+          "score": 60
+        },
+        {
+          "title": "Nackenheim - Schild für Am Wäldchen 6 (1)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Nackenheim_-_Schild_f%C3%BCr_Am_W%C3%A4ldchen_6_(1).jpg",
+          "score": 60
+        },
+        {
+          "title": "Nackenheim - Schild für Am Wäldchen 6 (2)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Nackenheim_-_Schild_f%C3%BCr_Am_W%C3%A4ldchen_6_(2).jpg",
+          "score": 60
+        },
+        {
+          "title": "Boulevard Hotel (Neon sign), Miami Beach",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Boulevard_Hotel_(Neon_sign),_Miami_Beach.jpg",
+          "score": 28
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-7",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Florida_I75sb_VMS_Distance_road_sign_FL222_7.jpg",
+      "bytes": 86772,
+      "alternatives": [
+        {
+          "title": "EB West Main St directional road sign GA 7 US41 dashcam",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:EB_West_Main_St_directional_road_sign_GA_7_US41_dashcam.jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-9",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:To_US_9_sign_in_New_York.jpg",
+      "bytes": 196104,
+      "alternatives": [
+        {
+          "title": "Number 9 (47301857591)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Number_9_(47301857591).jpg",
+          "score": 60
+        },
+        {
+          "title": "Florida I75sb Distance road sign Belleview 9 Tampa 89",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Florida_I75sb_Distance_road_sign_Belleview_9_Tampa_89.jpg",
+          "score": 60
+        },
+        {
+          "title": "Florida I75sb VMS Distance road sign CR234 9",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Florida_I75sb_VMS_Distance_road_sign_CR234_9.jpg",
+          "score": 60
+        },
+        {
+          "title": "NB US441 Distance Road sign McIntosh 9 Gainesville 26",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:NB_US441_Distance_Road_sign_McIntosh_9_Gainesville_26.jpg",
+          "score": 60
+        },
+        {
+          "title": "Florida I75sb Distance road sign FL 326 9 Turnpike 38 Tampa 107",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Florida_I75sb_Distance_road_sign_FL_326_9_Turnpike_38_Tampa_107.jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-8",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:National-road-no-8-sign-Poland.jpg",
+      "bytes": 271234,
+      "alternatives": [
+        {
+          "title": "A person in blue standing next to a stop sign in Anseremme, Belgium (DSCF7416)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:A_person_in_blue_standing_next_to_a_stop_sign_in_Anseremme,_Belgium_(DSCF7416).jpg",
+          "score": 20
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-10",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:EB_I-10_Suwannee_Co_Rest_Area;_Tandem_Truck_Parking_Sign-1.jpg",
+      "bytes": 166355,
+      "alternatives": [
+        {
+          "title": "EB I-10 Suwannee Co Rest Area; Tandem Truck Parking Sign-2",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:EB_I-10_Suwannee_Co_Rest_Area;_Tandem_Truck_Parking_Sign-2.jpg",
+          "score": 60
+        },
+        {
+          "title": "Hwy 10 & 407 Park and Ride sign",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Hwy_10_%26_407_Park_and_Ride_sign.jpg",
+          "score": 60
+        },
+        {
+          "title": "Charlton No. 2 Schoolhouse sign 2024-10-06",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Charlton_No._2_Schoolhouse_sign_2024-10-06.jpg",
+          "score": 60
+        },
+        {
+          "title": "Hamburg NY Welcome sign Nov 10",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Hamburg_NY_Welcome_sign_Nov_10.JPG",
+          "score": 60
+        },
+        {
+          "title": "A person in blue standing next to a stop sign in Anseremme, Belgium (DSCF7416)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:A_person_in_blue_standing_next_to_a_stop_sign_in_Anseremme,_Belgium_(DSCF7416).jpg",
+          "score": 20
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-11",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:WB_GA_96_Distance_road_sign_Reynolds_11.jpg",
+      "bytes": 189451,
+      "alternatives": [
+        {
+          "title": "US1 NB, Hilliard, distance sign Folkston 11 Waycross 42 Jesup 52",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:US1_NB,_Hilliard,_distance_sign_Folkston_11_Waycross_42_Jesup_52.jpg",
+          "score": 60
+        },
+        {
+          "title": "Bermuda (UK) photos number 30 sign at aquarium",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Bermuda_(UK)_photos_number_30_sign_at_aquarium.jpg",
+          "score": 20
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-12",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Florida_I75sb_VMS_Distance_road_sign_CR234_12.jpg",
+      "bytes": 70048,
+      "alternatives": []
+    },
+    {
+      "key": "concepts/concepts-13",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:13_sign_(Bristol_Temple_Meads).jpg",
+      "bytes": 84353,
+      "alternatives": [
+        {
+          "title": "Weldon, California SR 178 sign 2016-08-13",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Weldon,_California_SR_178_sign_2016-08-13.jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-15",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:UT-85_Sign_on_I-15,_Lehi_-_panoramio.jpg",
+      "bytes": 154545,
+      "alternatives": [
+        {
+          "title": "Ghost Sign, 15 Winchester Street, Salisbury - 55525914739",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Ghost_Sign,_15_Winchester_Street,_Salisbury_-_55525914739.jpg",
+          "score": 60
+        },
+        {
+          "title": "NB CR 337 Distance road sign Newberry 15, Bronson dashcam",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:NB_CR_337_Distance_road_sign_Newberry_15,_Bronson_dashcam.jpg",
+          "score": 60
+        },
+        {
+          "title": "NB GA15 US441 Distance road sign Commerce 15 I85 23, Clarke County dashcam",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:NB_GA15_US441_Distance_road_sign_Commerce_15_I85_23,_Clarke_County_dashcam.jpg",
+          "score": 60
+        },
+        {
+          "title": "SB US 301 Distance road sign Lawtey 8 Starke 15 Ocala 73 dashcam",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:SB_US_301_Distance_road_sign_Lawtey_8_Starke_15_Ocala_73_dashcam.jpg",
+          "score": 60
+        },
+        {
+          "title": "SB GA15 US441 Distance road sign Nicholson 10 Center 15 Athens 22, Commerce dashcam",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:SB_GA15_US441_Distance_road_sign_Nicholson_10_Center_15_Athens_22,_Commerce_dashcam.jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-14",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Florida_I75nb_VMS_Distance_road_sign_FL_143_14_dashcam.jpg",
+      "bytes": 123523,
+      "alternatives": [
+        {
+          "title": "Florida I75sb Distance Road sign Gainesville 14 I275 125 Tampa 140",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Florida_I75sb_Distance_Road_sign_Gainesville_14_I275_125_Tampa_140.jpg",
+          "score": 60
+        },
+        {
+          "title": "20230518 Road Number Sign (52975071835)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:20230518_Road_Number_Sign_(52975071835).jpg",
+          "score": 20
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-16",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Moscow_-_2026_-_Sofiyskaya_Embankment,_16_(sign).jpg",
+      "bytes": 323381,
+      "alternatives": [
+        {
+          "title": "EB FL 16 Directional Road sign FL 21 dashcam",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:EB_FL_16_Directional_Road_sign_FL_21_dashcam.jpg",
+          "score": 60
+        },
+        {
+          "title": "EB FL 16 Distance Directional road sign Ave D Gate Middleburg Jacksonville dashcam",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:EB_FL_16_Distance_Directional_road_sign_Ave_D_Gate_Middleburg_Jacksonville_dashcam.jpg",
+          "score": 60
+        },
+        {
+          "title": "EB FL 16 Distance road sign Green Cove Springs 4 dashcam",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:EB_FL_16_Distance_road_sign_Green_Cove_Springs_4_dashcam.jpg",
+          "score": 60
+        },
+        {
+          "title": "EB FL 16 Distance Road sign Camp Blanding 2 Green Cove Springs 21 dashcam",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:EB_FL_16_Distance_Road_sign_Camp_Blanding_2_Green_Cove_Springs_21_dashcam.jpg",
+          "score": 60
+        },
+        {
+          "title": "EB FL 16 Distance Road sign Penney Farms 10 Green Cove Springs 18 dashcam",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:EB_FL_16_Distance_Road_sign_Penney_Farms_10_Green_Cove_Springs_18_dashcam.jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-17",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Bermuda_(UK)_photos_number_30_sign_at_aquarium.jpg",
+      "bytes": 122946,
+      "alternatives": []
+    },
+    {
+      "key": "concepts/concepts-18",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Florida_I75nb_Distance_road_sign_Gainesville_18_Lake_City_52.jpg",
+      "bytes": 85926,
+      "alternatives": [
+        {
+          "title": "Route 18 NB end sign",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Route_18_NB_end_sign.jpg",
+          "score": 60
+        },
+        {
+          "title": "GA94 WB, Echols County, distance road sign Valdosta 18 Morven 32",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:GA94_WB,_Echols_County,_distance_road_sign_Valdosta_18_Morven_32.jpg",
+          "score": 60
+        },
+        {
+          "title": "Distance road sign east of Quitman, US 84, Valdosta 18 Homerville 51",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Distance_road_sign_east_of_Quitman,_US_84,_Valdosta_18_Homerville_51.jpg",
+          "score": 60
+        },
+        {
+          "title": "Olancha city limit sign along Southbound HWY 395 on June 18 2010",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Olancha_city_limit_sign_along_Southbound_HWY_395_on_June_18_2010.jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-19",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:COVID-19_Sucks_-_Pick_Up_Only_sign,_Mid-City_New_Orleans_June_2020.jpg",
+      "bytes": 292128,
+      "alternatives": [
+        {
+          "title": "Woolwich Township Road 19 Sign",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Woolwich_Township_Road_19_Sign.jpg",
+          "score": 60
+        },
+        {
+          "title": "Sign outlines COVID-19 protocol for media and guests arriving to view the SLS Green Run test",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sign_outlines_COVID-19_protocol_for_media_and_guests_arriving_to_view_the_SLS_Green_Run_test.jpg",
+          "score": 60
+        },
+        {
+          "title": "NB US 19 GA 300 GA 3 sign tree Thomas County dashcam",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:NB_US_19_GA_300_GA_3_sign_tree_Thomas_County_dashcam.jpg",
+          "score": 60
+        },
+        {
+          "title": "PRS Custom 24 rear headstock sign To Pierre & serial number 3 73078 10 - clinicprs custom (2004-09-19 09.10.36 by Pierre Journel)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:PRS_Custom_24_rear_headstock_sign_To_Pierre_%26_serial_number_3_73078_10_-_clinicprs_custom_(2004-09-19_09.10.36_by_Pierre_Journel).jpg",
+          "score": 60
+        },
+        {
+          "title": "Bethesda Fire Department sign Bethesda MD 2023-08-19 09-47-36",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Bethesda_Fire_Department_sign_Bethesda_MD_2023-08-19_09-47-36.jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-20",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Route-20-Sign-Kenmore-Square-December-8-2016.jpg",
+      "bytes": 158903,
+      "alternatives": [
+        {
+          "title": "Newport U.S. 20 to Boston sign (32382859311)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Newport_U.S._20_to_Boston_sign_(32382859311).jpg",
+          "score": 60
+        },
+        {
+          "title": "100 km sign, Route 20, Hatsukari, Otsuki - Sep 22, 2014",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:100_km_sign,_Route_20,_Hatsukari,_Otsuki_-_Sep_22,_2014.jpg",
+          "score": 60
+        },
+        {
+          "title": "Peel Regional Road 20 Sign",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Peel_Regional_Road_20_Sign.jpg",
+          "score": 60
+        },
+        {
+          "title": "Florida I75sb Distance road sign US 441 4 Gainesville 20 Tampa 145",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Florida_I75sb_Distance_road_sign_US_441_4_Gainesville_20_Tampa_145.jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-red",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Rotterdam_-_The_Red_Apple_%26_Waterstadtoren.jpg",
+      "bytes": 196709,
+      "alternatives": [
+        {
+          "title": "Rotterdam - The Red Apple (1)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Rotterdam_-_The_Red_Apple_(1).jpg",
+          "score": 64
+        },
+        {
+          "title": "Rotterdam - The Red Apple (2)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Rotterdam_-_The_Red_Apple_(2).jpg",
+          "score": 64
+        },
+        {
+          "title": "Rotterdam - The Red Apple",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Rotterdam_-_The_Red_Apple.jpg",
+          "score": 64
+        },
+        {
+          "title": "Red Apple Orchard",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Red_Apple_Orchard.jpg",
+          "score": 60
+        },
+        {
+          "title": "Red Apple Orchard - 28408552099",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Red_Apple_Orchard_-_28408552099.jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-blue",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Trees_rising_out_of_Cheow_Lan_Lake,_blue_sky,_eternal_summer_in_Surat_Thani_edited.jpg",
+      "bytes": 131631,
+      "alternatives": [
+        {
+          "title": "Field, corn, Liechtenstein, Mountains, Alps, Vaduz, sky, clouds, landscape",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Field,_corn,_Liechtenstein,_Mountains,_Alps,_Vaduz,_sky,_clouds,_landscape.jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-yellow",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sunflower_in_Zaryadye_Park,_Moscow_-_July_2026.jpg",
+      "bytes": 284950,
+      "alternatives": [
+        {
+          "title": "Sunflower head 2026 G1",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sunflower_head_2026_G1.jpg",
+          "score": 68
+        },
+        {
+          "title": "Sunflower head 2015 G1",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sunflower_head_2015_G1.jpg",
+          "score": 68
+        },
+        {
+          "title": "Yellow sunflower close-up",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Yellow_sunflower_close-up.jpg",
+          "score": 64
+        },
+        {
+          "title": "Yellow Sunflower (225620570)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Yellow_Sunflower_(225620570).jpg",
+          "score": 64
+        },
+        {
+          "title": "Yellow-orange sunflower",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Yellow-orange_sunflower.jpg",
+          "score": 64
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-green",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Green_leaf_with_sunlight.jpg",
+      "bytes": 143191,
+      "alternatives": [
+        {
+          "title": "Green leaf - Flickr - Stiller Beobachter",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Green_leaf_-_Flickr_-_Stiller_Beobachter.jpg",
+          "score": 64
+        },
+        {
+          "title": "Green Leaf of a Bio Plant in Nature",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Green_Leaf_of_a_Bio_Plant_in_Nature.jpg",
+          "score": 64
+        },
+        {
+          "title": "Green leaf - Flickr - Stiller Beobachter (1)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Green_leaf_-_Flickr_-_Stiller_Beobachter_(1).jpg",
+          "score": 64
+        },
+        {
+          "title": "Free Water Drop on Green Leaf Creative Commons (5632099825)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Free_Water_Drop_on_Green_Leaf_Creative_Commons_(5632099825).jpg",
+          "score": 64
+        },
+        {
+          "title": "Tanks at Green Leaf brewery",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Tanks_at_Green_Leaf_brewery.jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-orange-color",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Orange_citrus_fruit_pulp_juicy_453452.jpg",
+      "bytes": 150346,
+      "alternatives": [
+        {
+          "title": "Pyracantha fruit - orange",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pyracantha_fruit_-_orange.jpg",
+          "score": 64
+        },
+        {
+          "title": "Jaffa orange culture. Orange tree loaded with fruit LOC matpc.04985",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Jaffa_orange_culture._Orange_tree_loaded_with_fruit_LOC_matpc.04985.jpg",
+          "score": 64
+        },
+        {
+          "title": "Orange fruit pickers, Santa Ana, ca.1900 (CHS-154)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Orange_fruit_pickers,_Santa_Ana,_ca.1900_(CHS-154).jpg",
+          "score": 60
+        },
+        {
+          "title": "Wild Orange fruit (10868128715)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Wild_Orange_fruit_(10868128715).jpg",
+          "score": 60
+        },
+        {
+          "title": "Orange fruit",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Orange_fruit.jpeg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-purple",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Dark_Purple_Flower_(3498093668).jpg",
+      "bytes": 160536,
+      "alternatives": [
+        {
+          "title": "Purple flower (7171671137)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Purple_flower_(7171671137).jpg",
+          "score": 60
+        },
+        {
+          "title": "Purple Flower (2538497821)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Purple_Flower_(2538497821).jpg",
+          "score": 60
+        },
+        {
+          "title": "Purple Flower in Clay County, Indiana",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Purple_Flower_in_Clay_County,_Indiana.jpg",
+          "score": 60
+        },
+        {
+          "title": "Yellow Purple Flower (3435240009)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Yellow_Purple_Flower_(3435240009).jpg",
+          "score": 60
+        },
+        {
+          "title": "Purple flower (5816336083) (2)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Purple_flower_(5816336083)_(2).jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-pink",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Lotus_flower_(978659).jpg",
+      "bytes": 87657,
+      "alternatives": [
+        {
+          "title": "Pink Flower (5873926482)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pink_Flower_(5873926482).jpg",
+          "score": 64
+        },
+        {
+          "title": "Pink flower buds",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pink_flower_buds.jpg",
+          "score": 64
+        },
+        {
+          "title": "Pink Flower (2539332150)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pink_Flower_(2539332150).jpg",
+          "score": 60
+        },
+        {
+          "title": "Pink Flower (45457494224)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pink_Flower_(45457494224).jpg",
+          "score": 60
+        },
+        {
+          "title": "Pink flower 6",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pink_flower_6.jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-brown",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Kodiak_brown_bear_FWS_18391.jpg",
+      "bytes": 173491,
+      "alternatives": [
+        {
+          "title": "Kodiak brown bear FWS 18390",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Kodiak_brown_bear_FWS_18390.jpg",
+          "score": 60
+        },
+        {
+          "title": "Brown Bear us fish",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Brown_Bear_us_fish.jpg",
+          "score": 60
+        },
+        {
+          "title": "Kodiak brown bear cubs (18216969756)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Kodiak_brown_bear_cubs_(18216969756).jpg",
+          "score": 60
+        },
+        {
+          "title": "Brown bear at Camperdown Wildlife Centre",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Brown_bear_at_Camperdown_Wildlife_Centre.jpg",
+          "score": 60
+        },
+        {
+          "title": "Kodiak brown bear eating salmon",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Kodiak_brown_bear_eating_salmon.jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-black",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sleeping_cat_on_her_back.jpg",
+      "bytes": 318240,
+      "alternatives": [
+        {
+          "title": "Tabby cat with blue eyes-3336579",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Tabby_cat_with_blue_eyes-3336579.jpg",
+          "score": 72
+        },
+        {
+          "title": "Cat in Efremov, Russia1",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Cat_in_Efremov,_Russia1.jpg",
+          "score": 72
+        },
+        {
+          "title": "Solid black cat beside a red clay-block wall on Margarita Island, Venezuela",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Solid_black_cat_beside_a_red_clay-block_wall_on_Margarita_Island,_Venezuela.jpg",
+          "score": 64
+        },
+        {
+          "title": "Black barn cat - Public Domain (2014 photo; cropped 2022)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Black_barn_cat_-_Public_Domain_(2014_photo;_cropped_2022).jpg",
+          "score": 64
+        },
+        {
+          "title": "Black Cat (22553764744)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Black_Cat_(22553764744).jpg",
+          "score": 64
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-white",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Child_with_Snow_White_cake_1910-1940.jpg",
+      "bytes": 40560,
+      "alternatives": [
+        {
+          "title": "Photograph of Buddy the Dog Playing in the Snow at the White House - DPLA - 51397cf862b8fd13bcb8c306ac6b52d4",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Photograph_of_Buddy_the_Dog_Playing_in_the_Snow_at_the_White_House_-_DPLA_-_51397cf862b8fd13bcb8c306ac6b52d4.jpg",
+          "score": 60
+        },
+        {
+          "title": "Movie Ticket for Snow White (2025)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Movie_Ticket_for_Snow_White_(2025).jpg",
+          "score": 60
+        },
+        {
+          "title": "Original Snow White (15853158752)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Original_Snow_White_(15853158752).jpg",
+          "score": 60
+        },
+        {
+          "title": "Snow White at Disneyland Paris (2009)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Snow_White_at_Disneyland_Paris_(2009).jpg",
+          "score": 60
+        },
+        {
+          "title": "Snow White (7580562042)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Snow_White_(7580562042).jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-gray",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Jones_County_Courthouse_corner_stone,_Gray.jpg",
+      "bytes": 222665,
+      "alternatives": []
+    },
+    {
+      "key": "concepts/concepts-gold",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Native_Gold_Jewelry_from_Poona.jpg",
+      "bytes": 335341,
+      "alternatives": [
+        {
+          "title": "Native Gold Jewelry from SawantWadi",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Native_Gold_Jewelry_from_SawantWadi.jpg",
+          "score": 60
+        },
+        {
+          "title": "Ancient Gold Jewelry (5986572251)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Ancient_Gold_Jewelry_(5986572251).jpg",
+          "score": 60
+        },
+        {
+          "title": "Byzantine Greece Gold Jewelry (28589930195)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Byzantine_Greece_Gold_Jewelry_(28589930195).jpg",
+          "score": 60
+        },
+        {
+          "title": "Byzantine Greece Gold Jewelry (28511563631)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Byzantine_Greece_Gold_Jewelry_(28511563631).jpg",
+          "score": 60
+        },
+        {
+          "title": "Byzantine Greece Gold Jewelry (27972741974)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Byzantine_Greece_Gold_Jewelry_(27972741974).jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-silver",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:An_antique_starling_silver_spoon_from_Sheffield,_England,_photographed_from_a_personal_collection,_in_West_Bengal,_India,_November_10,_2023_1.jpg",
+      "bytes": 70792,
+      "alternatives": [
+        {
+          "title": "An antique starling silver spoon from Sheffield, England, photographed from a personal collection, in West Bengal, India, November 10, 2023 2",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:An_antique_starling_silver_spoon_from_Sheffield,_England,_photographed_from_a_personal_collection,_in_West_Bengal,_India,_November_10,_2023_2.jpg",
+          "score": 60
+        },
+        {
+          "title": "Closeup view of the hallmarks in an antique silver spoon from Colonial era, photographed in West Bengal, India, December 7, 2023",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Closeup_view_of_the_hallmarks_in_an_antique_silver_spoon_from_Colonial_era,_photographed_in_West_Bengal,_India,_December_7,_2023.jpg",
+          "score": 60
+        },
+        {
+          "title": "Korean silver spoon, Choson dynasty, 16th century, Dayton Art Institute",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Korean_silver_spoon,_Choson_dynasty,_16th_century,_Dayton_Art_Institute.JPG",
+          "score": 60
+        },
+        {
+          "title": "Silver World's Fair Souvenir Spoon Set",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Silver_World%27s_Fair_Souvenir_Spoon_Set.jpg",
+          "score": 60
+        },
+        {
+          "title": "Decorative Serving Sized Spoon With Silver-Plated Handle and Mother-of-Pearl Bowl",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Decorative_Serving_Sized_Spoon_With_Silver-Plated_Handle_and_Mother-of-Pearl_Bowl.jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-beige",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Beige_tan_sand_faced_finish_clean_seamless_building_wall_texture.jpg",
+      "bytes": 318673,
+      "alternatives": [
+        {
+          "title": "1988 Ford Escort GL in Sand Beige, rear left, 03-22-2026",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:1988_Ford_Escort_GL_in_Sand_Beige,_rear_left,_03-22-2026.jpg",
+          "score": 60
+        },
+        {
+          "title": "1996 Mazda MPV LX 4x4 in Sand Beige Mica, front left, 08-12-2022",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:1996_Mazda_MPV_LX_4x4_in_Sand_Beige_Mica,_front_left,_08-12-2022.jpg",
+          "score": 60
+        },
+        {
+          "title": "1996 Mazda MPV LX 4x4 in Sand Beige Mica, rear right, 08-12-2022",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:1996_Mazda_MPV_LX_4x4_in_Sand_Beige_Mica,_rear_right,_08-12-2022.jpg",
+          "score": 60
+        },
+        {
+          "title": "1976 AMC Pacer coupe base model in Sand Tan at 2025 AMO meet 1of6",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:1976_AMC_Pacer_coupe_base_model_in_Sand_Tan_at_2025_AMO_meet_1of6.jpg",
+          "score": 60
+        },
+        {
+          "title": "1998 Mazda Protege DX in Sand Mica, front right, 09-11-2022",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:1998_Mazda_Protege_DX_in_Sand_Mica,_front_right,_09-11-2022.jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-turquoise",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Turquoise_colored_water_of_the_Shimankeng_River_as_it_flows_through_Wannian_Canyon.jpg",
+      "bytes": 234898,
+      "alternatives": [
+        {
+          "title": "Crystal Clear Water, Maldives (4549923261)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Crystal_Clear_Water,_Maldives_(4549923261).jpg",
+          "score": 64
+        },
+        {
+          "title": "Turquoise water surrounds the Turks and Caicos Islands (54053638497 8e1e86c646 o)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Turquoise_water_surrounds_the_Turks_and_Caicos_Islands_(54053638497_8e1e86c646_o).jpg",
+          "score": 60
+        },
+        {
+          "title": "Underwater coral, crystal clear turquoise water, Bacuit Bay, El Nido, Palawan, Philippines",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Underwater_coral,_crystal_clear_turquoise_water,_Bacuit_Bay,_El_Nido,_Palawan,_Philippines.jpg",
+          "score": 60
+        },
+        {
+          "title": "Clear turquoise water between rocks - panoramio (1002)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Clear_turquoise_water_between_rocks_-_panoramio_(1002).jpg",
+          "score": 60
+        },
+        {
+          "title": "Turquoise Water to the Horizon",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Turquoise_Water_to_the_Horizon.jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-circle",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Medieval_silver_plate_something_with_Dolphins_(FindID_880564).jpg",
+      "bytes": 187259,
+      "alternatives": [
+        {
+          "title": "Elphinstone Circle Gardens, Bombay by Francis Frith",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Elphinstone_Circle_Gardens,_Bombay_by_Francis_Frith.jpg",
+          "score": 24
+        },
+        {
+          "title": "Elphinstone Circle, Bombay (2) by Francis Frith",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Elphinstone_Circle,_Bombay_(2)_by_Francis_Frith.jpg",
+          "score": 24
+        },
+        {
+          "title": "Elphinstone Circle, Bombay (1) by Francis Frith",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Elphinstone_Circle,_Bombay_(1)_by_Francis_Frith.jpg",
+          "score": 24
+        },
+        {
+          "title": "Let’s form a circle around the Cheetah! (39553871930)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Let%E2%80%99s_form_a_circle_around_the_Cheetah!_(39553871930).jpg",
+          "score": 20
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-square",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Little_square_window_(8034610151).jpg",
+      "bytes": 529064,
+      "alternatives": []
+    },
+    {
+      "key": "concepts/concepts-triangle",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Kensington_Triangle_mall_sign_Kensington_MD_2023-04-23_08-19-38.jpg",
+      "bytes": 115900,
+      "alternatives": [
+        {
+          "title": "Flashing triangle sign for approaching tram (42681513031)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Flashing_triangle_sign_for_approaching_tram_(42681513031).jpg",
+          "score": 60
+        },
+        {
+          "title": "Old Finnish stop sign in Riihimäki",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Old_Finnish_stop_sign_in_Riihim%C3%A4ki.jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-rectangle",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Bronze_doors,_The_Great_Umayyed_Mosque_of_Damascus,_Syria.jpg",
+      "bytes": 338078,
+      "alternatives": []
+    },
+    {
+      "key": "concepts/concepts-oval",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_President_and_Kid_President_(8735987826).jpg",
+      "bytes": 269135,
+      "alternatives": [
+        {
+          "title": "Kid President behind the Resolute desk (11665394364)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Kid_President_behind_the_Resolute_desk_(11665394364).jpg",
+          "score": 20
+        },
+        {
+          "title": "Ford A9279 NLGRF photo contact sheet (1976-04-19)(Gerald Ford Library)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Ford_A9279_NLGRF_photo_contact_sheet_(1976-04-19)(Gerald_Ford_Library).jpg",
+          "score": 20
+        },
+        {
+          "title": "Brightons Victorian sewage tunnel",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Brightons_Victorian_sewage_tunnel.jpg",
+          "score": 20
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-star",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Starfish_Prime_Phenomena.jpg",
+      "bytes": 9911,
+      "alternatives": [
+        {
+          "title": "Operation Dominic Starfish-Prime nuclear test from plane",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Operation_Dominic_Starfish-Prime_nuclear_test_from_plane.jpg",
+          "score": 60
+        },
+        {
+          "title": "Red-knobbed.starfish.arp",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Red-knobbed.starfish.arp.jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-heart",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Heart_shape_ice!_(3328539423).jpg",
+      "bytes": 227896,
+      "alternatives": [
+        {
+          "title": "HEART SHAPE POTATO CHIP - panoramio",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:HEART_SHAPE_POTATO_CHIP_-_panoramio.jpg",
+          "score": 60
+        },
+        {
+          "title": "Heart Shape Mirror (31202723267)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Heart_Shape_Mirror_(31202723267).jpg",
+          "score": 60
+        },
+        {
+          "title": "A smiling couple with heart shape baloons (32634784292)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:A_smiling_couple_with_heart_shape_baloons_(32634784292).jpg",
+          "score": 60
+        },
+        {
+          "title": "Post Medieval, Elongated heart shape mount (FindID 1005510)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Post_Medieval,_Elongated_heart_shape_mount_(FindID_1005510).jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-diamond",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sphalerite_(GeoDIL_number_-_1083).jpg",
+      "bytes": 270780,
+      "alternatives": []
+    },
+    {
+      "key": "concepts/concepts-crescent",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:William_Goldman_photograph_woman_with_crescent_moon.jpg",
+      "bytes": 223466,
+      "alternatives": [
+        {
+          "title": "A New View of the Moon",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:A_New_View_of_the_Moon.jpg",
+          "score": 60
+        },
+        {
+          "title": "Crescent moon 2025",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Crescent_moon_2025.jpg",
+          "score": 60
+        },
+        {
+          "title": "A Crescent Moon over the VLTI",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:A_Crescent_Moon_over_the_VLTI.jpg",
+          "score": 60
+        },
+        {
+          "title": "Astronaut Bob Hines took this picture of the waning crescent moon on May 8, 2022 (waning-crescent-moon)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Astronaut_Bob_Hines_took_this_picture_of_the_waning_crescent_moon_on_May_8,_2022_(waning-crescent-moon).jpg",
+          "score": 60
+        },
+        {
+          "title": "Crescent moon; 2015",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Crescent_moon;_2015.jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-pentagon",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_Pentagon_US_Department_of_Defense_building.jpg",
+      "bytes": 286688,
+      "alternatives": [
+        {
+          "title": "Pentagon Building",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pentagon_Building.jpg",
+          "score": 60
+        },
+        {
+          "title": "Pentagon Building After Terrorist Attack, 13 September 2001 (7977016345)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pentagon_Building_After_Terrorist_Attack,_13_September_2001_(7977016345).jpg",
+          "score": 60
+        },
+        {
+          "title": "(Photograph of General Dwight D Eisenhower at a Press Conference in the Pentagon Building) - DPLA - c4ee74375fefcfc3f6d3bbc690e62b0e",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:(Photograph_of_General_Dwight_D_Eisenhower_at_a_Press_Conference_in_the_Pentagon_Building)_-_DPLA_-_c4ee74375fefcfc3f6d3bbc690e62b0e.jpg",
+          "score": 60
+        },
+        {
+          "title": "The Pentagon US Department of Defense building - panoramio",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_Pentagon_US_Department_of_Defense_building_-_panoramio.jpg",
+          "score": 60
+        },
+        {
+          "title": "Two firefighters spray water on the debris and rubble at the Western ring of the Pentagon Building hours after the September 11, 2001 attacks DA-SD-03-11475",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Two_firefighters_spray_water_on_the_debris_and_rubble_at_the_Western_ring_of_the_Pentagon_Building_hours_after_the_September_11,_2001_attacks_DA-SD-03-11475.jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-hexagon",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Honeycomb_Mirrors_Makes_NASA%E2%80%99s_Webb_the_Most_Powerful_Space_Telescope.jpg",
+      "bytes": 327296,
+      "alternatives": [
+        {
+          "title": "Honeycomb Mirrors Makes NASA’s Webb the Most Powerful Space Telescope - 47564434771",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Honeycomb_Mirrors_Makes_NASA%E2%80%99s_Webb_the_Most_Powerful_Space_Telescope_-_47564434771.jpg",
+          "score": 20
+        },
+        {
+          "title": "Honeycomb Mirrors Makes NASA’s Webb the Most Powerful Space Telescope - 47564399421",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Honeycomb_Mirrors_Makes_NASA%E2%80%99s_Webb_the_Most_Powerful_Space_Telescope_-_47564399421.jpg",
+          "score": 20
+        },
+        {
+          "title": "Honeycomb Mirrors Makes NASA’s Webb the Most Powerful Space Telescope (31282033257)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Honeycomb_Mirrors_Makes_NASA%E2%80%99s_Webb_the_Most_Powerful_Space_Telescope_(31282033257).jpg",
+          "score": 20
+        },
+        {
+          "title": "18-1128-SPHoneycomb Mirrors Makes NASA’s Webb the Most Powerful Space Telescope-RMB-3815",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:18-1128-SPHoneycomb_Mirrors_Makes_NASA%E2%80%99s_Webb_the_Most_Powerful_Space_Telescope-RMB-3815.jpg",
+          "score": 20
+        },
+        {
+          "title": "Wax foundation - Flickr - conall..",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Wax_foundation_-_Flickr_-_conall...jpg",
+          "score": 20
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-octagon",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Stop_sign_us.jpg",
+      "bytes": 112412,
+      "alternatives": [
+        {
+          "title": "Red octagonal stop sign",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Red_octagonal_stop_sign.jpg",
+          "score": 64
+        },
+        {
+          "title": "Stop sign UAE",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Stop_sign_UAE.jpg",
+          "score": 64
+        },
+        {
+          "title": "Stop Sign in Australia",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Stop_Sign_in_Australia.JPG",
+          "score": 64
+        },
+        {
+          "title": "Stop Sign in Australia (cropped)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Stop_Sign_in_Australia_(cropped).jpg",
+          "score": 64
+        },
+        {
+          "title": "Stop-sign-oak-lawn",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Stop-sign-oak-lawn.jpg",
+          "score": 64
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-cube",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:1950s_sugar_cube_wooden_shipping_crate_by_Swedish_company_Svenska_sockerfabriks_aktiebolaget.jpg",
+      "bytes": 142652,
+      "alternatives": [
+        {
+          "title": "CLIENT word on wooden alphabet cube with couple sitting on a cube (53156707229)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:CLIENT_word_on_wooden_alphabet_cube_with_couple_sitting_on_a_cube_(53156707229).jpg",
+          "score": 60
+        },
+        {
+          "title": "PROFIT word on wooden alphabet cube (53156707724)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:PROFIT_word_on_wooden_alphabet_cube_(53156707724).jpg",
+          "score": 60
+        },
+        {
+          "title": "MONEY word on wooden alphabet cube (53156933745)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:MONEY_word_on_wooden_alphabet_cube_(53156933745).jpg",
+          "score": 60
+        },
+        {
+          "title": "IDEA word on wooden alphabet cube (53156933815)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:IDEA_word_on_wooden_alphabet_cube_(53156933815).jpg",
+          "score": 60
+        },
+        {
+          "title": "INVEST word on wooden alphabet cube (53157000453)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:INVEST_word_on_wooden_alphabet_cube_(53157000453).jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-sphere",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Athens_Acropolis_Museum_Engraved_Stone_Ball_(Magic_Sphere%3F),_2nd-3rd_Cent._AD_(27825816874).jpg",
+      "bytes": 111848,
+      "alternatives": [
+        {
+          "title": "Clock Ball (64039811)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Clock_Ball_(64039811).jpeg",
+          "score": 24
+        },
+        {
+          "title": "Battery Park World Trade Center Ball (5640745800)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Battery_Park_World_Trade_Center_Ball_(5640745800).jpg",
+          "score": 20
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-big",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Elephant_-_South_Africa-_Safari.jpg",
+      "bytes": 123385,
+      "alternatives": [
+        {
+          "title": "Elephant seal - big sur - san simeon",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Elephant_seal_-_big_sur_-_san_simeon.jpg",
+          "score": 60
+        },
+        {
+          "title": "Big inflatable and purple elephant - panoramio",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Big_inflatable_and_purple_elephant_-_panoramio.jpg",
+          "score": 60
+        },
+        {
+          "title": "WA1215 87 Natural History Elephants Elephant Seal 3D",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:WA1215_87_Natural_History_Elephants_Elephant_Seal_3D.jpg",
+          "score": 60
+        },
+        {
+          "title": "WA1215 88 Natural History Elephants Elephant Seal 2 3D",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:WA1215_88_Natural_History_Elephants_Elephant_Seal_2_3D.jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-cylinder",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Man_standing_next_to_sisalkraft_lining_in_cylinder_II_at_the_American_Can_Pier_during_construction,_Seattle,_Washington_(INDOCC_1701).jpg",
+      "bytes": 46356,
+      "alternatives": [
+        {
+          "title": "Complete cylinder in front of building, during construction at American Can Pier, Seattle, Washington, October 4, 1930 (INDOCC 1651)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Complete_cylinder_in_front_of_building,_during_construction_at_American_Can_Pier,_Seattle,_Washington,_October_4,_1930_(INDOCC_1651).jpg",
+          "score": 60
+        },
+        {
+          "title": "Shortening can. Reads \"Snowdrift Degestible Quick Mixing Shortening\", \"Biscuits\", \"Frying\". Three piece cylinder can wit bail (01e24d2e-e945-4461-bc3c-9f58d69349fe)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Shortening_can._Reads_%22Snowdrift_Degestible_Quick_Mixing_Shortening%22,_%22Biscuits%22,_%22Frying%22._Three_piece_cylinder_can_wit_bail_(01e24d2e-e945-4461-bc3c-9f58d69349fe).jpg",
+          "score": 60
+        },
+        {
+          "title": "Shortening can. Reads \"Snowdrift Degestible Quick Mixing Shortening\", \"Biscuits\", \"Frying\". Three piece cylinder can wit bail (375e6246-b57e-45ca-a029-abda0f20bbd5)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Shortening_can._Reads_%22Snowdrift_Degestible_Quick_Mixing_Shortening%22,_%22Biscuits%22,_%22Frying%22._Three_piece_cylinder_can_wit_bail_(375e6246-b57e-45ca-a029-abda0f20bbd5).jpg",
+          "score": 60
+        },
+        {
+          "title": "SHORTENING CAN. READS \"SNOWDRIFT DEGESTIBLE QUICK MIXING SHORTENING\", \"BISCUITS\", \"FRYING\". THREE PIECE CYLINDER Shortening can (71ab8062-4f07-4030-b54b-d13459671a7b)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:SHORTENING_CAN._READS_%22SNOWDRIFT_DEGESTIBLE_QUICK_MIXING_SHORTENING%22,_%22BISCUITS%22,_%22FRYING%22._THREE_PIECE_CYLINDER_Shortening_can_(71ab8062-4f07-4030-b54b-d13459671a7b).jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-small",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mouse_Island,_Lake_Erie.jpg",
+      "bytes": 117033,
+      "alternatives": [
+        {
+          "title": "Small Mouse (4749624582)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Small_Mouse_(4749624582).jpg",
+          "score": 60
+        },
+        {
+          "title": "A small mouse (6223310083)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:A_small_mouse_(6223310083).jpg",
+          "score": 60
+        },
+        {
+          "title": "Salt marsh harvest mouse (10843172623)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Salt_marsh_harvest_mouse_(10843172623).jpg",
+          "score": 60
+        },
+        {
+          "title": "Fulvous harvest mouse (51646909372)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Fulvous_harvest_mouse_(51646909372).jpg",
+          "score": 60
+        },
+        {
+          "title": "002 mouse melon",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:002_mouse_melon.jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-tall",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mommy_and_Baby_Giraffe_(52177725963).jpg",
+      "bytes": 314048,
+      "alternatives": [
+        {
+          "title": "Giraffe and his toys (955627352)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Giraffe_and_his_toys_(955627352).jpg",
+          "score": 60
+        },
+        {
+          "title": "Lascar Giraffe - Nairobi National Park (4525004734)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Lascar_Giraffe_-_Nairobi_National_Park_(4525004734).jpg",
+          "score": 60
+        },
+        {
+          "title": "Lascar Giraffes - Nairobi National Park (4540802988)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Lascar_Giraffes_-_Nairobi_National_Park_(4540802988).jpg",
+          "score": 20
+        },
+        {
+          "title": "The Rare Okapi (10549264174)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_Rare_Okapi_(10549264174).jpg",
+          "score": 20
+        },
+        {
+          "title": "USMC-101223-M-7717C-013",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:USMC-101223-M-7717C-013.jpg",
+          "score": 20
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-short",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:An_old_Walapai_Indian_couple_with_Indian_interpreter,_Kingman,_Arizona,_1902_(CHS-3200).jpg",
+      "bytes": 150385,
+      "alternatives": [
+        {
+          "title": "Joseph D. Tourville, Private, Company A of the 2nd Missouri Cavalry Volunteers (Union)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Joseph_D._Tourville,_Private,_Company_A_of_the_2nd_Missouri_Cavalry_Volunteers_(Union).jpg",
+          "score": 20
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-long",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:HK_YLD_Yuen_Long_KMB_Bus_B1_view_Long_Yat_Road_n_Long_Wo_Road_July_2026_N13P_01.jpg",
+      "bytes": 271700,
+      "alternatives": []
+    },
+    {
+      "key": "concepts/concepts-wide",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Wide_Slocan_River_-_panoramio.jpg",
+      "bytes": 197443,
+      "alternatives": [
+        {
+          "title": "ISS035-E-007148 Nile - Sinai - Dead Sea - Wide Angle View",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:ISS035-E-007148_Nile_-_Sinai_-_Dead_Sea_-_Wide_Angle_View.jpg",
+          "score": 28
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-narrow",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Train_by_the_Durango_and_Silverton_Narrow_Gauge_Railroad.jpg",
+      "bytes": 211258,
+      "alternatives": [
+        {
+          "title": "Huddersfield Narrow Canal",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Huddersfield_Narrow_Canal.jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-thick",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Medieval_,_Book_Fitting_(FindID_821045).jpg",
+      "bytes": 199645,
+      "alternatives": []
+    },
+    {
+      "key": "concepts/concepts-thin",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Hortus_Botanicus_Leiden_Paper_thin_Bougainvillea_(33973338766).jpg",
+      "bytes": 114494,
+      "alternatives": [
+        {
+          "title": "Paper birch tree is named for the tree's thin white bark, which often peels in paper like layers from the trunk. Sometimes (9ea37bf6-6d25-4b5a-9ee0-d50b561121e0)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Paper_birch_tree_is_named_for_the_tree%27s_thin_white_bark,_which_often_peels_in_paper_like_layers_from_the_trunk._Sometimes_(9ea37bf6-6d25-4b5a-9ee0-d50b561121e0).JPG",
+          "score": 60
+        },
+        {
+          "title": "File-Betula papyrifera - native;-Alternate names- Paper birch, canoe birch;-The white bark peels off the tree in thin curling sheets (9341474a-155d-4519-3e35-7e1a7110df1d)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:File-Betula_papyrifera_-_native;-Alternate_names-_Paper_birch,_canoe_birch;-The_white_bark_peels_off_the_tree_in_thin_curling_sheets_(9341474a-155d-4519-3e35-7e1a7110df1d).jpg",
+          "score": 60
+        },
+        {
+          "title": "PAPER WEIGHT (FindID 1014181)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:PAPER_WEIGHT_(FindID_1014181).jpg",
+          "score": 60
+        },
+        {
+          "title": "Paper Birch with Leaves (934557d4-155d-4519-3eda-25a0065e6394)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Paper_Birch_with_Leaves_(934557d4-155d-4519-3eda-25a0065e6394).jpg",
+          "score": 60
+        },
+        {
+          "title": "The pulp has to be manually patted down to make it thin (14582925016)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_pulp_has_to_be_manually_patted_down_to_make_it_thin_(14582925016).jpg",
+          "score": 20
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-light",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Yellow_Feather_(Maricopa).jpg",
+      "bytes": 296602,
+      "alternatives": [
+        {
+          "title": "Light as feather - Flickr - v923z",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Light_as_feather_-_Flickr_-_v923z.jpg",
+          "score": 60
+        },
+        {
+          "title": "Peacock feather (Creative1)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Peacock_feather_(Creative1).jpg",
+          "score": 60
+        },
+        {
+          "title": "StateLibQld 1 202003 Woman, wearing a large feathered hat and boa, posing for a portrait, 1900-1910",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:StateLibQld_1_202003_Woman,_wearing_a_large_feathered_hat_and_boa,_posing_for_a_portrait,_1900-1910.jpg",
+          "score": 24
+        },
+        {
+          "title": "Peacock feathers. (20779300743)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Peacock_feathers._(20779300743).jpg",
+          "score": 20
+        },
+        {
+          "title": "Iowa City Pride 2012 006",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Iowa_City_Pride_2012_006.jpg",
+          "score": 20
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-heavy",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Seattle_Department_of_Weights_and_Measures_inspectors_testing_scale,_circa_1920s_(55106717410).jpg",
+      "bytes": 185130,
+      "alternatives": [
+        {
+          "title": "Heavy duty weights for weighing large bags of money",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Heavy_duty_weights_for_weighing_large_bags_of_money.JPG",
+          "score": 60
+        },
+        {
+          "title": "Defender-Europe 20 Weights and Measures (5897956)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Defender-Europe_20_Weights_and_Measures_(5897956).jpg",
+          "score": 60
+        },
+        {
+          "title": "Defender-Europe 20 Weights and Measures (5897963)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Defender-Europe_20_Weights_and_Measures_(5897963).jpg",
+          "score": 60
+        },
+        {
+          "title": "Defender-Europe 20 Weights and Measures (5897972)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Defender-Europe_20_Weights_and_Measures_(5897972).jpg",
+          "score": 60
+        },
+        {
+          "title": "Defender-Europe 20 Weights and Measures (5897954)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Defender-Europe_20_Weights_and_Measures_(5897954).jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-empty",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:202606_PET_bottle_and_paper_cup_on_Shalun_beach.jpg",
+      "bytes": 82219,
+      "alternatives": [
+        {
+          "title": "Cup-empty",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Cup-empty.jpg",
+          "score": 60
+        },
+        {
+          "title": "Captain's Cup on Diego Garcia (6422804)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Captain%27s_Cup_on_Diego_Garcia_(6422804).jpg",
+          "score": 60
+        },
+        {
+          "title": "Captain's Cup on Diego Garcia (6422799)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Captain%27s_Cup_on_Diego_Garcia_(6422799).jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-full",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Unidentified_infantry_soldier_in_Union_uniform_in_full_marching_order_with_musket,_canteen,_cartridge_box,_cup,_knife,_knapsack,_and_cap_box_with_initials_%22W.H.W.%22_LCCN2010650625.jpg",
+      "bytes": 365762,
+      "alternatives": [
+        {
+          "title": "2011 Boston Bruins Stanley Cup parade (5850448603)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:2011_Boston_Bruins_Stanley_Cup_parade_(5850448603).jpg",
+          "score": 60
+        },
+        {
+          "title": "WBA team FA cup finalists 1912",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:WBA_team_FA_cup_finalists_1912.jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-open",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Open_door_-_Ebeltoft_2010.jpg",
+      "bytes": 377749,
+      "alternatives": [
+        {
+          "title": "Open door (4066842954)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Open_door_(4066842954).jpg",
+          "score": 60
+        },
+        {
+          "title": "Open door (3610837909)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Open_door_(3610837909).jpg",
+          "score": 60
+        },
+        {
+          "title": "Ruiyuan station sign through open door April 2026",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Ruiyuan_station_sign_through_open_door_April_2026.jpg",
+          "score": 60
+        },
+        {
+          "title": "Open Door Church of Deliverance",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Open_Door_Church_of_Deliverance.jpg",
+          "score": 60
+        },
+        {
+          "title": "Open Door (36207051174)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Open_Door_(36207051174).jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-closed",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sufen_Bookstore_closed_door_and_Uni-President_Vender_vending_machines_20210513.jpg",
+      "bytes": 172061,
+      "alternatives": [
+        {
+          "title": "Closed Door (7855555604)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Closed_Door_(7855555604).jpg",
+          "score": 60
+        },
+        {
+          "title": "Close-up view of closed wooden door of Gangkou Community Center",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Close-up_view_of_closed_wooden_door_of_Gangkou_Community_Center.jpg",
+          "score": 60
+        },
+        {
+          "title": "Old door, Alhama de Granada, Andalusia, Spain",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Old_door,_Alhama_de_Granada,_Andalusia,_Spain.jpg",
+          "score": 60
+        },
+        {
+          "title": "An open gate to a closed door (3604327491)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:An_open_gate_to_a_closed_door_(3604327491).jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-same",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Tulip_twins,_by_Flickr_user_evilerin.jpg",
+      "bytes": 121337,
+      "alternatives": [
+        {
+          "title": "Take my hand",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Take_my_hand.jpg",
+          "score": 24
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-different",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Candy_Corn_Altered_(This_Will_Knock_Your_Socks_Off)_-_Flickr_-_KaCey97078.jpg",
+      "bytes": 74106,
+      "alternatives": [
+        {
+          "title": "Na sejmu v Metliki - prodajalec iz Hrvaške, nogavice, rokavice 1965",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Na_sejmu_v_Metliki_-_prodajalec_iz_Hrva%C5%A1ke,_nogavice,_rokavice_1965.jpg",
+          "score": 24
+        },
+        {
+          "title": "Volnene pletene nogavice na sejmu v Metliki 1965",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Volnene_pletene_nogavice_na_sejmu_v_Metliki_1965.jpg",
+          "score": 24
+        },
+        {
+          "title": "Image taken at ILO Delhi conference",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Image_taken_at_ILO_Delhi_conference.jpg",
+          "score": 24
+        },
+        {
+          "title": "Shirley temple library of congress a",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Shirley_temple_library_of_congress_a.JPG",
+          "score": 24
+        },
+        {
+          "title": "Stage Door Johnnies",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Stage_Door_Johnnies.jpg",
+          "score": 20
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-more",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Tree_with_red_apples_in_Barkedal_4.jpg",
+      "bytes": 551538,
+      "alternatives": [
+        {
+          "title": "Apples (5060883729)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Apples_(5060883729).jpg",
+          "score": 60
+        },
+        {
+          "title": "Tree with red apples in Barkedal 3",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Tree_with_red_apples_in_Barkedal_3.jpg",
+          "score": 60
+        },
+        {
+          "title": "Tree with red apples in Barkedal 2",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Tree_with_red_apples_in_Barkedal_2.jpg",
+          "score": 60
+        },
+        {
+          "title": "Apples on the branch and ground in Luper Pioneer Cemetery",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Apples_on_the_branch_and_ground_in_Luper_Pioneer_Cemetery.jpg",
+          "score": 60
+        },
+        {
+          "title": "Annie Spratt 2016-08-15 (Unsplash)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Annie_Spratt_2016-08-15_(Unsplash).jpg",
+          "score": 20
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-less",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Packinghouse_workers_packing_apples,_Yakima_County,_1908_(CURTIS_298).jpeg",
+      "bytes": 82051,
+      "alternatives": [
+        {
+          "title": "Water Apples, photograph by Brother Bertram",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Water_Apples,_photograph_by_Brother_Bertram.jpg",
+          "score": 60
+        },
+        {
+          "title": "Mee Apples, photograph by Brother Bertram",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mee_Apples,_photograph_by_Brother_Bertram.jpg",
+          "score": 60
+        },
+        {
+          "title": "Still Life-Study of Apples, by William Rickarby Miller, 1862 - De Young Museum, San Francisco",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Still_Life-Study_of_Apples,_by_William_Rickarby_Miller,_1862_-_De_Young_Museum,_San_Francisco.jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-many",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Barrage_balloons_connected_with_ships.jpg",
+      "bytes": 147794,
+      "alternatives": []
+    },
+    {
+      "key": "concepts/concepts-few",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Balloons_over_Bagan_(15628506247).jpg",
+      "bytes": 224894,
+      "alternatives": [
+        {
+          "title": "BALLOONS, ASCENSION; DEMONSTRATION OF BALLOONS ON POLO GROUNDS LCCN2016869534",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:BALLOONS,_ASCENSION;_DEMONSTRATION_OF_BALLOONS_ON_POLO_GROUNDS_LCCN2016869534.jpg",
+          "score": 60
+        },
+        {
+          "title": "SC 151511 - A few barrage balloons are seen floating from a fort above the Harbor. Hawaii. Balloons are seen floating from Fort Kam above the Harbor. (52009001230)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:SC_151511_-_A_few_barrage_balloons_are_seen_floating_from_a_fort_above_the_Harbor._Hawaii._Balloons_are_seen_floating_from_Fort_Kam_above_the_Harbor._(52009001230).jpg",
+          "score": 60
+        },
+        {
+          "title": "Crowd scene with balloons LCCN2003691176",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Crowd_scene_with_balloons_LCCN2003691176.jpg",
+          "score": 60
+        },
+        {
+          "title": "Early flight 02562u (3)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Early_flight_02562u_(3).jpg",
+          "score": 28
+        },
+        {
+          "title": "Early flight 02562u (9)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Early_flight_02562u_(9).jpg",
+          "score": 28
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-first",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Thomas_Edison_with_first_Phonograph_at_Congressional_Medal_presentation._(30f42b8a21b344f0b5314e8e159a3efe).jpg",
+      "bytes": 218064,
+      "alternatives": [
+        {
+          "title": "Presentation of the first Franklin Medal in Philadelphia in 1915. Thomas Edison and Mina Edison with (standing), D.R.B. Owens, J (2287c3af58e542258439dd02790c0303)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Presentation_of_the_first_Franklin_Medal_in_Philadelphia_in_1915._Thomas_Edison_and_Mina_Edison_with_(standing),_D.R.B._Owens,_J_(2287c3af58e542258439dd02790c0303).jpg",
+          "score": 64
+        },
+        {
+          "title": "President Calvin Coolidge congratulates William R. Huber, Machinist Mate, First Class, United States Navy sailor after presenting him with the Congressional Medal of Honor on 8 December 1928 (cropped)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:President_Calvin_Coolidge_congratulates_William_R._Huber,_Machinist_Mate,_First_Class,_United_States_Navy_sailor_after_presenting_him_with_the_Congressional_Medal_of_Honor_on_8_December_1928_(cropped).jpg",
+          "score": 60
+        },
+        {
+          "title": "Valor walk, community honor First Team Medal of Honor trooper 140608-A-AG136-011",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Valor_walk,_community_honor_First_Team_Medal_of_Honor_trooper_140608-A-AG136-011.jpg",
+          "score": 60
+        },
+        {
+          "title": "President Coolidge congratulates sailor after presenting him with Congressional Medal of Honor. President Coolidge congratulating William R. Huber, Machinist Mate, First Class, United States LCCN2016889114",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:President_Coolidge_congratulates_sailor_after_presenting_him_with_Congressional_Medal_of_Honor._President_Coolidge_congratulating_William_R._Huber,_Machinist_Mate,_First_Class,_United_States_LCCN2016889114.jpg",
+          "score": 60
+        },
+        {
+          "title": "President Coolidge presents Congressional Medal of Honor to sailor Hero. William Russel Huber, Machinist Mate, First Class, United States Navy, receiving from President Coolidge today the LCCN2016889113",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:President_Coolidge_presents_Congressional_Medal_of_Honor_to_sailor_Hero._William_Russel_Huber,_Machinist_Mate,_First_Class,_United_States_Navy,_receiving_from_President_Coolidge_today_the_LCCN2016889113.jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-last",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Runner_Budiningsih_Suhardi_(right)_and_others,_Djawa_Baroe,_Vol._1,_Iss._20_(1943-10-15),_p19.jpg",
+      "bytes": 493987,
+      "alternatives": [
+        {
+          "title": "Runner Sabar Sumadipraja (right) and others, Djawa Baroe, Vol. 1, Iss. 20 (1943-10-15), p19",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Runner_Sabar_Sumadipraja_(right)_and_others,_Djawa_Baroe,_Vol._1,_Iss._20_(1943-10-15),_p19.jpg",
+          "score": 64
+        },
+        {
+          "title": "Sean Debevoise was the last runner to cross the finish line at the 2010 Big Apple Run for the Warrior on May 30, 2010 (USMC-100530-M-8355S-9243)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sean_Debevoise_was_the_last_runner_to_cross_the_finish_line_at_the_2010_Big_Apple_Run_for_the_Warrior_on_May_30,_2010_(USMC-100530-M-8355S-9243).jpg",
+          "score": 60
+        },
+        {
+          "title": "Last scene of the 1st Hakone Ekiden, MOGI Zensaku",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Last_scene_of_the_1st_Hakone_Ekiden,_MOGI_Zensaku.jpg",
+          "score": 20
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-top",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Top_Shelf_(23866973508).jpg",
+      "bytes": 176811,
+      "alternatives": [
+        {
+          "title": "Top Shelf Plus Gift Shop - Newark, NJ (4671231942)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Top_Shelf_Plus_Gift_Shop_-_Newark,_NJ_(4671231942).jpg",
+          "score": 64
+        },
+        {
+          "title": "Rosa 'Top Shelf' - Parnell Rose Gardens - Auckland, NZ - DSC06860",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Rosa_%27Top_Shelf%27_-_Parnell_Rose_Gardens_-_Auckland,_NZ_-_DSC06860.jpg",
+          "score": 60
+        },
+        {
+          "title": "Larry the cat laying on top of a shelf (GEDC00062)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Larry_the_cat_laying_on_top_of_a_shelf_(GEDC00062).jpg",
+          "score": 60
+        },
+        {
+          "title": "Top shelf margarita - October 2022 - Sarah Stierch",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Top_shelf_margarita_-_October_2022_-_Sarah_Stierch.jpg",
+          "score": 60
+        },
+        {
+          "title": "Top of pathway next to Lidl, Shelf",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Top_of_pathway_next_to_Lidl,_Shelf.jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-bottom",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Shelf_at_the_bottom_of_a_window_for_growing_houseplants.jpg",
+      "bytes": 214471,
+      "alternatives": [
+        {
+          "title": "Round, wicker table painted brown, table top wicker wbottom wicker shelf, balled feet. Table top & shelf have small wooden (a69d800d-9227-4703-9459-d689f476df2d)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Round,_wicker_table_painted_brown,_table_top_wicker_wbottom_wicker_shelf,_balled_feet._Table_top_%26_shelf_have_small_wooden_(a69d800d-9227-4703-9459-d689f476df2d).jpg",
+          "score": 60
+        },
+        {
+          "title": "LarsenC photo 2016315 lrg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:LarsenC_photo_2016315_lrg.jpg",
+          "score": 28
+        },
+        {
+          "title": "LarsenC-detail photo 2016315 lrg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:LarsenC-detail_photo_2016315_lrg.jpg",
+          "score": 28
+        },
+        {
+          "title": "From The Bottom Of The World",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:From_The_Bottom_Of_The_World.jpg",
+          "score": 20
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-inside",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_old_oak_with_letter-box_inside_the_trunk,_Clun_Salop_(4641858916).jpg",
+      "bytes": 201743,
+      "alternatives": [
+        {
+          "title": "Letter box inside Main Street Station casino and hotel in downtown Las Vegas",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Letter_box_inside_Main_Street_Station_casino_and_hotel_in_downtown_Las_Vegas.jpg",
+          "score": 60
+        },
+        {
+          "title": "Peering Inside the Black Box",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Peering_Inside_the_Black_Box.jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-middle",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sigonella_DoDEA_Middle_High_School_celebrates_Month_of_the_Military_Child_(8964545).jpg",
+      "bytes": 170225,
+      "alternatives": [
+        {
+          "title": "Sigonella DoDEA Middle High School celebrates Month of the Military Child (8964564)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sigonella_DoDEA_Middle_High_School_celebrates_Month_of_the_Military_Child_(8964564).jpg",
+          "score": 60
+        },
+        {
+          "title": "Sigonella DoDEA Middle High School celebrates Month of the Military Child (8964557)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sigonella_DoDEA_Middle_High_School_celebrates_Month_of_the_Military_Child_(8964557).jpg",
+          "score": 60
+        },
+        {
+          "title": "Sigonella DoDEA Middle High School celebrates Month of the Military Child (8964553)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sigonella_DoDEA_Middle_High_School_celebrates_Month_of_the_Military_Child_(8964553).jpg",
+          "score": 60
+        },
+        {
+          "title": "Sigonella DoDEA Middle High School celebrates Month of the Military Child (8964558)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sigonella_DoDEA_Middle_High_School_celebrates_Month_of_the_Military_Child_(8964558).jpg",
+          "score": 60
+        },
+        {
+          "title": "Sigonella DoDEA Middle High School celebrates Month of the Military Child (8964552)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sigonella_DoDEA_Middle_High_School_celebrates_Month_of_the_Military_Child_(8964552).jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-outside",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Photograph_of_the_Outside_Stairway_of_the_Amoureaux_House_in_Ste_Genevieve_MO.jpg",
+      "bytes": 223534,
+      "alternatives": []
+    },
+    {
+      "key": "concepts/concepts-above",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:A_bird_in_a_tree_in_Taiwan.jpg",
+      "bytes": 236452,
+      "alternatives": [
+        {
+          "title": "Perched in a Tree (8039135462)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Perched_in_a_Tree_(8039135462).jpg",
+          "score": 64
+        },
+        {
+          "title": "Tree Size Bird - panoramio",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Tree_Size_Bird_-_panoramio.jpg",
+          "score": 60
+        },
+        {
+          "title": "A bald eagle perched in a cottonwood tree above the Yellowstone River (49945358668)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:A_bald_eagle_perched_in_a_cottonwood_tree_above_the_Yellowstone_River_(49945358668).jpg",
+          "score": 60
+        },
+        {
+          "title": "Tree and bird lake - Angarnssjöängen, Stockholm - panoramio",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Tree_and_bird_lake_-_Angarnssj%C3%B6%C3%A4ngen,_Stockholm_-_panoramio.jpg",
+          "score": 60
+        },
+        {
+          "title": "Tree planting for Green Connection Bird reserve - panoramio",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Tree_planting_for_Green_Connection_Bird_reserve_-_panoramio.jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-below",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:View_to_Moscow_river_from_Bolshoy_Moskvoretsky_Bridge.jpg",
+      "bytes": 82417,
+      "alternatives": [
+        {
+          "title": "StateLibQld 2 234830 Small sailing boats moored in the creek below the bridge, Norman Creek, Brisbane, 1889",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:StateLibQld_2_234830_Small_sailing_boats_moored_in_the_creek_below_the_bridge,_Norman_Creek,_Brisbane,_1889.jpg",
+          "score": 64
+        },
+        {
+          "title": "Park below Rainbow Bridge (14042384294)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Park_below_Rainbow_Bridge_(14042384294).jpg",
+          "score": 64
+        },
+        {
+          "title": "Bailey Bridge, Boat, Next To Mangere Bridge",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Bailey_Bridge,_Boat,_Next_To_Mangere_Bridge.jpg",
+          "score": 64
+        },
+        {
+          "title": "San Diego–Coronado Bridge from below side 1",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:San_Diego%E2%80%93Coronado_Bridge_from_below_side_1.jpg",
+          "score": 60
+        },
+        {
+          "title": "The San Diego–Coronado Bridge from below side 2",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_San_Diego%E2%80%93Coronado_Bridge_from_below_side_2.jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-over",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:President_Coolidge_is_invited_to_fly_over_Washington._Russ_Halley,_banker_and_aviator_of_Rapid_City,_North_Dakota,_where_President_Coolidge_spent_last_summer%27s_vacation,_arrived_in_LCCN2016888789.jpg",
+      "bytes": 209891,
+      "alternatives": [
+        {
+          "title": "0105 jfEast Bajac-bajac Park Museum Monument Gordon Olongapo City Zambalesfvf 26",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:0105_jfEast_Bajac-bajac_Park_Museum_Monument_Gordon_Olongapo_City_Zambalesfvf_26.JPG",
+          "score": 60
+        },
+        {
+          "title": "0105 jfEast Bajac-bajac Park Museum Monument Gordon Olongapo City Zambalesfvf 25",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:0105_jfEast_Bajac-bajac_Park_Museum_Monument_Gordon_Olongapo_City_Zambalesfvf_25.JPG",
+          "score": 60
+        },
+        {
+          "title": "0105 jfEast Bajac-bajac Park Museum Monument Gordon Olongapo City Zambalesfvf 24",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:0105_jfEast_Bajac-bajac_Park_Museum_Monument_Gordon_Olongapo_City_Zambalesfvf_24.JPG",
+          "score": 60
+        },
+        {
+          "title": "0105 jfEast Bajac-bajac Park Museum Monument Gordon Olongapo City Zambalesfvf 20",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:0105_jfEast_Bajac-bajac_Park_Museum_Monument_Gordon_Olongapo_City_Zambalesfvf_20.JPG",
+          "score": 60
+        },
+        {
+          "title": "Auckland Airport Seen From Light Plane 04",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Auckland_Airport_Seen_From_Light_Plane_04.jpg",
+          "score": 24
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-under",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Larry_the_cat_sitting_on_a_table_next_to_bird_food_balls_in_a_backyard_in_Auderghem,_Belgium_(DSCF2307).jpg",
+      "bytes": 175685,
+      "alternatives": [
+        {
+          "title": "Larry the cat sitting on a table next to bird food balls in a backyard in Auderghem, Belgium (DSCF2347)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Larry_the_cat_sitting_on_a_table_next_to_bird_food_balls_in_a_backyard_in_Auderghem,_Belgium_(DSCF2347).jpg",
+          "score": 60
+        },
+        {
+          "title": "Larry the cat sitting on a table next to bird food balls in a backyard in Auderghem, Belgium (DSCF2352)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Larry_the_cat_sitting_on_a_table_next_to_bird_food_balls_in_a_backyard_in_Auderghem,_Belgium_(DSCF2352).jpg",
+          "score": 60
+        },
+        {
+          "title": "Larry the cat sitting on a table next to bird food balls in a backyard in Auderghem, Belgium (DSCF2310)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Larry_the_cat_sitting_on_a_table_next_to_bird_food_balls_in_a_backyard_in_Auderghem,_Belgium_(DSCF2310).jpg",
+          "score": 60
+        },
+        {
+          "title": "Cat sleep on bird table",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Cat_sleep_on_bird_table.jpg",
+          "score": 60
+        },
+        {
+          "title": "Larry the cat sitting on a table looking ahead next to bird food balls in a backyard in Auderghem, Belgium (DSCF2309)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Larry_the_cat_sitting_on_a_table_looking_ahead_next_to_bird_food_balls_in_a_backyard_in_Auderghem,_Belgium_(DSCF2309).jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-behind",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:A_child_peeks_out_from_behind_a_tree_in_front_of_sunny_forest,_Winter,_2004.jpg",
+      "bytes": 338213,
+      "alternatives": [
+        {
+          "title": "Night Sky Program (54471961298)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Night_Sky_Program_(54471961298).jpg",
+          "score": 20
+        },
+        {
+          "title": "Shy Afghan boy watches Marines (4618090279)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Shy_Afghan_boy_watches_Marines_(4618090279).jpg",
+          "score": 20
+        },
+        {
+          "title": "Coin 27. Roman coin, sestertius of an uncertain emperor (FindID 983493-1084073)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Coin_27._Roman_coin,_sestertius_of_an_uncertain_emperor_(FindID_983493-1084073).jpg",
+          "score": 20
+        },
+        {
+          "title": "Coin 44. Roman coin, sestertius, dupondius or as of an uncertain emperor (FindID 983493-1084164)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Coin_44._Roman_coin,_sestertius,_dupondius_or_as_of_an_uncertain_emperor_(FindID_983493-1084164).jpg",
+          "score": 20
+        },
+        {
+          "title": "Coin 12. Roman coin, sestertius of Commodus (FindID 983493-1084019)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Coin_12._Roman_coin,_sestertius_of_Commodus_(FindID_983493-1084019).jpg",
+          "score": 20
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-near",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Center_of_the_Milky_Way_Galaxy_IV_%E2%80%93_Composite.jpg",
+      "bytes": 150659,
+      "alternatives": []
+    },
+    {
+      "key": "concepts/concepts-in-front",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:House_front_with_a_blue_door,_Quebec_City.jpg",
+      "bytes": 140690,
+      "alternatives": [
+        {
+          "title": "Group of Cabinet children photographed at the Easter egg rolling at the White House today",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Group_of_Cabinet_children_photographed_at_the_Easter_egg_rolling_at_the_White_House_today.jpg",
+          "score": 64
+        },
+        {
+          "title": "Men, woman and child with automobiles in front of house and garage, ca 1921 (KINSEY 822)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Men,_woman_and_child_with_automobiles_in_front_of_house_and_garage,_ca_1921_(KINSEY_822).jpeg",
+          "score": 60
+        },
+        {
+          "title": "Woman and child in a field in front of a white house LOC agc.7a17954",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Woman_and_child_in_a_field_in_front_of_a_white_house_LOC_agc.7a17954.jpg",
+          "score": 60
+        },
+        {
+          "title": "Park Rangers and Volunteers dressed in colonial clothing standing in front of Meriam House talking with a small child (6a71c92c-e7c6-4aa7-bd16-782a21fb56cf)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Park_Rangers_and_Volunteers_dressed_in_colonial_clothing_standing_in_front_of_Meriam_House_talking_with_a_small_child_(6a71c92c-e7c6-4aa7-bd16-782a21fb56cf).JPG",
+          "score": 60
+        },
+        {
+          "title": "Quentin Roosevelt as a child in front of a flower garden and Roswell Newcomb Pinckney smelling a flower at the White House, Washington, D.C. LCCN2001704016",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Quentin_Roosevelt_as_a_child_in_front_of_a_flower_garden_and_Roswell_Newcomb_Pinckney_smelling_a_flower_at_the_White_House,_Washington,_D.C._LCCN2001704016.jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-far",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Abu_ol_Hayat_mountain_passage_in_Fars_Province_(Bolhayat).jpg",
+      "bytes": 292188,
+      "alternatives": [
+        {
+          "title": "Philippines - Igbaras, Iloilo - The Unused Fields and the Far Mountain (4)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Philippines_-_Igbaras,_Iloilo_-_The_Unused_Fields_and_the_Far_Mountain_(4).jpg",
+          "score": 60
+        },
+        {
+          "title": "Philippines - Igbaras, Iloilo - The Unused Fields and the Far Mountain (5)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Philippines_-_Igbaras,_Iloilo_-_The_Unused_Fields_and_the_Far_Mountain_(5).jpg",
+          "score": 60
+        },
+        {
+          "title": "A wandering student in the Far East vol.1 - My chair descending a mountain road",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:A_wandering_student_in_the_Far_East_vol.1_-_My_chair_descending_a_mountain_road.jpg",
+          "score": 60
+        },
+        {
+          "title": "Philippines - Igbaras, Iloilo - The Unused Fields and the Far Mountain (1)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Philippines_-_Igbaras,_Iloilo_-_The_Unused_Fields_and_the_Far_Mountain_(1).jpg",
+          "score": 60
+        },
+        {
+          "title": "Philippines - Igbaras, Iloilo - The Unused Fields and the Far Mountain (2)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Philippines_-_Igbaras,_Iloilo_-_The_Unused_Fields_and_the_Far_Mountain_(2).jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-left",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Ali_Khamenei_is_shaking_hand_with_his_left_hand.jpg",
+      "bytes": 73848,
+      "alternatives": [
+        {
+          "title": "Left Hand Canyon",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Left_Hand_Canyon.jpg",
+          "score": 64
+        },
+        {
+          "title": "Hasegawa Tohaku - Pine Trees (Shōrin-zu byōbu) - left hand screen",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Hasegawa_Tohaku_-_Pine_Trees_(Sh%C5%8Drin-zu_by%C5%8Dbu)_-_left_hand_screen.jpg",
+          "score": 60
+        },
+        {
+          "title": "Left-hand-Mary-Magdalene-foto-1",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Left-hand-Mary-Magdalene-foto-1.jpg",
+          "score": 60
+        },
+        {
+          "title": "Left-hand-Mary-Magdalene-foto-2",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Left-hand-Mary-Magdalene-foto-2.jpg",
+          "score": 60
+        },
+        {
+          "title": "Left Hand - Kolkata 2011-04-20 2349",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Left_Hand_-_Kolkata_2011-04-20_2349.JPG",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-right",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Holy_Right_Hand_of_St._Stephen_-_Budapest_-_Stierch.jpg",
+      "bytes": 280670,
+      "alternatives": [
+        {
+          "title": "Male Right Hand - Kolkata 2011-04-19 2334",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Male_Right_Hand_-_Kolkata_2011-04-19_2334.JPG",
+          "score": 60
+        },
+        {
+          "title": "Male Right Hand - Kolkata 2011-04-19 2335",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Male_Right_Hand_-_Kolkata_2011-04-19_2335.JPG",
+          "score": 60
+        },
+        {
+          "title": "Male Right Hand - Kolkata 2011-04-19 2333",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Male_Right_Hand_-_Kolkata_2011-04-19_2333.JPG",
+          "score": 60
+        },
+        {
+          "title": "Gibraltar-LookLeft-right-hand traffic",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Gibraltar-LookLeft-right-hand_traffic.jpg",
+          "score": 60
+        },
+        {
+          "title": "Right-hand servant's room, Highwic",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Right-hand_servant%27s_room,_Highwic.jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-up",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sign-1170073,_Killarney,_Co._Kerry,_Ireland.jpg",
+      "bytes": 185405,
+      "alternatives": [
+        {
+          "title": "EB I-10 (FL); Hammond Blvd Up-Right Arrow; Exit 355",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:EB_I-10_(FL);_Hammond_Blvd_Up-Right_Arrow;_Exit_355.jpg",
+          "score": 20
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-fast",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:1972_Ford_XA_Falcon_GTHO_Race_car_Tribute_(16881940608).jpg",
+      "bytes": 284478,
+      "alternatives": [
+        {
+          "title": "Volkswagen GX3 concept car - Flickr - idalingi",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Volkswagen_GX3_concept_car_-_Flickr_-_idalingi.jpg",
+          "score": 60
+        },
+        {
+          "title": "Dr. Evlyn Farris and her Electric Car in 1919 (7126943085)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Dr._Evlyn_Farris_and_her_Electric_Car_in_1919_(7126943085).jpg",
+          "score": 60
+        },
+        {
+          "title": "Speeddemon Racecar being loaded on trailer after race (53109277926)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Speeddemon_Racecar_being_loaded_on_trailer_after_race_(53109277926).jpg",
+          "score": 20
+        },
+        {
+          "title": "Looks fast..is fast....Ford GT. (31611092626)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Looks_fast..is_fast....Ford_GT._(31611092626).jpg",
+          "score": 20
+        },
+        {
+          "title": "Le Mans 2013 (9344775235) (cropped)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Le_Mans_2013_(9344775235)_(cropped).jpg",
+          "score": 20
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-down",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Station_exit_sign_with_arrows_down_stair_(18721662111).jpg",
+      "bytes": 221652,
+      "alternatives": [
+        {
+          "title": "Birmingham New Street Station from Navigation Street - sign (4387905055)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Birmingham_New_Street_Station_from_Navigation_Street_-_sign_(4387905055).jpg",
+          "score": 60
+        },
+        {
+          "title": "Castle Climbing Centre with road sign 2025-04-27",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Castle_Climbing_Centre_with_road_sign_2025-04-27.jpg",
+          "score": 60
+        },
+        {
+          "title": "Signs-1180306, Chapelizod, Dublin, Ireland",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Signs-1180306,_Chapelizod,_Dublin,_Ireland.jpg",
+          "score": 24
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-slow",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Seychelles%E2%80%99_Aldabra_banded_snail_-_Rhachistia_aldabrae_-_Photo_by_Catherina_Onezia_-_Seychelles_Islands_Foundation.jpg",
+      "bytes": 127141,
+      "alternatives": [
+        {
+          "title": "Snails (probably Periwinkle snail (Littorina littoralis) at Cape Cod National Seashore (352bde7d-5172-4eb6-9466-4f920a3008d4)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Snails_(probably_Periwinkle_snail_(Littorina_littoralis)_at_Cape_Cod_National_Seashore_(352bde7d-5172-4eb6-9466-4f920a3008d4).jpg",
+          "score": 60
+        },
+        {
+          "title": "Slow Journey in Monochrome - Flickr - Ariel López Arancibia",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Slow_Journey_in_Monochrome_-_Flickr_-_Ariel_L%C3%B3pez_Arancibia.jpg",
+          "score": 20
+        },
+        {
+          "title": "2021 Warszawa droga rowerowa Żerań, ślimaki, 1",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:2021_Warszawa_droga_rowerowa_%C5%BBera%C5%84,_%C5%9Blimaki,_1.jpg",
+          "score": 20
+        },
+        {
+          "title": "Thésée-la-Romaine (Loir-et-Cher) (14848094333)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Th%C3%A9s%C3%A9e-la-Romaine_(Loir-et-Cher)_(14848094333).jpg",
+          "score": 20
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-cold",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Wellston_Ice_and_Cold_Storage_Demolition_(25400163714).jpg",
+      "bytes": 36423,
+      "alternatives": [
+        {
+          "title": "Wellston Ice and Cold Storage Demolition (25400167754)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Wellston_Ice_and_Cold_Storage_Demolition_(25400167754).jpg",
+          "score": 60
+        },
+        {
+          "title": "Wellston Ice and Cold Storage Demolition (25938288201)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Wellston_Ice_and_Cold_Storage_Demolition_(25938288201).jpg",
+          "score": 60
+        },
+        {
+          "title": "Wellston Ice and Cold Storage Company demolition (25374407954)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Wellston_Ice_and_Cold_Storage_Company_demolition_(25374407954).jpg",
+          "score": 60
+        },
+        {
+          "title": "Ice-cold beer bottle",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Ice-cold_beer_bottle.jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-hot",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Xiaolongbao_and_Hot_and_Sour_Soup_(52222915137).jpg",
+      "bytes": 171251,
+      "alternatives": [
+        {
+          "title": "A soup kitchen in Tel Aviv supplies lunch for hundreds of needy people so they can at least have a hot meal (FL62116894)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:A_soup_kitchen_in_Tel_Aviv_supplies_lunch_for_hundreds_of_needy_people_so_they_can_at_least_have_a_hot_meal_(FL62116894).jpg",
+          "score": 64
+        },
+        {
+          "title": "A soup kitchen in Tel Aviv supplies lunch for hundreds of needy people so they can at least have a hot meal (FL62117973)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:A_soup_kitchen_in_Tel_Aviv_supplies_lunch_for_hundreds_of_needy_people_so_they_can_at_least_have_a_hot_meal_(FL62117973).jpg",
+          "score": 64
+        },
+        {
+          "title": "A soup kitchen in Tel Aviv supplies lunch for hundreds of needy people so they can at least have a hot meal (FL62118001)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:A_soup_kitchen_in_Tel_Aviv_supplies_lunch_for_hundreds_of_needy_people_so_they_can_at_least_have_a_hot_meal_(FL62118001).jpg",
+          "score": 64
+        },
+        {
+          "title": "A soup kitchen in Tel Aviv supplies lunch for hundreds of needy people so they can at least have a hot meal (FL62117158)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:A_soup_kitchen_in_Tel_Aviv_supplies_lunch_for_hundreds_of_needy_people_so_they_can_at_least_have_a_hot_meal_(FL62117158).jpg",
+          "score": 64
+        },
+        {
+          "title": "A soup kitchen in Tel Aviv supplies lunch for hundreds of needy people so they can at least have a hot meal (FL62117451)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:A_soup_kitchen_in_Tel_Aviv_supplies_lunch_for_hundreds_of_needy_people_so_they_can_at_least_have_a_hot_meal_(FL62117451).jpg",
+          "score": 64
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-wet",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Wet_Australian_Shepherd_dog,_side_view.jpg",
+      "bytes": 296066,
+      "alternatives": [
+        {
+          "title": "Wet dog in the woods (14701045931)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Wet_dog_in_the_woods_(14701045931).jpg",
+          "score": 60
+        },
+        {
+          "title": "Dog Bite (6897422437)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Dog_Bite_(6897422437).jpg",
+          "score": 60
+        },
+        {
+          "title": "Dog Days (Explored) - Flickr - m shipp22",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Dog_Days_(Explored)_-_Flickr_-_m_shipp22.jpg",
+          "score": 60
+        },
+        {
+          "title": "US Navy 100822-N-1531D-190 Army Maj. Heather Shuey-Burton, right, from Lenexa, Kan., and Pfc. Angela McCormick, from Sacramento, Calif., spray flea-removal on a dog during a veterinary visit to a local farm in Costa Rica",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:US_Navy_100822-N-1531D-190_Army_Maj._Heather_Shuey-Burton,_right,_from_Lenexa,_Kan.,_and_Pfc._Angela_McCormick,_from_Sacramento,_Calif.,_spray_flea-removal_on_a_dog_during_a_veterinary_visit_to_a_local_farm_in_Costa_Rica.jpg",
+          "score": 60
+        },
+        {
+          "title": "Wet Noses and Dirty Paws (8324630)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Wet_Noses_and_Dirty_Paws_(8324630).jpg",
+          "score": 20
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-dry",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Kids_Cooking_(Team_Nutrition)_(20210809-FNS-UNC-0003).jpg",
+      "bytes": 119911,
+      "alternatives": [
+        {
+          "title": "New Kennels! (9549529)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:New_Kennels!_(9549529).jpg",
+          "score": 20
+        },
+        {
+          "title": "New Kennels! (9549528)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:New_Kennels!_(9549528).jpg",
+          "score": 20
+        },
+        {
+          "title": "2nd Squadron, 2CR - Saber Strike 18 (4451998)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:2nd_Squadron,_2CR_-_Saber_Strike_18_(4451998).jpg",
+          "score": 20
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-hard",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Hard_Rock_Cafe_Moscow_en_2013.jpg",
+      "bytes": 216975,
+      "alternatives": [
+        {
+          "title": "Cozumel Hard Rock Cafe 2013",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Cozumel_Hard_Rock_Cafe_2013.jpg",
+          "score": 60
+        },
+        {
+          "title": "Hard Rock Cafe Orlando (2672153700)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Hard_Rock_Cafe_Orlando_(2672153700).jpg",
+          "score": 60
+        },
+        {
+          "title": "Hard Rock Cafe (Las Vegas)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Hard_Rock_Cafe_(Las_Vegas).jpg",
+          "score": 60
+        },
+        {
+          "title": "Hard Rock Miami 2017",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Hard_Rock_Miami_2017.jpg",
+          "score": 60
+        },
+        {
+          "title": "Sign at Indianapolis Hard Rock Cafe Downtown",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sign_at_Indianapolis_Hard_Rock_Cafe_Downtown.jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-soft",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Soft_focus.jpg",
+      "bytes": 85540,
+      "alternatives": [
+        {
+          "title": "Soft bröd ",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Soft_br%C3%B6d_.jpg",
+          "score": 60
+        },
+        {
+          "title": "Soft Brōd topdown",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Soft_Br%C5%8Dd_topdown.jpg",
+          "score": 60
+        },
+        {
+          "title": "Soft Bröd 3",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Soft_Br%C3%B6d_3.jpg",
+          "score": 60
+        },
+        {
+          "title": "Soft Bröd 2",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Soft_Br%C3%B6d_2.jpg",
+          "score": 60
+        },
+        {
+          "title": "Soft bröd slices",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Soft_br%C3%B6d_slices.jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-night",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Viking_Sky_(ship,_2017)_and_GNV_Cristal_(ship,_1989).jpg",
+      "bytes": 130470,
+      "alternatives": [
+        {
+          "title": "Funny face in the night sky. Brisbane, 1st December 2008 (3073572829)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Funny_face_in_the_night_sky._Brisbane,_1st_December_2008_(3073572829).jpg",
+          "score": 64
+        },
+        {
+          "title": "Night Sky at the Pillar (51483475548)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Night_Sky_at_the_Pillar_(51483475548).jpg",
+          "score": 60
+        },
+        {
+          "title": "Night Sky at the Pillar (51483258141)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Night_Sky_at_the_Pillar_(51483258141).jpg",
+          "score": 60
+        },
+        {
+          "title": "Night Sky at the Pillar (51484183185)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Night_Sky_at_the_Pillar_(51484183185).jpg",
+          "score": 60
+        },
+        {
+          "title": "Night Sky at the Pillar (51483261346)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Night_Sky_at_the_Pillar_(51483261346).jpg",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "key": "concepts/concepts-day",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Viking_Sky_(ship,_2017)_-_S%C3%A8te_-_December_2018.jpg",
+      "bytes": 128537,
+      "alternatives": [
+        {
+          "title": "Viking Sky (ship, 2017) and GNV Cristal (ship, 1989)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Viking_Sky_(ship,_2017)_and_GNV_Cristal_(ship,_1989).jpg",
+          "score": 72
+        },
+        {
+          "title": "Curiosity Self-Portrait at 'Big Sky' Drilling Site",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Curiosity_Self-Portrait_at_%27Big_Sky%27_Drilling_Site.jpg",
+          "score": 68
+        },
+        {
+          "title": "Field, corn, Liechtenstein, Mountains, Alps, Vaduz, sky, clouds, landscape",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Field,_corn,_Liechtenstein,_Mountains,_Alps,_Vaduz,_sky,_clouds,_landscape.jpg",
+          "score": 60
+        },
+        {
+          "title": "Trees rising out of Cheow Lan Lake, blue sky, eternal summer in Surat Thani edited",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Trees_rising_out_of_Cheow_Lan_Lake,_blue_sky,_eternal_summer_in_Surat_Thani_edited.jpg",
+          "score": 60
+        },
+        {
+          "title": "Sky Meadows First Day 2016 (23804737439)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sky_Meadows_First_Day_2016_(23804737439).jpg",
+          "score": 60
+        }
+      ]
+    }
+  ],
+  "skipped": [],
+  "missing": [],
+  "ambiguous": [],
+  "errors": []
+}
