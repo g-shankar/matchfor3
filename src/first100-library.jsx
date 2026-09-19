@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { first100Shelves } from './first100-data.js'
+import { speakNeural } from './speech.js'
 
 const EMPTY_PROGRESS = { seen: [], correct: {}, missed: {}, attempts: [], updatedAt: 0 }
 
@@ -67,32 +68,45 @@ function playClip(slug) {
 
 function Speaker({ word, large = false, autoPlay = false }) {
   const [playing, setPlaying] = useState(false)
-  const [missing, setMissing] = useState(false)
+  const [liveVoice, setLiveVoice] = useState(false)
   const audioRef = useRef(null)
   const src = word?.audio || `/first100-audio/${wordSlug(word)}.m4a`
+  const label = wordLabel(word)
+
+  function speakLive() {
+    speakNeural(label).catch(() => {})
+  }
 
   useEffect(() => {
-    setMissing(false)
+    setLiveVoice(false)
     setPlaying(false)
-    if (audioRef.current) {
-      audioRef.current.load()
-      if (autoPlay) audioRef.current.play().then(() => setPlaying(true)).catch(() => {})
-    }
+    const audio = audioRef.current
+    if (!audio) return
+    audio.load()
+    if (autoPlay) audio.play().then(() => setPlaying(true)).catch(() => speakLive())
   }, [src, autoPlay])
 
   function play() {
     const audio = audioRef.current
-    if (!audio || missing) return
+    if (liveVoice || !audio) {
+      speakLive()
+      return
+    }
     audio.currentTime = 0
-    audio.play().then(() => setPlaying(true)).catch(() => setMissing(true))
+    audio.play().then(() => setPlaying(true)).catch(() => speakLive())
+  }
+
+  function handleAudioError() {
+    setLiveVoice(true)
+    if (autoPlay) speakLive()
   }
 
   return (
     <>
-      <audio ref={audioRef} src={src} preload="none" onEnded={() => setPlaying(false)} onError={() => setMissing(true)} />
-      <button className={`f100-speaker ${large ? 'large' : ''} ${playing ? 'playing' : ''}`} type="button" onClick={play} disabled={missing} aria-label={missing ? `Audio for ${wordLabel(word)} is coming soon` : `Hear ${wordLabel(word)}`}>
-        <span aria-hidden="true">{missing ? '🔇' : playing ? '🎶' : '🔊'}</span>
-        {large && <small>{missing ? 'Coming soon' : 'Tap to hear'}</small>}
+      <audio ref={audioRef} src={src} preload="none" onEnded={() => setPlaying(false)} onError={handleAudioError} />
+      <button className={`f100-speaker ${large ? 'large' : ''} ${playing ? 'playing' : ''}`} type="button" onClick={play} aria-label={`Hear ${label}`}>
+        <span aria-hidden="true">{playing ? '🎶' : '🔊'}</span>
+        {large && <small>Tap to hear</small>}
       </button>
     </>
   )
