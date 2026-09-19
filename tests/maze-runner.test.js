@@ -1,0 +1,5 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {makeRunnerLevel,runnerQuestion,runnerLevels} from '../src/maze-runner-engine.js';
+const seeded=seed=>()=>((seed=Math.imul(seed,1664525)+1013904223>>>0)/4294967296);
+test('Shivani maze levels scale routes and put math gates on the solution',()=>{for(const level of Object.keys(runnerLevels))for(let seed=1;seed<=40;seed++){const run=makeRunnerLevel(level,seeded(seed));assert.equal(run.size,runnerLevels[level].size);assert.equal(run.gates.length,runnerLevels[level].gates);const route=new Set(run.solution.map(x=>x.join(',')));assert.ok(run.gates.every(g=>route.has(g.cell)));assert.ok(run.gems.every(g=>run.open.has(g)));}});
+test('maze runner questions have one reachable correct answer',()=>{for(const level of Object.keys(runnerLevels))for(let seed=1;seed<=100;seed++){const q=runnerQuestion(level,seeded(seed));assert.equal(q.choices.length,4);assert.equal(new Set(q.choices).size,4);assert.equal(q.choices.filter(x=>x===q.answer).length,1);}});
