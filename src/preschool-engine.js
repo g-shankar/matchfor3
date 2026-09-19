@@ -15,7 +15,7 @@ const pick=(r,a)=>a[Math.floor(r()*a.length)],shuffle=(r,a)=>[...a].sort(()=>r()
 const countArt=(icon,n)=>Array.from({length:n},()=>icon).join(' ');
 export function generateLittle(skill,level,seed){const r=rng(seed),max=level===1?5:10,n=1+Math.floor(r()*max),icons=['🐥','🍓','⭐','🐠','🦋','🚗'],icon=pick(r,icons);let q={skill,seed,type:'choice',level,prompt:'',art:'',answer:'',choices:[]};const set=(prompt,art,answer,choices,spoken=prompt)=>Object.assign(q,{prompt,spoken,art,...choice(answer,shuffle(r,choices))});
  switch(skill){
- case'count5':case'count10':{const cap=skill==='count5'?5:10,k=1+Math.floor(r()*cap);set('How many do you see?',countArt(icon,k),k,[k,Math.max(1,k-1),Math.min(cap,k+1)]);break;}
+ case'count5':case'count10':{const cap=skill==='count5'?5:10,k=1+Math.floor(r()*cap);set('How many do you see?',countArt(icon,k),k,[k,Math.max(1,k-1),Math.min(cap,k+1)]);q.type='tapCount';q.target=k;break;}
  case'numerals':{const k=1+Math.floor(r()*10);set(`Can you find number ${k}?`,'🔢',k,[k,(k%10)+1,((k+4)%10)+1]);break;}
  case'more':{const a=1+Math.floor(r()*5),b=a+1+Math.floor(r()*3);q.optionArt={[a]:countArt('🔵',a),[b]:countArt('🟡',b)};set('Which group has more?', 'Look at both groups',b,[a,b]);break;}
  case'tinyAdd':{const a=1+Math.floor(r()*2),b=1+Math.floor(r()*2),sum=a+b;set('How many altogether?',`${countArt('🍎',a)}  +  ${countArt('🍎',b)}`,sum,[sum,Math.max(1,sum-1),sum+1]);break;}
@@ -39,7 +39,7 @@ export function generateLittle(skill,level,seed){const r=rng(seed),max=level===1
  case'shapePicture':{const pics=[['triangle','🏔️'],['circle','☀️'],['square','🪟'],['star','🌟']],x=pick(r,pics);q.optionArt={triangle:'▲',circle:'●',square:'■',star:'★'};set('Which shape do you notice?',x[1],x[0],shuffle(r,pics.map(y=>y[0])).slice(0,3).includes(x[0])?shuffle(r,pics.map(y=>y[0])).slice(0,3):[x[0],...shuffle(r,pics.filter(y=>y[0]!==x[0]).map(y=>y[0])).slice(0,2)]);break;}
  case'artPattern':{const x=pick(r,[['🔴','🔵'],['🟡','🟢'],['🟣','🟠']]);q.optionArt={[x[0]]:x[0],[x[1]]:x[1]};set('Which color comes next?',`${x[0]} ${x[1]} ${x[0]} ${x[1]} ❔`,x[0],[x[0],x[1]]);break;}
  case'symmetryArt':{const yes=r()>.5;set('Do the two halves match?',yes?'🦋  |  🦋':'🌙  |  ⭐',yes?'yes':'no',['yes','no']);break;}
- case'artCount':{const k=2+Math.floor(r()*5);set('How many shapes are in the picture?',countArt(pick(r,['🔺','🔵','🟨']),k),k,[k,Math.max(1,k-1),k+1]);break;}
+ case'artCount':{const k=2+Math.floor(r()*5);set('How many shapes are in the picture?',countArt(pick(r,['🔺','🔵','🟨']),k),k,[k,Math.max(1,k-1),k+1]);q.type='tapCount';q.target=k;break;}
  case'matchHome':{const homes=[['bird','nest','🐦  ➜  🪺'],['bee','hive','🐝  ➜  🍯'],['dog','kennel','🐶  ➜  🏠']],x=pick(r,homes);q.optionArt={nest:'🪺',hive:'🍯',kennel:'🏠'};set(`Where does the ${x[0]} live?`,x[2],x[1],[x[1],...homes.filter(y=>y!==x).map(y=>y[1])]);break;}
  case'completePicture':{const pics=[['wheel','🚗  +  ❔','door'],['petal','🌼  +  ❔','shoe'],['tail','🐟  +  ❔','hat']],x=pick(r,pics);q.optionArt={wheel:'⭕',petal:'🌸',tail:'〰️',door:'🚪',shoe:'👟',hat:'🎩'};set('Which part completes the picture?',x[1],x[0],[x[0],x[2]]);break;}
  case'insideOutside':{const inside=r()>.5;set(`Is the ball ${inside?'inside':'outside'} the box?`,inside?'📦⚽':'📦   ⚽',inside?'inside':'outside',['inside','outside']);break;}
