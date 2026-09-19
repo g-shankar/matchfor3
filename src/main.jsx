@@ -37,6 +37,9 @@ import {
 import {newKeepsakes,rewardWallet} from "./rewards.js";
 import {Celebration,BuddyBadge} from "./rewards-ui.jsx";
 import {EmailPreferences} from "./email-preferences.jsx";
+import {speakFriendly} from "./speech.js";
+import {PreschoolApp,ProfileChooser} from "./preschool-app.jsx";
+import {initialPreschool} from "./preschool-engine.js";
 import { useCloudProgress } from "./use-cloud-progress.js";
 const Icon = ({ name, ...props }) => {
   const I = { map: Map, heart: Heart, leaf: Leaf }[name] || Sparkles;
@@ -185,6 +188,7 @@ function Mascot() {
 }
 function App() {
   const [progress, setProgress] = useState(loadProgress),
+    [activeChild,setActiveChild]=useState(()=>localStorage.getItem("mathquest-active-child")||"shivani"),
     [celebration,setCelebration]=useState(null),
     [page, setPage] = useState("home"),
     [q, setQ] = useState(null),
@@ -232,6 +236,9 @@ function App() {
   useEffect(() => () => window.speechSynthesis?.cancel(), []);
   useEffect(()=>{if(!celebration)return;const timer=setTimeout(()=>setCelebration(null),7000);return()=>clearTimeout(timer);},[celebration]);
   useEffect(()=>{window.scrollTo({top:0,behavior:"instant"});},[page,q?.fingerprint]);
+  const switchChild=id=>{window.speechSynthesis?.cancel();localStorage.setItem("mathquest-active-child",id);setActiveChild(id);setPage("home");};
+  const setPreschool=update=>setProgress(p=>({...p,preschool:typeof update==="function"?update(p.preschool||initialPreschool()):update}));
+  if(activeChild==="pranav")return <PreschoolApp value={progress.preschool} onChange={setPreschool} onSwitch={switchChild} cloudStatus={cloudStatus}/>;
   const reset = (q) => {
     window.speechSynthesis?.cancel();
     setCelebration(null);
@@ -338,10 +345,7 @@ function App() {
   const navigate=(target)=>{if(page==="play")leave();window.speechSynthesis?.cancel();setPage(target);};
   const read = () => {
     if ("speechSynthesis" in window) {
-      window.speechSynthesis.cancel();
-      let u = new SpeechSynthesisUtterance(q.prompt);
-      u.rate = 0.85;
-      window.speechSynthesis.speak(u);
+      speakFriendly(q.prompt);
     }
   };
   const exportData = () => {
@@ -390,12 +394,7 @@ function App() {
             <BarChart3 size={17} /> Parent corner
           </button>
         </nav>
-        <div className="profile">
-          <span>S</span>
-          <div>
-            Shivani<small>Curious explorer</small>
-          </div>
-        </div>
+        <ProfileChooser active="shivani" onSwitch={switchChild}/>
       </header>
       <Celebration event={celebration} quiet={progress.rewards?.quiet===true} onClose={()=>setCelebration(null)}/>
       <main>

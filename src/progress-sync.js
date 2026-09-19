@@ -1,3 +1,4 @@
+import {mergePreschool} from "./preschool-engine.js";
 import {mergeRewards} from "./rewards.js";
 import { initialProgress,updateSkill } from "./engine.js";
 export function validProgress(p) {
@@ -41,6 +42,7 @@ export function mergeProgress(remote, local) {
   return {
     version: 1,
     rewards: mergeRewards(remote.rewards,local.rewards),
+    ...((remote.preschool || local.preschool) ? {preschool: mergePreschool(remote.preschool,local.preschool)} : {}),
     skills,
     seen: [...new Set([...remote.seen, ...local.seen])],
     attempts: [...updatedRemoteAttempts, ...added]

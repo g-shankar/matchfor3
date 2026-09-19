@@ -1,0 +1,3 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {voiceScore,preferredVoice} from '../src/speech.js';
+test('natural English voices are preferred over robotic and non-English voices',()=>{const voices=[{name:'Fred',lang:'en-US',localService:true},{name:'Thomas',lang:'fr-FR'},{name:'Ava Premium',lang:'en-US',localService:true},{name:'Basic English',lang:'en-US',default:true}];assert.equal(preferredVoice(voices.filter(v=>voiceScore(v)>-1000),null).name,'Ava Premium');assert.ok(voiceScore(voices[0])<0);assert.ok(voiceScore(voices[1])<0);});
+test('a parent-selected English voice wins when still installed',()=>{const voices=[{name:'Ava Premium',lang:'en-US'},{name:'Karen',lang:'en-AU'}];assert.equal(preferredVoice(voices,'Karen').name,'Karen');});

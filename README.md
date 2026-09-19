@@ -1,6 +1,6 @@
 # MathQuest
 
-A math-only, gentle learning playground for an eight-year-old. Six open worlds cover 50 skills in shapes, area and perimeter, fractions, multiplication and division, number sense, and measurement. The first four worlds remain the main practice focus. React + Vite; deploys as a static site to Firebase Hosting. No paid API or live AI generation is needed.
+A gentle family learning playground with separate profiles: an adaptive math world for eight-year-old Shivani and short preschool play for Pranav, who is turning four. Six open worlds cover 50 skills in shapes, area and perimeter, fractions, multiplication and division, number sense, and measurement. The first four worlds remain the main practice focus. React + Vite; deploys as a static site to Firebase Hosting. No paid API or live AI generation is needed.
 
 ## Run
 
@@ -33,6 +33,10 @@ Firebase Hosting serves the `dist` directory with a single-page fallback, follow
 - Two random reflection stops per adventure ask her to explain her thinking in a short text box; several retries also trigger a reflection. Next remains disabled until she shares a few words or a math sentence. The worked explanation is shown after sharing so it cannot simply be copied. Writing is not graded, and finishing for now remains available. The latest six explanations appear in Parent corner and are included in browser/cloud backups and exports.
 - A mistake opens a visual clue and allows unlimited retries. Clues and retries never deduct rewards. The parent corner distinguishes independent, supported, and skipped work.
 - A school report informed the initial focus areas. The report and its assessment scores are not stored in the app or repository. Reference-document recommendations were treated as design input, not as authorization to act.
+
+## Child profiles
+
+Use the child selector in the header to switch profiles. Shivani’s existing 50-skill math progress remains at the top level for backward compatibility. Pranav’s separate `preschool` record includes 30 early-learning skills across counting, shapes and colors, patterns, sorting, sound play, and everyday sequencing. His visits contain four large, visual activities with optional text-to-speech, gentle retries, stars, and a separate toy shelf. His Parent view uses age-appropriate language and does not treat inconsistent preschool answers as an assessment. Both profiles share the same private browser/Firestore backup but never share attempts, adaptive evidence, sessions, or rewards. The selected child is remembered only on the current browser.
 
 ## Saved progress and limitations
 
