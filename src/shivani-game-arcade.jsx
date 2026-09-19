@@ -1,12 +1,12 @@
 import React,{useMemo,useState} from 'react';
 import {ArrowLeft,RefreshCw,Sparkles,Shuffle} from 'lucide-react';
+import {ding} from './chime.js';
 import {makeMathTrail,trailModes} from './math-trails-engine.js';
 
 const descriptions={count:'Find every number in counting order.',skip:'Hop by 2s, 3s, 5s, or 10s.',times:'Follow one multiplication table.',fractions:'Move from smaller parts toward one whole.',money:'Follow the coin totals in order.',time:'Follow the clocks fifteen minutes at a time.'};
 const prizes={count:['☁️','Cloud Crown'],skip:['👑','Lily-Pad Legend'],times:['🦋','Garden Genius'],fractions:['🌺','Fraction Flower'],money:['💰','Treasure Finder'],time:['🌈','Rainbow Rescuer']};
 const cheers=['Nice move!','Great spotting!','Path power!','You found it!','Brilliant!','Keep going!'];
 const randomMode=except=>{const ids=Object.keys(trailModes).filter(x=>x!==except);return ids[Math.floor(Math.random()*ids.length)];};
-function ding(big=false){try{const C=window.AudioContext||window.webkitAudioContext,c=new C(),o=c.createOscillator(),g=c.createGain();o.type='sine';o.frequency.setValueAtTime(big?523:440,c.currentTime);o.frequency.exponentialRampToValueAtTime(big?1046:660,c.currentTime+.16);g.gain.setValueAtTime(.055,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.22);o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+.23);}catch{}}
 
 function ArcadeMenu({onChoose,onHome,onRunner}){return <section className="arcade-page"><button className="text-button" onClick={onHome}><ArrowLeft/> Adventures</button><div className="arcade-hero"><span>🎪</span><div><div className="eyebrow">SHIVANI’S MATH GAMES</div><h1>Pick a playful trail</h1><p>Every board changes. Follow the hidden math path from one friend to another.</p></div><div className="arcade-hero-actions"><button className="primary" onClick={()=>onChoose(randomMode())}><Shuffle/> Surprise me!</button><button className="secondary" onClick={onRunner}>🦊 Maze Runner</button></div></div><div className="arcade-grid">{Object.entries(trailModes).map(([id,x],i)=><button key={id} className={`arcade-card game-${i+1}`} onClick={()=>onChoose(id)}><span>{x.start}</span><i>{x.icon}</i><div><h2>{x.name}</h2><p>{descriptions[id]}</p><b>PLAY ▶</b></div><em>{x.goal}</em></button>)}</div><div className="arcade-note"><Sparkles/><p>Six game families create unlimited fresh boards. There are no timers and mistakes never remove points.</p></div></section>}
 
