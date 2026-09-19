@@ -15,6 +15,7 @@ import {
   Flag,
   Download,
   Gamepad2,
+  Dices,
 } from "lucide-react";
 import {
   worlds,
@@ -46,6 +47,7 @@ import {PreschoolApp,ProfileChooser} from "./preschool-app.jsx";
 import {initialPreschool} from "./preschool-engine.js";
 import { useCloudProgress } from "./use-cloud-progress.js";
 import {ShivaniMazeRunner} from './shivani-maze-runner.jsx';
+import {ShivaniGameArcade} from './shivani-game-arcade.jsx';
 const Icon = ({ name, ...props }) => {
   const I = { map: Map, heart: Heart, leaf: Leaf }[name] || Sparkles;
   return <I {...props} />;
@@ -392,6 +394,7 @@ function App() {
           </button>
           <button className={page==='workshop'?'active':''} onClick={()=>{navigate('workshop');}}><Lightbulb size={17}/> Workshop</button>
           <button className={page==='runner'?'active':''} onClick={()=>navigate('runner')}><Gamepad2 size={17}/> Maze Runner</button>
+          <button className={page==='games'?'active':''} onClick={()=>navigate('games')}><Dices size={17}/> Math Games</button>
           <button className={page==='collection'?'active':''} onClick={()=>{navigate('collection');}}><Sparkles size={17}/> My keepsakes</button>
           <button
             className={page === "parent" ? "active" : ""}
@@ -426,7 +429,8 @@ function App() {
         )}
         {page==='trail'&&<SkillTrail worldId={trailWorld} progress={progress} onStart={start} onHome={()=>setPage('home')}/>}
         {page==='workshop'&&<Workshop onHome={()=>setPage('home')} onStart={start}/>}
-        {page==='runner'&&<ShivaniMazeRunner onHome={()=>setPage('home')} onGames={()=>setPage('workshop')} onCelebrate={setCelebration} onSave={result=>setProgress(p=>({...p,sessions:[...p.sessions,{date:Date.now(),duration:result.duration,count:result.gates,worldId:'mazeRunner',skillId:result.level,goal:result.gates,completed:true}].slice(-365)}))}/>}
+        {page==='runner'&&<ShivaniMazeRunner onHome={()=>setPage('home')} onGames={()=>setPage('games')} onCelebrate={setCelebration} onSave={result=>setProgress(p=>({...p,sessions:[...p.sessions,{date:Date.now(),duration:result.duration,count:result.gates,worldId:'mazeRunner',skillId:result.level,goal:result.gates,completed:true}].slice(-365)}))}/>}
+        {page==='games'&&<ShivaniGameArcade onHome={()=>setPage('home')} onRunner={()=>setPage('runner')} onSave={result=>setProgress(p=>({...p,sessions:[...p.sessions,{date:Date.now(),duration:result.duration,count:8,worldId:'mathGames',skillId:result.mode,goal:8,completed:true}].slice(-365)}))}/>}
         {page==='collection'&&<Collection progress={progress} onChange={setProgress} onHome={()=>setPage('home')}/>}
         {page === "home" && (
           <>
@@ -523,7 +527,7 @@ function App() {
                 })}
               </div>
             </section>
-            <section className="home-extras"><button className="runner-home-card" onClick={()=>setPage('runner')}><span>🦊</span><div><h3>Maze Runner</h3><p>Explore endless mazes, collect gems, and unlock math gates.</p></div><ArrowRight size={19}/></button><button onClick={()=>setPage('workshop')}><span>🛠️</span><div><h3>Make a discovery of your own</h3><p>Build a garden, paint equal parts, split an array, or move a clock.</p></div><ArrowRight size={19}/></button><button onClick={()=>setPage('collection')}><span>📔</span><div><h3>Your little wonder collection</h3><p>{stickerCollection(progress).filter(s=>s.earned).length} keepsakes from ideas you explored. Take a peek.</p></div><ArrowRight size={19}/></button></section>
+            <section className="home-extras"><button className="runner-home-card" onClick={()=>setPage('runner')}><span>🦊</span><div><h3>Maze Runner</h3><p>Explore endless mazes, collect gems, and unlock math gates.</p></div><ArrowRight size={19}/></button><button className="arcade-home-card" onClick={()=>setPage('games')}><span>🎪</span><div><h3>Math Games Arcade</h3><p>Counting clouds, lily-pad hops, fraction flowers, coins, clocks, and more.</p></div><ArrowRight size={19}/></button><button onClick={()=>setPage('workshop')}><span>🛠️</span><div><h3>Make a discovery of your own</h3><p>Build a garden, paint equal parts, split an array, or move a clock.</p></div><ArrowRight size={19}/></button><button onClick={()=>setPage('collection')}><span>📔</span><div><h3>Your little wonder collection</h3><p>{stickerCollection(progress).filter(s=>s.earned).length} keepsakes from ideas you explored. Take a peek.</p></div><ArrowRight size={19}/></button></section>
             <section className="bottom-note">
               <span className="note-flower">✿</span>
               <div>
