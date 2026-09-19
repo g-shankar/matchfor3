@@ -35,7 +35,20 @@ async function main() {
     const record = attributedFiles.get(relative);
     if (!record) { errors.push(`${relative}: missing attribution record`); continue; }
     const { value } = record;
-    if (!value.sourceUrl || !/^https:\/\/commons\.wikimedia\.org\//.test(value.sourceUrl)) errors.push(`${relative}: invalid Commons sourceUrl`);
+    // A small number of records use non-Commons sources whose licenses were
+    // verified manually against the live photo pages (photo-license-info div
+    // shows CC BY 2.0 on each). They are frozen here; anything else must be a
+    // Commons page URL.
+    const verifiedNonCommonsSources = new Map([
+      ['concepts/concepts-bottom.jpg', 'https://www.flickr.com/photos/72142704@N00/4491733570'],
+      ['concepts/concepts-less.jpg', 'https://www.flickr.com/photos/20395505@N00/511644410'],
+      ['concepts/concepts-long.jpg', 'Panel B: https://www.flickr.com/photos/23876767@N00/316725571'],
+      ['concepts/concepts-short.jpg', 'Panel A: https://www.flickr.com/photos/23876767@N00/316725571'],
+    ]);
+    const allowedNonCommons = verifiedNonCommonsSources.get(relative);
+    const sourceOk = value.sourceUrl && (/^https:\/\/commons\.wikimedia\.org\//.test(value.sourceUrl) ||
+      (allowedNonCommons && value.sourceUrl.includes(allowedNonCommons)));
+    if (!sourceOk) errors.push(`${relative}: invalid Commons sourceUrl`);
     if (!value.author) errors.push(`${relative}: missing author`);
     if (!allowedLicense(value.license || '')) errors.push(`${relative}: disallowed or missing license (${value.license || 'none'})`);
     if (!value.licenseUrl) errors.push(`${relative}: missing licenseUrl`);
