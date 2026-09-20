@@ -395,7 +395,7 @@ function App() {
   const navigate=(target)=>{if(page==="play")leave();window.speechSynthesis?.cancel();setPage(target);};
   const read = () => {
     if ("speechSynthesis" in window) {
-      speakFriendly(q.prompt);
+      speakFriendly(q.prompt,{voiceName:'recorded:flo'});
     }
   };
   const exportData = () => {
