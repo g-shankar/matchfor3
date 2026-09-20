@@ -26,6 +26,91 @@ const q = (rng, prompt, answer, choices, kind, line = null, hint = '') => ({
   hint,
 });
 
+/* ---------- tick generation (shared by the SVG renderer) ----------
+ * Ticks snap to multiples of `step`; labeled ("major") ticks snap to
+ * multiples of `majorEvery` (default: step). Every major tick is labeled
+ * with its exact integer value — the old renderer only labeled a tick when
+ * min happened to be a multiple of the step, leaving whole axes bare.
+ * Wide ranges adapt: the major spacing grows through nice multiples of
+ * step until at most MAX_MAJOR_LABELS labels remain. */
+export const MAX_MAJOR_LABELS = 12;
+
+const NICE_MULTS = [1, 2, 2.5, 5];
+
+/** Smallest "nice" number >= x (1/2/2.5/5 × power of 10). */
+export function niceCeil(x) {
+  if (!(x > 0)) return 1;
+  const p = 10 ** Math.floor(Math.log10(x));
+  for (const m of NICE_MULTS) {
+    if (m * p >= x * (1 - 1e-9)) return m * p;
+  }
+  return 10 * p;
+}
+
+function nextNiceMult(k) {
+  if (!(k > 0)) return 1;
+  const p = 10 ** Math.floor(Math.log10(k));
+  for (const m of NICE_MULTS) {
+    if (m * p > k * (1 + 1e-9)) return m * p;
+  }
+  return 10 * p;
+}
+
+const snapTick = v => {
+  const s = Math.round(v * 1e6) / 1e6;
+  return s === 0 ? 0 : s; // normalize -0
+};
+
+/** Returns { ticks: [{ v, label, major }], majorEvery } for a line spec. */
+export function tickMarksFor(spec) {
+  const step = spec.step > 0 ? spec.step : 1;
+  let majorEvery = spec.majorEvery || step;
+  if (!(majorEvery > 0)) majorEvery = step;
+  // keep majors aligned to the minor grid
+  majorEvery = step * Math.max(1, Math.round(majorEvery / step));
+  const span = spec.max - spec.min;
+  let guard = 0;
+  while (span / majorEvery > MAX_MAJOR_LABELS + 1e-9 && guard < 24) {
+    majorEvery = step * nextNiceMult(majorEvery / step);
+    guard += 1;
+  }
+  const majors = [];
+  for (let v = Math.ceil(spec.min / majorEvery - 1e-9) * majorEvery;
+    v <= spec.max + 1e-9; v += majorEvery) {
+    majors.push(snapTick(v));
+  }
+  const majorSet = new Set(majors);
+  const ticks = [];
+  for (let v = Math.ceil(spec.min / step - 1e-9) * step;
+    v <= spec.max + 1e-9; v += step) {
+    const sv = snapTick(v);
+    ticks.push({ v: sv, label: String(sv), major: majorSet.has(sv) });
+  }
+  // never draw a forest of minor ticks on dense lines
+  const dense = ticks.length - majors.length > 120;
+  return { ticks: dense ? ticks.filter(t => t.major) : ticks, majorEvery };
+}
+
+/* Assign mark/candidate labels to vertical rows so neighbors closer than one
+ * label-width don't collide. xs must be sorted ascending; returns a row
+ * index per entry (0 = default row). */
+export function markLabelRows(xs, widths, gap = 6) {
+  const rows = new Array(xs.length).fill(0);
+  const placed = [];
+  xs.forEach((x, i) => {
+    let row = 0;
+    for (;;) {
+      const clash = placed.some(p =>
+        p.row === row && Math.abs(p.x - x) < (p.w + widths[i]) / 2 + gap);
+      if (!clash) break;
+      row += 1;
+    }
+    rows[i] = row;
+    placed.push({ x, w: widths[i], row });
+  });
+  return rows;
+}
+
 export const ISLANDS = [
   {
     id: 'rounding', name: 'Rounding Reef', icon: '⚓', tag: 'Round to the nearest ten or hundred',
@@ -183,22 +268,24 @@ function addQs(rng) {
     if (i === 0) {
       // strategy check: where does the FIRST jump land?
       const first = Math.ceil(a / 10) * 10;
-      return q(rng, 
+      const second = first + 10;
+      return q(rng,
         `What does the first jump from ${a} land on?`, first, [first, a + 10, sum], 'jumps',
         {
           min: lo, max: sum + 10, step: 5,
           marks: [{ value: a, label: String(a) }],
-          jumps: [[a, first, ''], [first, first + 10, ''], [first + 10, sum, '']],
+          jumps: [[a, first, `+${first - a}`], [first, second, `+${second - first}`], [second, sum, `+${sum - second}`]],
         },
         'Jump to the nearest ten first!',
       );
     }
-    return q(rng, 
+    const first = Math.ceil(a / 10) * 10;
+    return q(rng,
       `What is ${a} + ${b}?`, sum, [sum, sum - 10, sum + 10], 'jumps',
       {
         min: lo, max: sum + 10, step: 5,
         marks: [{ value: a, label: String(a) }],
-        jumps: [[a, Math.ceil(a / 10) * 10, ''], [Math.ceil(a / 10) * 10, sum, '']],
+        jumps: [[a, first, `+${first - a}`], [first, sum, `+${sum - first}`]],
       },
     );
   });
@@ -208,12 +295,13 @@ function subQs(rng) {
   const pairs = [[74, 38], [52, 25], [86, 49], [63, 27], [91, 56]];
   return shuffle(pairs, rng).map(([a, b]) => {
     const d = a - b;
-    return q(rng, 
+    const up = b + 10;
+    return q(rng,
       `What is ${a} − ${b}?`, d, [d, d + 10, d - 10], 'jumps',
       {
         min: b - 5, max: a + 5, step: 5,
         marks: [{ value: b, label: String(b) }],
-        jumps: [[b, b + 10, ''], [b + 10, a, '']],
+        jumps: [[b, up, `+${up - b}`], [up, a, `+${a - up}`]],
       },
     );
   });
@@ -296,10 +384,15 @@ function compareQs(rng) {
     const ans = a > b ? '>' : a < b ? '<' : '=';
     const min = Math.max(0, Math.floor((Math.min(a, b) - 50) / 50) * 50);
     const max = Math.min(1000, Math.ceil((Math.max(a, b) + 50) / 50) * 50);
-    const lineSpec = i % 2 === 0
-      ? { min, max, step: Math.max(10, (max - min) / 5), marks: [{ value: a, label: String(a) }, { value: b, label: String(b) }] }
-      : null;
-    return q(rng, 
+    // every question gets a line (odd ones used to render nothing); the step
+    // snaps to a nice number so ticks land on clean, labelable values.
+    const lineSpec = {
+      min,
+      max,
+      step: niceCeil(Math.max(10, (max - min) / 5)),
+      marks: [{ value: a, label: String(a) }, { value: b, label: String(b) }],
+    };
+    return q(rng,
       i % 2 ? `Which symbol makes this true: ${a} __ ${b}?` : `Compare ${a} and ${b}.`,
       ans, ['>', '<', '='], 'compare', lineSpec,
     );

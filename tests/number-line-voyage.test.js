@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { ISLANDS, islandById, makeQuestions, PRAISE } from '../src/number-line-voyage-engine.js';
+import { ISLANDS, islandById, makeQuestions, PRAISE, tickMarksFor, markLabelRows, niceCeil } from '../src/number-line-voyage-engine.js';
 
 const seeded = seed => () => ((seed = Math.imul(seed, 1664525) + 1013904223 >>> 0) / 4294967296);
 
@@ -192,4 +192,110 @@ test('praise pool is non-empty and pirate island cheers like a pirate', () => {
 
 test('unknown island id throws', () => {
   assert.throws(() => makeQuestions('atlantis'), /Unknown island/);
+});
+
+test('tickMarksFor: subtraction-style axes label every multiple of the step', () => {
+  // min=44 is not a multiple of 5 — the old 1e-9 test labeled zero ticks
+  const { ticks } = tickMarksFor({ min: 44, max: 91, step: 5 });
+  const majors = ticks.filter(t => t.major);
+  assert.ok(majors.length >= 8, `labeled ticks, got ${majors.length}`);
+  for (const m of majors) {
+    assert.ok(Number.isInteger(m.v), `integer tick ${m.v}`);
+    assert.equal(m.v % 5, 0, `multiple of step: ${m.v}`);
+    assert.equal(m.label, String(m.v), 'clean integer label');
+  }
+  assert.ok(majors.some(m => m.v === 60), '60 is labeled');
+  assert.ok(majors.some(m => m.v === 45), 'first tick 45 is labeled');
+});
+
+test('tickMarksFor: addition first-jump landings sit on labeled ticks', () => {
+  const t1 = tickMarksFor({ min: 40, max: 81, step: 5 });
+  assert.ok(t1.ticks.some(t => t.major && t.v === 50), '43+28: 50 labeled');
+  const t3 = tickMarksFor({ min: 40, max: 94, step: 5 });
+  assert.ok(t3.ticks.some(t => t.major && t.v === 50), '48+36: 50 labeled');
+  assert.ok(t3.ticks.some(t => t.major && t.v === 85), '48+36: 85 labeled');
+});
+
+test('tickMarksFor: plot 0–1000 keeps every hundred labeled', () => {
+  const { ticks } = tickMarksFor({ min: 0, max: 1000, step: 50, majorEvery: 100 });
+  const majors = ticks.filter(t => t.major).map(t => t.v);
+  assert.deepEqual(majors, [0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]);
+});
+
+test('tickMarksFor: adaptive density caps labels on wide ranges', () => {
+  const { ticks, majorEvery } = tickMarksFor({ min: 0, max: 10000, step: 50, majorEvery: 100 });
+  const majors = ticks.filter(t => t.major);
+  assert.ok(majors.length <= 12, `got ${majors.length} labels`);
+  assert.ok(majors.length >= 2, 'still has labels');
+  assert.ok(majorEvery % 50 === 0, 'major spacing stays on the minor grid');
+  for (const m of majors) assert.ok(Number.isInteger(m.v), `integer ${m.v}`);
+});
+
+test('tickMarksFor: no decimal labels ever leak through', () => {
+  const { ticks } = tickMarksFor({ min: 33, max: 79, step: 5 });
+  for (const t of ticks.filter(x => x.major)) {
+    assert.match(t.label, /^-?\d+$/, `clean label: ${t.label}`);
+  }
+});
+
+test('niceCeil snaps compare steps to friendly numbers', () => {
+  assert.equal(niceCeil(30), 50);
+  assert.equal(niceCeil(80), 100);
+  assert.equal(niceCeil(70), 100);
+  assert.equal(niceCeil(10), 10);
+});
+
+test('markLabelRows: coincident labels stagger, separated ones share a row', () => {
+  assert.notDeepEqual(markLabelRows([100, 100], [40, 40]), [0, 0]);
+  assert.deepEqual(markLabelRows([100, 300], [40, 40]), [0, 0]);
+  // three in a pile cascade to three rows
+  assert.deepEqual(markLabelRows([50, 52, 54], [40, 40, 40]), [0, 1, 2]);
+});
+
+test('quiz jumps carry the +N labels the demo teaches', () => {
+  for (const isl of ['addition', 'subtraction']) {
+    for (let seed = 1; seed <= 25; seed += 1) {
+      for (const qq of makeQuestions(isl, seeded(seed))) {
+        for (const [a, b, label] of qq.line.jumps) {
+          assert.equal(label, `+${b - a}`, `${isl}: ${qq.prompt} jump ${a}→${b}`);
+        }
+      }
+    }
+  }
+});
+
+test('compare: every question now renders a labeled number line', () => {
+  for (let seed = 1; seed <= 30; seed += 1) {
+    for (const qq of makeQuestions('compare', seeded(seed))) {
+      assert.ok(qq.line, `line present: ${qq.prompt}`);
+      assert.ok(qq.line.min < qq.line.max && qq.line.step > 0, `sane spec: ${qq.prompt}`);
+      const { ticks } = tickMarksFor(qq.line);
+      const majors = ticks.filter(t => t.major);
+      assert.ok(majors.length >= 2, `labeled ticks: ${qq.prompt}`);
+      for (const m of majors) {
+        assert.ok(Number.isInteger(m.v), `integer tick ${m.v}: ${qq.prompt}`);
+      }
+      // both compared numbers sit inside the axis
+      for (const mk of qq.line.marks) {
+        assert.ok(mk.value >= qq.line.min && mk.value <= qq.line.max, `mark in bounds: ${qq.prompt}`);
+      }
+    }
+  }
+});
+
+test('every generated number line has labeled, integer tick labels', () => {
+  const lineKinds = new Set(['line', 'jumps', 'candidates', 'compare']);
+  for (const isl of ISLANDS) {
+    for (let seed = 1; seed <= 30; seed += 1) {
+      for (const qq of makeQuestions(isl.id, seeded(seed))) {
+        if (!lineKinds.has(qq.kind) || !qq.line || qq.line.min == null) continue;
+        const { ticks } = tickMarksFor(qq.line);
+        const majors = ticks.filter(t => t.major);
+        assert.ok(majors.length >= 2, `${isl.id}: ${qq.prompt} has labeled ticks`);
+        for (const m of majors) {
+          assert.ok(Number.isInteger(m.v), `${isl.id}: ${qq.prompt} tick ${m.v} is integer`);
+        }
+      }
+    }
+  }
 });

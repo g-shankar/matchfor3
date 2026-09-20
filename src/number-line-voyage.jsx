@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useId, useRef, useState } from 'react';
 import { ArrowLeft, Play, RotateCcw, Waves } from 'lucide-react';
 import { ding } from './chime.js';
 import { prefersReducedMotion } from './three-fx/three-lazy.js';
-import { ISLANDS, islandById, makeQuestions, PRAISE } from './number-line-voyage-engine.js';
+import { ISLANDS, islandById, makeQuestions, PRAISE, tickMarksFor, markLabelRows } from './number-line-voyage-engine.js';
 import Confetti3D from './three-fx/Confetti3D.jsx';
 import Star3D from './three-fx/Star3D.jsx';
 
@@ -11,8 +11,10 @@ import Star3D from './three-fx/Star3D.jsx';
  * Quiz visuals pass stage={Infinity} to show the finished line. */
 function NumberLineSVG({ spec, stage = Infinity }) {
   const W = 760, H = 196, L = 48, R = 712, Y = 112;
+  const uid = useId().replace(/[^a-zA-Z0-9]/g, '');
+  const markerId = `nlv-arr-${uid}`;
+  const wrapRef = useRef(null);
   const x = v => L + ((v - spec.min) / (spec.max - spec.min)) * (R - L);
-  const majorEvery = spec.majorEvery || spec.step;
   const layers = ['bounds'];
   if (spec.mid != null) layers.push('mid');
   layers.push('marks');
@@ -21,75 +23,148 @@ function NumberLineSVG({ spec, stage = Infinity }) {
   const showMid = shown.has('mid'), showMarks = shown.has('marks');
   const jumpCount = [...shown].filter(l => l[0] === 'j').length;
 
-  const n = Math.max(1, Math.round((spec.max - spec.min) / spec.step));
-  const ticks = [];
-  for (let i = 0; i <= n; i += 1) {
-    const v = spec.min + (i * (spec.max - spec.min)) / n;
-    const major = Math.abs(v / majorEvery - Math.round(v / majorEvery)) < 1e-9;
-    const label = Number.isInteger(v) ? String(v) : v.toFixed(1);
-    ticks.push(
-      <g key={i}>
-        <line x1={x(v)} y1={Y - (major ? 14 : 8)} x2={x(v)} y2={Y + (major ? 14 : 8)}
-          stroke="#4b6157" strokeWidth={major ? 3 : 2} />
-        {major && (
-          <text x={x(v)} y={Y + 40} textAnchor="middle" fontSize={16} fontWeight={700} fill="#4b6157">{label}</text>
-        )}
-      </g>,
+  // On phones the line is wider than the screen (horizontal scroll). Keep the
+  // action in view: scroll the wrap so the shown marks / jump landings / mid
+  // are centered instead of leaving them off-screen to the right.
+  useEffect(() => {
+    const wrap = wrapRef.current;
+    if (!wrap) return;
+    const focus = [];
+    if (showMid && spec.mid != null) focus.push(spec.mid);
+    if (showMarks) (spec.marks || []).forEach(m => focus.push(m.value));
+    (spec.jumps || []).slice(0, jumpCount).forEach(jm => { focus.push(jm[0]); focus.push(jm[1]); });
+    (spec.candidates || []).forEach(c => focus.push(c.value));
+    const scrollW = wrap.scrollWidth - wrap.clientWidth;
+    if (scrollW <= 0) return;
+    // With nothing to focus on (bounds-only lines), start at the left edge so
+    // the axis minimum is always visible. Otherwise center the focus span.
+    const left = focus.length
+      ? (() => {
+        const midVal = (Math.min(...focus) + Math.max(...focus)) / 2;
+        const scale = wrap.scrollWidth / W;
+        return Math.max(0, Math.min(scrollW, x(midVal) * scale - wrap.clientWidth / 2));
+      })()
+      : 0;
+    wrap.scrollTo({ left, behavior: 'auto' });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [spec, stage, spec.min, spec.max, showMid, showMarks, jumpCount]);
+
+  // Ticks snap to multiples of step; every major tick is labeled (see engine).
+  const { ticks } = tickMarksFor(spec);
+  const tickEls = ticks.map((t, i) => (
+    <g key={i}>
+      <line x1={x(t.v)} y1={Y - (t.major ? 14 : 8)} x2={x(t.v)} y2={Y + (t.major ? 14 : 8)}
+        stroke="#4b6157" strokeWidth={t.major ? 3 : 2} />
+      {t.major && (
+        <text x={x(t.v)} y={Y + 40} textAnchor="middle" fontSize={19} fontWeight={700} fill="#4b6157">{t.label}</text>
+      )}
+    </g>
+  ));
+
+  // Midpoint bar: when a mark dot sits almost on top of it (e.g. rounding 548
+  // vs the 550 mid bar), draw the bar on top of the dot with a white halo so
+  // the dot no longer swallows it.
+  const midX = spec.mid != null ? x(spec.mid) : null;
+  const midHitsMark = showMid && showMarks && midX != null
+    && (spec.marks || []).some(m => Math.abs(x(m.value) - midX) < 15);
+  const midGroup = showMid && spec.mid != null && (
+    <g>
+      {midHitsMark && (
+        <line x1={midX} y1={Y - 20} x2={midX} y2={Y + 20} stroke="#ffffff" strokeWidth={12} />
+      )}
+      <line x1={midX} y1={Y - 20} x2={midX} y2={Y + 20} stroke="#cc3b37" strokeWidth={5} />
+      <text x={midX} y={Y + 62} textAnchor="middle" fontSize={20} fontWeight={900} fill="#cc3b37">{spec.mid}</text>
+    </g>
+  );
+
+  // Stagger mark labels that would otherwise collide (e.g. compare 444/444).
+  const marks = spec.marks || [];
+  const markOrder = marks.map((_, i) => i).sort((a, b) => x(marks[a].value) - x(marks[b].value));
+  const markRows = {};
+  if (markOrder.length > 1) {
+    const rows = markLabelRows(
+      markOrder.map(i => x(marks[i].value)),
+      markOrder.map(i => String(marks[i].label).length * 20 * 0.62),
     );
+    markOrder.forEach((mi, k) => { markRows[mi] = Math.min(rows[k], 2); });
+  }
+
+  // Stagger plot candidate letters that sit too close together.
+  const cands = spec.candidates || [];
+  const candOrder = cands.map((_, i) => i).sort((a, b) => x(cands[a].value) - x(cands[b].value));
+  const candRows = {};
+  if (candOrder.length > 1) {
+    const rows = markLabelRows(
+      candOrder.map(i => x(cands[i].value)),
+      candOrder.map(i => String(cands[i].label).length * 20 * 0.62),
+      8,
+    );
+    candOrder.forEach((ci, k) => { candRows[ci] = Math.min(rows[k], 2); });
   }
 
   return (
+    <div className="nlv-line-wrap" ref={wrapRef}>
     <svg className="nlv-line" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`Number line from ${spec.min} to ${spec.max}`}>
       <defs>
-        <marker id="nlv-arr" markerWidth="9" markerHeight="9" refX="4.5" refY="4.5" orient="auto">
+        <marker id={markerId} markerWidth="9" markerHeight="9" refX="4.5" refY="4.5" orient="auto">
           <path d="M0 0L9 4.5L0 9z" fill="#4b6157" />
         </marker>
       </defs>
       <line x1={L - 14} y1={Y} x2={R + 14} y2={Y} stroke="#4b6157" strokeWidth={4}
-        markerStart="url(#nlv-arr)" markerEnd="url(#nlv-arr)" />
-      {ticks}
-      {showMid && spec.mid != null && (
-        <g>
-          <line x1={x(spec.mid)} y1={Y - 20} x2={x(spec.mid)} y2={Y + 20} stroke="#cc3b37" strokeWidth={5} />
-          <text x={x(spec.mid)} y={Y + 62} textAnchor="middle" fontSize={17} fontWeight={900} fill="#cc3b37">{spec.mid}</text>
-        </g>
-      )}
-      {showMarks && (spec.marks || []).map((m, i) => (
-        m.star ? (
+        markerStart={`url(#${markerId})`} markerEnd={`url(#${markerId})`} />
+      {tickEls}
+      {!midHitsMark && midGroup}
+      {showMarks && marks.map((m, i) => {
+        const r = markRows[i] || 0;
+        return m.star ? (
           <g key={i}>
             <text x={x(m.value)} y={Y - 30} textAnchor="middle" fontSize={30}>⭐</text>
-            <text x={x(m.value)} y={Y - 58} textAnchor="middle" fontSize={18} fontWeight={900} fill="#8a5a00">{m.label}</text>
+            <text x={x(m.value)} y={Y - 58 - r * 26} textAnchor="middle" fontSize={21} fontWeight={900} fill="#8a5a00"
+              stroke="#ffffff" strokeWidth={5} paintOrder="stroke">{m.label}</text>
           </g>
         ) : (
           <g key={i}>
             <circle cx={x(m.value)} cy={Y} r={9} fill="#cc3b37" stroke="#fff" strokeWidth={3} />
-            <text x={x(m.value)} y={Y - 20} textAnchor="middle" fontSize={17} fontWeight={900} fill="#8f2422">{m.label}</text>
+            <text x={x(m.value)} y={Y - 20 - r * 26} textAnchor="middle" fontSize={20} fontWeight={900} fill="#8f2422"
+              stroke="#ffffff" strokeWidth={5} paintOrder="stroke">{m.label}</text>
           </g>
-        )
-      ))}
-      {(spec.candidates || []).map((c, i) => (
-        <g key={i}>
-          <text x={x(c.value)} y={Y - 26} textAnchor="middle" fontSize={26} fill="#d9a441">★</text>
-          <text x={x(c.value)} y={Y - 54} textAnchor="middle" fontSize={17} fontWeight={900} fill="#0e2a47">{c.label}</text>
-        </g>
-      ))}
+        );
+      })}
+      {midHitsMark && midGroup}
+      {cands.map((c, i) => {
+        const r = candRows[i] || 0;
+        return (
+          <g key={i}>
+            <text x={x(c.value)} y={Y - 26} textAnchor="middle" fontSize={26} fill="#d9a441">★</text>
+            <text x={x(c.value)} y={Y - 54 - r * 26} textAnchor="middle" fontSize={20} fontWeight={900} fill="#0e2a47"
+              stroke="#ffffff" strokeWidth={5} paintOrder="stroke">{c.label}</text>
+          </g>
+        );
+      })}
       {(spec.jumps || []).slice(0, jumpCount).map((jm, i) => {
         const [a, b, label] = jm;
         const xa = x(a), xb = x(b);
-        const peak = Math.min(64, Math.abs(xb - xa) * 0.32 + 22);
+        const spanPx = Math.abs(xb - xa);
+        // tiny hops (e.g. 48→50) get a tall narrow arc so they clear the
+        // mark labels instead of tangling with them
+        const peak = spanPx < 48
+          ? Math.max(54, Math.min(64, spanPx * 0.32 + 22))
+          : Math.min(64, spanPx * 0.32 + 22);
         return (
           <g key={i}>
             <path d={`M${xa},${Y - 10} Q${(xa + xb) / 2},${Y - peak} ${xb},${Y - 10}`}
               fill="none" stroke="#2d91c7" strokeWidth={4} strokeDasharray="7 6" />
             {label ? (
               <text x={(xa + xb) / 2} y={Y - peak / 2 - 16} textAnchor="middle"
-                fontSize={18} fontWeight={900} fill="#1687a7">{label}</text>
+                fontSize={21} fontWeight={900} fill="#1687a7"
+                stroke="#ffffff" strokeWidth={5} paintOrder="stroke">{label}</text>
             ) : null}
             <circle cx={xb} cy={Y} r={9} fill="#cc3b37" stroke="#fff" strokeWidth={3} />
           </g>
         );
       })}
     </svg>
+    </div>
   );
 }
 
