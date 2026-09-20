@@ -471,7 +471,7 @@ function App() {
         {page==='trail'&&<SkillTrail worldId={trailWorld} progress={progress} onStart={start} onHome={()=>setPage('home')}/>}
         {page==='workshop'&&<Workshop onHome={()=>setPage('home')} onStart={start}/>}
         {page==='runner'&&<ShivaniMazeRunner onHome={()=>setPage('home')} onGames={()=>setPage('games')} onCelebrate={setCelebration} onSave={result=>setProgress(p=>({...p,sessions:[...p.sessions,{date:Date.now(),duration:result.duration,count:result.gates,worldId:'mazeRunner',skillId:result.level,goal:result.gates,completed:true}].slice(-365)}))}/>}
-        {page==='games'&&<ShivaniGameArcade onHome={()=>setPage('home')} onRunner={()=>setPage('runner')} onSave={result=>setProgress(p=>({...p,sessions:[...p.sessions,{date:Date.now(),duration:result.duration,count:8,worldId:'mathGames',skillId:result.mode,goal:8,completed:true}].slice(-365)}))}/>}
+        {page==='games'&&<ShivaniGameArcade onHome={()=>setPage('home')} onRunner={()=>setPage('runner')} onSave={result=>setProgress(p=>({...p,sessions:[...p.sessions,{date:Date.now(),duration:result.duration,count:8,worldId:'mathGames',skillId:result.mode,goal:8,completed:true}].slice(-365)}))}/>} 
         {page==='collection'&&<Collection progress={progress} onChange={setProgress} onHome={()=>setPage('home')}/>}
         {page === "home" && (
           <>
