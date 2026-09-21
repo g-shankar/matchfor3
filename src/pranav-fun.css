@@ -1,0 +1,111 @@
+/* Pranav's Playroom fun-zone styles — typing games (Builder A).
+ * ALL new typing-game styles live here; src/style.css is untouched. */
+
+.typing-page{max-width:720px;margin:0 auto;padding:16px 16px 48px;}
+.typing-back{margin-bottom:8px;}
+.typing-head{text-align:center;margin:8px 0 16px;}
+.typing-head h1{font-size:2.2rem;margin:.2em 0;}
+.typing-head p{margin:.3em 0;color:inherit;opacity:.85;}
+.typing-progress{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:10px;font-size:1.05rem;flex-wrap:wrap;}
+.typing-progress b{background:#fff3;border-radius:999px;padding:6px 16px;}
+
+/* Mode picker: four chunky cards */
+.typing-picker{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:8px;}
+.mode-card{display:flex;flex-direction:column;align-items:center;gap:6px;padding:22px 12px;border-radius:22px;border:3px solid #ffffff66;background:linear-gradient(160deg,#ffffffee,#f3f7ff);cursor:pointer;touch-action:manipulation;transition:transform .12s ease, box-shadow .12s ease;box-shadow:0 4px 0 #d9e2f5;}
+.mode-card:active{transform:scale(.96);box-shadow:0 1px 0 #d9e2f5;}
+.mode-card span{font-size:2.6rem;}
+.mode-card b{font-size:1.25rem;}
+.mode-card small{font-size:.95rem;opacity:.75;}
+
+/* Prompt area: giant letter / emoji word */
+.typing-prompt{text-align:center;margin:6px 0 14px;min-height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;}
+.typing-prompt small{font-size:1.15rem;opacity:.85;}
+.typing-giant{font-size:6rem;font-weight:900;line-height:1;background:#fff;border-radius:28px;padding:10px 34px;box-shadow:0 6px 0 #d9e2f5;}
+.typing-word{display:flex;flex-direction:column;align-items:center;gap:2px;background:#fff;border-radius:28px;padding:12px 34px;box-shadow:0 6px 0 #d9e2f5;}
+.typing-emoji{font-size:4.4rem;line-height:1.1;}
+.typing-word b{font-size:1.9rem;text-transform:capitalize;}
+.typing-word small{font-size:1.1rem;}
+.typing-seq{display:flex;gap:10px;}
+.typing-seq span{font-size:3.4rem;font-weight:900;background:#fff;border-radius:20px;padding:6px 18px;box-shadow:0 4px 0 #d9e2f5;opacity:.55;}
+.typing-seq span.got{opacity:1;background:#d9f7e3;box-shadow:0 4px 0 #9fd8ae;}
+.typing-seq span.next{opacity:1;background:#fff3b0;box-shadow:0 4px 0 #e0c34f;animation:typing-bounce 1s ease-in-out infinite;}
+@keyframes typing-bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+/* Giant on-screen A-Z keyboard */
+.typing-keyboard{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:10px;margin:0 auto;}
+.type-key{min-height:64px;font-size:1.9rem;font-weight:800;border-radius:18px;border:none;background:linear-gradient(180deg,#ffffff,#e8f0ff);box-shadow:0 5px 0 #c9d6f2;cursor:pointer;touch-action:manipulation;color:#1d2b4f;}
+.type-key:active{transform:translateY(3px);box-shadow:0 1px 0 #c9d6f2;}
+.type-key.next{background:linear-gradient(180deg,#fff7c4,#ffe873);box-shadow:0 5px 0 #d8b93a;}
+.type-key.wiggle{animation:typing-wiggle .5s ease;}
+@keyframes typing-wiggle{0%,100%{transform:rotate(0)}20%{transform:rotate(-7deg)}40%{transform:rotate(6deg)}60%{transform:rotate(-4deg)}80%{transform:rotate(3deg)}}
+
+.typing-message{min-height:1.6em;text-align:center;font-size:1.2rem;margin:14px 0 0;}
+
+/* Round-end celebration + stars flourish */
+.typing-celebrate{text-align:center;padding:40px 16px;}
+.typing-celebrate h1{font-size:2.6rem;margin:.3em 0;}
+.typing-celebrate p{font-size:1.3rem;}
+.stars-flourish{display:flex;justify-content:center;gap:6px;margin:18px 0;flex-wrap:wrap;}
+.stars-flourish span{font-size:2.6rem;opacity:0;animation:typing-star .6s ease forwards;}
+@keyframes typing-star{0%{opacity:0;transform:scale(0) rotate(-30deg)}60%{opacity:1;transform:scale(1.35) rotate(12deg)}100%{opacity:1;transform:scale(1) rotate(0)}}
+.typing-score-line{opacity:.8;}
+.typing-actions{display:flex;flex-direction:column;gap:12px;align-items:center;margin-top:22px;}
+.typing-actions .primary.jumbo{font-size:1.5rem;padding:16px 38px;}
+
+@media (max-width:420px){
+  .typing-keyboard{grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;}
+  .type-key{min-height:56px;font-size:1.6rem;}
+  .typing-giant{font-size:4.6rem;}
+  .typing-seq span{font-size:2.4rem;padding:4px 12px;}
+}
+
+/* ==========================================================================
+ * Paint Studio fun upgrade (Builder B).
+ * New classes only — existing paint-* classes still styled in src/style.css.
+ * ========================================================================== */
+
+/* Brush picker: four chunky kid-friendly buttons */
+.paint-brushes{display:flex;flex-wrap:wrap;gap:8px}
+.paint-brushes button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-width:66px;min-height:60px;padding:8px 10px;background:#fff;border:2px solid #dedac7;border-radius:14px;font-size:11px;color:#3a4a3f;cursor:pointer;touch-action:manipulation}
+.paint-brushes button>span{font-size:24px;line-height:1}
+.paint-brushes button>small{font-size:10px;font-weight:700}
+.paint-brushes button[aria-pressed=true]{background:#dcefdc;border-color:#649061}
+
+/* Paper choices: 3-button row above the canvas */
+.paint-paper{display:flex;gap:10px;margin-bottom:14px}
+.paint-paper button{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;min-height:54px;border-radius:16px;border:3px solid #e7ddc2;font-weight:700;font-size:13px;padding:10px;cursor:pointer;touch-action:manipulation}
+.paint-paper button>span{font-size:20px}
+.paint-paper button[aria-pressed=true]{border-color:#314f44;box-shadow:0 0 0 3px #314f4455}
+
+/* Neon glow under-paths render via the SVG filter; the crisp white core
+ * plus the blurred colored halo make neon pop on dark paper. */
+.paint-canvas .paint-paper-bg{pointer-events:none}
+
+/* Stamp pop / wiggle when a stamp lands on the canvas */
+.paint-stamp-pop{transform-box:fill-box;transform-origin:center;animation:paint-stamp-pop .5s cubic-bezier(.2,1.5,.4,1)}
+@keyframes paint-stamp-pop{
+  0%{transform:scale(0) rotate(-14deg);opacity:0}
+  55%{transform:scale(1.25) rotate(7deg);opacity:1}
+  100%{transform:scale(1) rotate(0deg);opacity:1}
+}
+
+/* Surprise-me dice next to the art prompt */
+.paint-dice{flex-shrink:0;display:inline-flex;align-items:center;gap:6px;min-height:48px;padding:10px 16px;border-radius:999px;border:2px solid #cdbf9a;background:#fff8df;font-size:14px;font-weight:800;color:#5a4a2a;cursor:pointer;touch-action:manipulation;white-space:nowrap}
+.paint-dice:active{transform:scale(.94)}
+.art-prompt .paint-dice{margin-left:auto}
+
+/* Color-mixing lab gets all 10 colors now — wrap so they never overflow */
+.paint-mix-row{flex-wrap:wrap}
+
+/* Big tap targets everywhere a little hand can reach */
+.paint-colors button{min-width:44px;min-height:44px}
+.paint-stamps button{min-width:52px;min-height:52px}
+
+/* Mobile tweaks: stack the paper row and keep the prompt cozy */
+@media(max-width:600px){
+  .paint-paper{gap:8px}
+  .paint-paper button{min-height:50px;font-size:12px}
+  .art-prompt{flex-wrap:wrap}
+  .art-prompt .paint-dice{margin-left:0;width:100%;justify-content:center}
+  .paint-brushes button{min-width:60px}
+}
