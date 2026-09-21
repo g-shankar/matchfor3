@@ -21,8 +21,10 @@ test('medium and hard sequences match the difficulty spec',()=>{
    assert.ok(med.sequence[0].value>=20&&med.sequence[0].value<=56);
    assert.ok(hard.sequence[0].value>=40&&hard.sequence[0].value<=95);
   }else if(mode==='times'){
-   assert.ok(ml.every(l=>{const t=+l.split('×')[0];return t>=4&&t<=9;}),`medium times labels: ${ml}`);
-   assert.ok(hl.every(l=>{const t=+l.split('×')[0];return t>=6&&t<=12;}),`hard times labels: ${hl}`);
+   const timesShape=g=>g.sequence.every((x,i)=>x.mult===i+1&&x.question===`${x.table}×${i+1}`&&x.label===String(x.table*(i+1))&&x.value===x.table*(i+1));
+   assert.ok(med.sequence.every(x=>x.table>=4&&x.table<=9),`medium times tables: ${ml}`);
+   assert.ok(hard.sequence.every(x=>x.table>=6&&x.table<=12),`hard times tables: ${hl}`);
+   assert.ok(timesShape(med)&&timesShape(hard),'times route items carry question/product/table/mult');
   }else if(mode==='fractions'){
    assert.ok(ml.every(l=>['6','9','14'].includes(l.split('/')[1])),`medium fractions labels: ${ml}`);
    assert.ok(hl.every(l=>['7','11','13'].includes(l.split('/')[1])),`hard fractions labels: ${hl}`);
@@ -35,19 +37,22 @@ test('medium and hard sequences match the difficulty spec',()=>{
   }
  }
  let sawBigTable=false,sawBigCent=false;
- for(let s=1000;s<1100;s++)if(makeMathTrail('times','hard',seeded(s)).sequence.some(x=>+x.label.split('×')[0]>=10))sawBigTable=true;
+ for(let s=1000;s<1100;s++)if(makeMathTrail('times','hard',seeded(s)).sequence.some(x=>x.table>=10))sawBigTable=true;
  for(let s=1;s<=40;s++)if(makeMathTrail('money','medium',seeded(s)).sequence.some(x=>x.value>=100))sawBigCent=true;
  assert.ok(sawBigTable,'hard times never dealt a table >=10 in 100 seeds');
  assert.ok(sawBigCent,'medium money never dealt >=100c in 40 seeds');
 });
 test('medium and hard differ from simple in the expected ways',()=>{
  for(let s=1;s<=40;s++){
-  assert.ok(makeMathTrail('times','simple',seeded(s)).sequence.every(x=>{const t=+x.label.split('×')[0];return t>=2&&t<=9;}));
+  assert.ok(makeMathTrail('times','simple',seeded(s)).sequence.every(x=>x.table>=2&&x.table<=9));
   assert.ok(makeMathTrail('money','hard',seeded(s)).sequence.every(x=>x.label.startsWith('$')));
   assert.ok(makeMathTrail('money','simple',seeded(s)).sequence.every(x=>!x.label.startsWith('$')));
  }
  let sawBig=false;
- for(let s=1000;s<1100;s++)if(makeMathTrail('times','hard',seeded(s)).sequence.some(x=>+x.label.split('×')[0]>9))sawBig=true;
+ for(let s=1000;s<1100;s++)if(makeMathTrail('times','hard',seeded(s)).sequence.some(x=>x.table>9))sawBig=true;
  assert.ok(sawBig,'hard times never exceeded table 9 in 100 seeds');
 });
 test('medium and hard keep 36 unique cell labels',()=>{for(const mode of Object.keys(trailModes))for(const d of ['medium','hard'])for(let s=1;s<=20;s++){const g=makeMathTrail(mode,d,seeded(s));assert.equal(new Set(g.cells.map(x=>x.label)).size,36,`${mode}/${d}/seed ${s}`);}});
+test('times boards show products only — no × anywhere, all cells numeric',()=>{for(const d of ['simple','medium','hard'])for(let s=1;s<=40;s++){const g=makeMathTrail('times',d,seeded(s));assert.ok(g.cells.every(c=>!c.label.includes('×')),`× on a times/${d}/seed ${s} board`);assert.ok(g.cells.every(c=>/^\d+$/.test(c.label)&&c.value===+c.label),`non-numeric times cell on ${d}/seed ${s}`);}});
+test('times decoys include near-miss products of route values',()=>{const seen=new Set();for(const d of ['medium','hard'])for(let s=1;s<=60;s++){const g=makeMathTrail('times',d,seeded(s)),decoys=g.cells.filter(c=>c.routeIndex<0).map(c=>+c.label),table=g.sequence[0].table,nmSpace=new Set();for(const x of g.sequence)for(const off of [table,-table,1,-1,2,-2]){const c=x.value+off;if(c>=1)nmSpace.add(c);}if(decoys.some(l=>nmSpace.has(l)))seen.add(d);}assert.ok(seen.has('medium')&&seen.has('hard'),'near-miss decoys never appeared on medium/hard times boards');});
+test('times keeps 36 unique labels on every difficulty',()=>{for(const d of ['simple','medium','hard'])for(let s=1;s<=100;s++){const g=makeMathTrail('times',d,seeded(s));assert.equal(new Set(g.cells.map(x=>x.label)).size,36,`times/${d}/seed ${s}`);}});
