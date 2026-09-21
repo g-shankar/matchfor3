@@ -1237,3 +1237,13 @@ body,header,.little-header{background-color:var(--theme-bg);color:var(--theme-in
 .nlv-star3d{margin:6px auto}
 @media(max-width:800px){.nlv-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:520px){.nlv-grid{gap:10px}.nlv-island{min-height:172px;padding:13px}.nlv-island .ico{font-size:34px}.nlv-island h2{font-size:15px}.nlv-island p{font-size:11px;min-height:44px}.nlv-choices{grid-template-columns:1fr;max-width:340px}.nlv-prop-grid{grid-template-columns:1fr}.nlv-log{flex-wrap:wrap}.nlv-log p{margin:0;width:100%}.nlv-steps li{font-size:14px}}.nlv-line-wrap{overflow-x:visible}@media(max-width:560px){.nlv-line-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}.nlv-line{min-width:540px}}
+
+/* Difficulty picker (Shivani's math games) */
+.difficulty-picker{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;padding:6px 0}
+.difficulty-picker-label{font-weight:900;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#7c8375}
+.difficulty-picker button{min-height:48px;padding:10px 20px;border-radius:999px;border:3px solid #fff;background:#fffdf7;color:#4b6157;font-size:17px;font-weight:900;box-shadow:0 4px 0 #d8d2bd;touch-action:manipulation;cursor:pointer}
+.difficulty-picker button.on{background:#465f44;border-color:#465f44;color:#fffdf3;box-shadow:0 4px 0 #354c33}
+.arcade-difficulty{margin:2px 0 8px}
+.trail-game-top .trail-difficulty-row{flex-basis:100%;display:flex;justify-content:center}
+.nlv-difficulty-row{margin:2px 0 4px}
+@media(max-width:520px){.difficulty-picker button{min-height:44px;padding:8px 14px;font-size:15px}}

@@ -404,11 +404,298 @@ const MAKERS = {
   pattern: patternQs, property: propertyQs, plot: plotQs, compare: compareQs,
 };
 
-export function makeQuestions(islandId, rng = Math.random) {
+/* ---------- difficulty pools (medium / hard) ----------
+ * Simple is today's exact 5-question behavior (the makers above, untouched).
+ * Medium/hard are fresh 16-question pools per island; makeQuestions draws
+ * 5 unique questions per call, preferring ones not seen recently. Pool makers
+ * keep data order fixed so tests are deterministic — only the draw shuffles.
+ * All jump labels are `+${b-a}`, the convention the demos teach. */
+
+// Decompose b into unit-friendly jumps starting at a (addition).
+function addJumps(a, b, unit) { // unit 10 (medium) or 100 (hard)
+  const jumps = []; let from = a;
+  const first = Math.ceil(a / unit) * unit;
+  if (first > from) { jumps.push([from, first, `+${first - from}`]); from = first; }
+  let rest = b - (first - a);
+  for (const u of (unit >= 100 ? [100, 10] : [10])) { while (rest >= u) { jumps.push([from, from + u, `+${u}`]); from += u; rest -= u; } }
+  if (rest > 0) jumps.push([from, from + rest, `+${rest}`]);
+  return jumps;
+}
+
+// Count up from b to a in unit-friendly jumps (subtraction).
+function countUpJumps(b, a, unit) {
+  const jumps = []; let from = b;
+  const first = Math.ceil(b / unit) * unit;
+  if (first > from) { jumps.push([from, first, `+${first - from}`]); from = first; }
+  for (const u of (unit >= 100 ? [100, 10] : [10])) { while (from + u <= a) { jumps.push([from, from + u, `+${u}`]); from += u; } }
+  if (from < a) jumps.push([from, a, `+${a - from}`]);
+  return jumps;
+}
+
+// Number-line spec for compare questions; float-safe via 1e-9 epsilons and a 6-decimal snap.
+function compareLine(a, b, pad, minStep) {
+  const loV = Math.min(a, b) - pad, hiV = Math.max(a, b) + pad;
+  const step = niceCeil(Math.max(minStep, (hiV - loV) / 5));
+  const snap6 = v => Math.round(v * 1e6) / 1e6;
+  const min = snap6(Math.floor(loV / step + 1e-9) * step);
+  const max = snap6(Math.ceil(hiV / step - 1e-9) * step);
+  return { min, max, step, marks: [{ value: a, label: String(a) }, { value: b, label: String(b) }] };
+}
+
+function roundingPool(rng, difficulty) {
+  // [number, place]; 3-digit to nearest ten/hundred (medium), 4-digit to nearest hundred/thousand (hard)
+  const data = difficulty === 'medium'
+    ? [[246, 10], [472, 100], [381, 10], [529, 100], [164, 10], [736, 100], [295, 10], [618, 100],
+      [447, 10], [883, 100], [129, 10], [354, 100], [576, 10], [941, 100], [208, 10], [667, 100]]
+    : [[2431, 100], [5876, 1000], [3150, 100], [7492, 1000], [1864, 100], [9218, 1000], [4375, 100], [6548, 1000],
+      [1289, 100], [8364, 1000], [5712, 100], [2946, 1000], [6837, 100], [4159, 1000], [9524, 100], [1785, 1000]];
+  return data.map(([n, place]) => {
+    const ans = Math.round(n / place) * place;
+    const lo = Math.floor(n / place) * place, hi = lo + place;
+    const placeName = place === 1000 ? 'thousand' : place === 100 ? 'hundred' : 'ten';
+    return q(rng,
+      `Round ${n} to the nearest ${placeName}.`, ans, [ans, ans - place, ans + place], 'line',
+      { min: lo - place, max: hi + place, step: place === 100 ? 100 : 10, mid: (lo + hi) / 2, marks: [{ value: n, label: String(n) }] },
+    );
+  });
+}
+
+function additionPool(rng, difficulty) {
+  const medium = difficulty === 'medium';
+  const unit = medium ? 10 : 100, step = medium ? 10 : 50;
+  const pairs = medium
+    ? [[58, 47], [76, 58], [49, 86], [67, 75], [84, 39], [56, 97], [93, 68], [45, 78],
+      [79, 84], [68, 59], [87, 46], [59, 95], [96, 57], [74, 88], [65, 69], [88, 77]]
+    : [[145, 236], [327, 158], [486, 274], [253, 389], [518, 246], [394, 187], [672, 158], [245, 467],
+      [538, 293], [186, 475], [427, 356], [765, 187], [348, 524], [596, 238], [473, 369], [289, 546]];
+  const unitWord = medium ? 'ten' : 'hundred';
+  return pairs.map(([a, b], i) => {
+    const sum = a + b;
+    const jumps = addJumps(a, b, unit);
+    const line = {
+      min: Math.floor(a / unit) * unit, max: sum + unit, step,
+      marks: [{ value: a, label: String(a) }], jumps,
+    };
+    if (i % 4 === 0) {
+      // strategy check: where does the FIRST jump land?
+      const first = jumps[0][1];
+      return q(rng,
+        `What does the first jump from ${a} land on?`, first, [first, first + unit, first - unit], 'jumps',
+        line, `Jump to the nearest ${unitWord} first!`,
+      );
+    }
+    return q(rng, `What is ${a} + ${b}?`, sum, [sum, sum - unit, sum + unit], 'jumps', line);
+  });
+}
+
+function subtractionPool(rng, difficulty) {
+  const medium = difficulty === 'medium';
+  const unit = medium ? 10 : 100, step = medium ? 10 : 50;
+  const pairs = medium
+    ? [[92, 34], [85, 27], [74, 38], [96, 58], [83, 45], [71, 29], [98, 36], [87, 49],
+      [94, 57], [76, 18], [89, 63], [97, 29], [82, 54], [75, 47], [91, 68], [86, 59]]
+    : [[452, 187], [736, 258], [624, 376], [815, 467], [543, 289], [928, 574], [467, 198], [853, 386],
+      [675, 297], [942, 658], [538, 274], [786, 498], [459, 183], [834, 456], [697, 349], [915, 637]];
+  return pairs.map(([a, b]) => {
+    const d = a - b;
+    const jumps = countUpJumps(b, a, unit);
+    return q(rng,
+      `What is ${a} − ${b}?`, d, [d, d + unit, d - unit], 'jumps',
+      {
+        min: Math.floor(b / unit) * unit - unit, max: a + unit, step,
+        marks: [{ value: b, label: String(b) }], jumps,
+      },
+    );
+  });
+}
+
+function estimatePool(rng, difficulty) {
+  // [a, signed b, estimate answer, exact (distractor), wild miss, friendly a, friendly b]
+  const data = difficulty === 'medium'
+    ? [[248, 391, 650, 639, 700, 250, 400], [562, -218, 400, 344, 500, 600, 200],
+      [175, 284, 500, 459, 600, 200, 300], [436, -159, 200, 277, 100, 400, 200],
+      [329, 468, 800, 797, 700, 300, 500], [714, -286, 400, 428, 500, 700, 300],
+      [156, 342, 500, 498, 400, 200, 300], [683, -347, 400, 336, 300, 700, 300],
+      [425, 368, 800, 793, 900, 400, 400], [291, -134, 200, 157, 100, 300, 100],
+      [548, 246, 700, 794, 800, 500, 200], [836, -418, 400, 418, 500, 800, 400],
+      [264, 519, 800, 783, 900, 300, 500], [475, -286, 200, 189, 300, 500, 300],
+      [382, 417, 800, 799, 700, 400, 400], [629, -345, 300, 284, 200, 600, 300]]
+    : [[2431, 5876, 8000, 8307, 9000, 2000, 6000], [5204, -1876, 3000, 3328, 4000, 5000, 2000],
+      [3185, 4214, 7000, 7399, 8000, 3000, 4000], [7642, -2954, 5000, 4688, 4000, 8000, 3000],
+      [1836, 5927, 8000, 7763, 7000, 2000, 6000], [4578, -2134, 3000, 2444, 2000, 5000, 2000],
+      [6234, 2816, 9000, 9050, 10000, 6000, 3000], [8921, -3478, 6000, 5443, 5000, 9000, 3000],
+      [2748, 5362, 8000, 8110, 9000, 3000, 5000], [6315, -1842, 4000, 4473, 5000, 6000, 2000],
+      [1492, 6678, 8000, 8170, 9000, 1000, 7000], [5864, -3918, 2000, 1946, 1000, 6000, 4000],
+      [4327, 3186, 7000, 7513, 8000, 4000, 3000], [7156, -4284, 3000, 2872, 2000, 7000, 4000],
+      [2963, 5841, 9000, 8804, 8000, 3000, 6000], [8437, -5216, 3000, 3221, 4000, 8000, 5000]];
+  return data.map(([a, b, ans, exact, wild, fa, fb]) => {
+    const op = b < 0 ? '−' : '+';
+    return q(rng,
+      `About how much is ${a} ${op} ${Math.abs(b)}?`, ans, [ans, exact, wild], 'equation',
+      { equation: `${fa} ${op} ${fb} ≈ ?` },
+      'Round to friendly numbers first — the exact answer is a trap!',
+    );
+  });
+}
+
+// arithmetic sequence chips: [start, step, len, missing]
+function arithmeticQ(rng, start, step, len, missing) {
+  const ans = start + step * missing;
+  const chips = [];
+  for (let i = 0; i < len; i += 1) chips.push(i === missing ? '?' : String(start + step * i));
+  return q(rng, missing === 4 ? 'What comes next?' : 'What number is missing?',
+    ans, [ans, ans - step, ans + step], 'pattern', { chips });
+}
+
+// doubling/halving sequence chips: vals are start * mult^i
+function multQ(rng, start, mult, len, missing) {
+  const vals = [];
+  for (let i = 0; i < len; i += 1) vals.push(start * mult ** i);
+  const ans = vals[missing];
+  const chips = vals.map((v, i) => (i === missing ? '?' : String(v)));
+  return q(rng, missing === 4 ? 'What comes next?' : 'What number is missing?',
+    ans, [ans, ans / 2, ans * 2], 'pattern', { chips });
+}
+
+function eoQ(rng, a, b) {
+  const sum = a + b;
+  return q(rng, `Is ${a} + ${b} even or odd?`, sum % 2 ? 'Odd' : 'Even',
+    ['Even', 'Odd'], 'equation', { equation: `${a} + ${b} = ${sum}` });
+}
+
+function patternPool(rng, difficulty) {
+  const out = [];
+  const arith = difficulty === 'medium'
+    ? [[12, 4, 5, 3], [25, 5, 5, 4], [100, 10, 5, 2], [36, 6, 5, 3], [15, 7, 5, 1], [200, 25, 5, 4],
+      [48, 8, 5, 0], [90, 12, 5, 2], [7, 9, 5, 4], [150, 15, 5, 3], [60, 11, 5, 1], [33, 13, 5, 4],
+      [80, 16, 5, 2], [5, 14, 5, 3]]
+    : [[120, 25, 5, 4], [350, 50, 5, 2], [75, 125, 5, 3], [480, 60, 5, 1], [95, 85, 5, 4],
+      [220, 140, 5, 2], [60, 220, 5, 3], [1000, 150, 5, 4], [310, 90, 5, 0], [45, 175, 5, 2]];
+  for (const [start, step, len, missing] of arith) out.push(arithmeticQ(rng, start, step, len, missing));
+  if (difficulty === 'hard') {
+    out.push(multQ(rng, 3, 2, 5, 4), multQ(rng, 5, 2, 5, 3),
+      multQ(rng, 160, 0.5, 5, 4), multQ(rng, 96, 0.5, 5, 2));
+    out.push(eoQ(rng, 125, 248), eoQ(rng, 360, 214));
+  } else {
+    out.push(eoQ(rng, 24, 35), eoQ(rng, 46, 28));
+  }
+  return out;
+}
+
+function propertyPool(rng, difficulty) {
+  // [equation, answer]; medium 6 commutative / 6 associative / 4 identity
+  const data = difficulty === 'medium'
+    ? [['24 + 35 = 35 + 24', 'Commutative'], ['58 + 17 = 17 + 58', 'Commutative'],
+      ['46 + 29 = 29 + 46', 'Commutative'], ['73 + 38 = 38 + 73', 'Commutative'],
+      ['19 + 64 = 64 + 19', 'Commutative'], ['87 + 25 = 25 + 87', 'Commutative'],
+      ['(18 + 22) + 30 = 18 + (22 + 30)', 'Associative'], ['(45 + 15) + 25 = 45 + (15 + 25)', 'Associative'],
+      ['(36 + 14) + 50 = 36 + (14 + 50)', 'Associative'], ['(27 + 33) + 40 = 27 + (33 + 40)', 'Associative'],
+      ['(52 + 18) + 30 = 52 + (18 + 30)', 'Associative'], ['(64 + 26) + 14 = 64 + (26 + 14)', 'Associative'],
+      ['46 + 0 = 46', 'Identity'], ['0 + 83 = 83', 'Identity'],
+      ['57 + 0 = 57', 'Identity'], ['0 + 92 = 92', 'Identity']]
+    : [['125 + 340 = 340 + 125', 'Commutative'], ['486 + 214 = 214 + 486', 'Commutative'],
+      ['357 + 243 = 243 + 357', 'Commutative'], ['618 + 182 = 182 + 618', 'Commutative'],
+      ['249 + 751 = 751 + 249', 'Commutative'],
+      ['(150 + 250) + 300 = 150 + (250 + 300)', 'Associative'], ['(345 + 155) + 200 = 345 + (155 + 200)', 'Associative'],
+      ['(420 + 180) + 250 = 420 + (180 + 250)', 'Associative'], ['(275 + 125) + 400 = 275 + (125 + 400)', 'Associative'],
+      ['(132 + 268) + 300 = 132 + (268 + 300)', 'Associative'], ['(560 + 140) + 160 = 560 + (140 + 160)', 'Associative'],
+      ['308 + 0 = 308', 'Identity'], ['0 + 475 = 475', 'Identity'], ['629 + 0 = 629', 'Identity'],
+      ['0 + 814 = 814', 'Identity'], ['950 + 0 = 950', 'Identity']];
+  return data.map(([eq, ans]) =>
+    q(rng, 'Which property is this?', ans, ['Commutative', 'Associative', 'Identity'], 'equation', { equation: eq }));
+}
+
+function plotPool(rng, difficulty) {
+  const medium = difficulty === 'medium';
+  // sparser labels (medium) and widest range (hard)
+  const spec = medium
+    ? { min: 0, max: 1000, step: 100, majorEvery: 200 }
+    : { min: 0, max: 2000, step: 100, majorEvery: 500 };
+  const blockSize = medium ? 100 : 200;
+  const warmups = medium ? [412, 758, 236, 895] : [1125, 1460, 1780, 1330];
+  const numbers = medium
+    ? [215, 340, 480, 525, 610, 745, 830, 960, 275, 455, 690, 875]
+    : [215, 480, 625, 890, 1040, 1290, 1525, 1710, 380, 760, 1180, 1640];
+  const out = warmups.map(n => {
+    const lo = Math.floor(n / 100) * 100;
+    const between = `${lo} and ${lo + 100}`;
+    return q(rng, `${n} is between which two hundreds?`, between,
+      [between, `${lo - 100} and ${lo}`, `${lo + 100} and ${lo + 200}`],
+      'line', { min: spec.min, max: spec.max, step: spec.step, majorEvery: spec.majorEvery });
+  });
+  const labels = ['A', 'B', 'C'];
+  for (const n of numbers) {
+    const block = Math.floor(n / blockSize) * blockSize;
+    // wrong side of the halfway point: mirror n across block+blockSize/2
+    const mirrored = block + (blockSize - (n % blockSize));
+    const off = n - blockSize;
+    const vals = shuffle([n, off, mirrored], rng);
+    out.push(q(rng,
+      `Where does ${n} belong?`, labels[vals.indexOf(n)],
+      labels.map((l, j) => ({ label: `⭐ ${l}`, value: l })),
+      'candidates',
+      { ...spec, candidates: vals.map((v, j) => ({ value: v, label: labels[j] })) },
+    ));
+  }
+  return out;
+}
+
+function comparePool(rng, difficulty) {
+  const medium = difficulty === 'medium';
+  const pad = medium ? 150 : 0.15, minStep = medium ? 10 : 0.01;
+  const pairs = medium
+    ? [[1234, 1324], [2456, 2416], [3789, 3789], [5102, 4988], [2874, 2874], [6345, 6435],
+      [1998, 2008], [7765, 7756], [4509, 4509], [8234, 8324], [5671, 5617], [3128, 3218],
+      [9087, 9078], [1456, 1546], [6890, 6890], [2743, 2734]]
+    : [[2.7, 2.65], [0.6, 0.59], [3.45, 3.54], [1.2, 1.25], [4.8, 4.8], [0.75, 0.8],
+      [5.3, 5.29], [2.25, 2.25], [7.6, 7.56], [1.05, 1.5], [3.3, 3.3], [9.4, 9.39],
+      [0.45, 0.54], [6.7, 6.7], [8.15, 8.2], [4.44, 4.4]];
+  return pairs.map(([a, b], i) => {
+    const ans = a > b ? '>' : a < b ? '<' : '=';
+    return q(rng,
+      i % 2 ? `Which symbol makes this true: ${a} __ ${b}?` : `Compare ${a} and ${b}.`,
+      ans, ['>', '<', '='], 'compare', compareLine(a, b, pad, minStep),
+    );
+  });
+}
+
+const POOL_MAKERS = {
+  rounding: roundingPool, addition: additionPool, subtraction: subtractionPool, estimate: estimatePool,
+  pattern: patternPool, property: propertyPool, plot: plotPool, compare: comparePool,
+};
+
+const KNOWN_DIFFICULTIES = ['simple', 'medium', 'hard'];
+const normDifficulty = d => (KNOWN_DIFFICULTIES.includes(d) ? d : 'simple');
+
+/* Full question pool for an island + difficulty: today's exact 5 questions for
+ * 'simple', 16 fresh ones for 'medium'/'hard'. Every question carries a stable
+ * key `${islandId}:${difficulty}:${i}` so draws can avoid recently-seen ones. */
+export function questionPool(islandId, difficulty = 'simple', rng = Math.random) {
+  if (typeof difficulty === 'function') { rng = difficulty; difficulty = 'simple'; }
+  difficulty = normDifficulty(difficulty);
   const maker = MAKERS[islandId];
   if (!maker) throw new Error(`Unknown island: ${islandId}`);
   const island = ISLANDS.find(x => x.id === islandId);
-  return maker(rng).map(question => ({ ...question, hint: question.hint || island.hint }));
+  const pool = difficulty === 'simple' ? maker(rng) : POOL_MAKERS[islandId](rng, difficulty);
+  return pool.map((question, i) => ({
+    ...question,
+    key: `${islandId}:${difficulty}:${i}`,
+    hint: question.hint || island.hint,
+  }));
+}
+
+export function makeQuestions(islandId, difficulty = 'simple', rng = Math.random, recent = []) {
+  if (typeof difficulty === 'function') { rng = difficulty; difficulty = 'simple'; recent = []; }
+  difficulty = normDifficulty(difficulty);
+  // simple: today's exact 5 questions, untouched — no draw, no reorder
+  if (difficulty === 'simple') return questionPool(islandId, 'simple', rng);
+  // medium/hard: draw 5 unique questions from the 16-pool, preferring
+  // questions whose key hasn't been seen recently in this session
+  const seen = new Set(recent);
+  const pool = questionPool(islandId, difficulty, rng);
+  const fresh = shuffle(pool.filter(qq => !seen.has(qq.key)), rng);
+  const stale = shuffle(pool.filter(qq => seen.has(qq.key)), rng);
+  return [...fresh, ...stale].slice(0, 5);
 }
 
 export function islandById(id) {

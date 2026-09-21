@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { ISLANDS, islandById, makeQuestions, PRAISE, tickMarksFor, markLabelRows, niceCeil } from '../src/number-line-voyage-engine.js';
+import { ISLANDS, islandById, makeQuestions, questionPool, PRAISE, tickMarksFor, markLabelRows, niceCeil } from '../src/number-line-voyage-engine.js';
 
 const seeded = seed => () => ((seed = Math.imul(seed, 1664525) + 1013904223 >>> 0) / 4294967296);
 
@@ -294,6 +294,201 @@ test('every generated number line has labeled, integer tick labels', () => {
         assert.ok(majors.length >= 2, `${isl.id}: ${qq.prompt} has labeled ticks`);
         for (const m of majors) {
           assert.ok(Number.isInteger(m.v), `${isl.id}: ${qq.prompt} tick ${m.v} is integer`);
+        }
+      }
+    }
+  }
+});
+
+/* ---------------- difficulty: Simple / Medium / Hard ---------------- */
+
+test('difficulty: simple is identical with or without the difficulty argument', () => {
+  for (const isl of ISLANDS) {
+    for (let s = 1; s <= 10; s += 1) {
+      assert.deepEqual(makeQuestions(isl.id, 'simple', seeded(s)), makeQuestions(isl.id, seeded(s)), `${isl.id} seed ${s}`);
+    }
+  }
+});
+
+test('difficulty: unknown difficulty falls back to simple', () => {
+  for (const isl of ISLANDS) {
+    for (const s of [2, 7, 13]) {
+      assert.deepEqual(makeQuestions(isl.id, 'nonsense', seeded(s)), makeQuestions(isl.id, seeded(s)), `${isl.id} seed ${s}`);
+      assert.deepEqual(questionPool(isl.id, 'nonsense', seeded(s)), questionPool(isl.id, 'simple', seeded(s)), `${isl.id} pool seed ${s}`);
+    }
+  }
+});
+
+test('difficulty: medium/hard draws are well-formed across many seeds', () => {
+  for (const isl of ISLANDS) {
+    for (const d of ['medium', 'hard']) {
+      for (let s = 1; s <= 15; s += 1) {
+        const qs = makeQuestions(isl.id, d, seeded(s));
+        assert.equal(qs.length, 5, `${isl.id}/${d} seed ${s}`);
+        for (const qq of qs) {
+          assert.ok(qq.prompt && qq.prompt.length > 3, `${isl.id}/${d} prompt`);
+          assert.ok(qq.hint && qq.hint.length > 5, `${isl.id}/${d} hint`);
+          assert.ok(qq.key && qq.key.startsWith(`${isl.id}:${d}:`), `${isl.id}/${d} key: ${qq.key}`);
+          const vals = qq.choices.map(c => String(c.value));
+          assert.ok(vals.includes(String(qq.answer)), `${isl.id}/${d} answer present: ${qq.prompt}`);
+          assert.equal(new Set(vals).size, vals.length, `${isl.id}/${d} unique choices: ${qq.prompt}`);
+          if (qq.line && qq.line.min != null && qq.line.max != null) {
+            assert.ok(qq.line.min < qq.line.max, `${isl.id}/${d} bounds: ${qq.prompt}`);
+            assert.ok(qq.line.step > 0, `${isl.id}/${d} step: ${qq.prompt}`);
+            const majors = tickMarksFor(qq.line).ticks.filter(t => t.major);
+            assert.ok(majors.length >= 2, `${isl.id}/${d} labeled ticks: ${qq.prompt}`);
+          }
+        }
+      }
+    }
+  }
+});
+
+test('difficulty: medium and hard pools have exactly 16 questions per island', () => {
+  for (const isl of ISLANDS) {
+    assert.equal(questionPool(isl.id, 'medium', seeded(4)).length, 16, `${isl.id} medium`);
+    assert.equal(questionPool(isl.id, 'hard').length, 16, `${isl.id} hard`);
+    assert.equal(questionPool(isl.id).length, 5, `${isl.id} simple`);
+  }
+});
+
+test('difficulty: medium/hard pools use bigger numbers than simple', () => {
+  // rounding: medium 3-digit, hard 4-digit
+  for (const qq of questionPool('rounding', 'medium')) {
+    const n = Number(qq.prompt.match(/Round (\d+)/)[1]);
+    assert.ok(n >= 100 && n <= 999, `medium rounding ${n}`);
+  }
+  for (const qq of questionPool('rounding', 'hard')) {
+    const n = Number(qq.prompt.match(/Round (\d+)/)[1]);
+    assert.ok(n >= 1000, `hard rounding ${n}`);
+  }
+  // addition: medium sums ≤ 200 with 2-digit operands; hard first operand ≥ 100
+  for (const qq of questionPool('addition', 'medium')) {
+    const add = qq.prompt.match(/What is (\d+) \+ (\d+)/);
+    const strat = qq.prompt.match(/from (\d+)/);
+    if (add) {
+      assert.ok(Number(add[1]) < 100 && Number(add[2]) < 100, `medium operands: ${qq.prompt}`);
+      assert.ok(Number(add[1]) + Number(add[2]) <= 200, `medium sum: ${qq.prompt}`);
+    } else {
+      assert.ok(strat, `expected strategy prompt: ${qq.prompt}`);
+      assert.ok(Number(strat[1]) < 100, `medium strategy operand: ${qq.prompt}`);
+    }
+  }
+  for (const qq of questionPool('addition', 'hard')) {
+    const m = qq.prompt.match(/What is (\d+)/) || qq.prompt.match(/from (\d+)/);
+    assert.ok(Number(m[1]) >= 100, `hard first operand: ${qq.prompt}`);
+  }
+  // subtraction: medium 2-digit minuends with a real gap; hard 3-digit minuends
+  const minus = /What is (\d+) − (\d+)/; // U+2212, matches the simple questions
+  for (const qq of questionPool('subtraction', 'medium')) {
+    const m = qq.prompt.match(minus);
+    assert.ok(Number(m[1]) < 100, `medium minuend: ${qq.prompt}`);
+    assert.ok(Number(m[1]) - Number(m[2]) >= 20, `medium difference: ${qq.prompt}`);
+  }
+  for (const qq of questionPool('subtraction', 'hard')) {
+    const m = qq.prompt.match(minus);
+    assert.ok(Number(m[1]) >= 100, `hard minuend: ${qq.prompt}`);
+  }
+  // estimate: medium starts in the hundreds, hard in the thousands
+  for (const qq of questionPool('estimate', 'medium')) {
+    assert.ok(Number(qq.prompt.match(/About how much is (\d+)/)[1]) >= 100, `medium estimate: ${qq.prompt}`);
+  }
+  for (const qq of questionPool('estimate', 'hard')) {
+    assert.ok(Number(qq.prompt.match(/About how much is (\d+)/)[1]) >= 1000, `hard estimate: ${qq.prompt}`);
+  }
+  // pattern: pool-level max answers scale up
+  const maxNum = pool => Math.max(...pool.map(qq => (typeof qq.answer === 'number' ? qq.answer : 0)));
+  assert.ok(maxNum(questionPool('pattern', 'medium')) >= 200, 'medium pattern max');
+  assert.ok(maxNum(questionPool('pattern', 'hard')) >= 1000, 'hard pattern max');
+  // property: medium equations use 2-digit numbers, hard use 3-digit numbers
+  for (const qq of questionPool('property', 'medium')) {
+    assert.ok(/(\d\d)/.test(qq.line.equation), `medium 2-digit: ${qq.line.equation}`);
+  }
+  for (const qq of questionPool('property', 'hard')) {
+    assert.ok(/(\d\d\d)/.test(qq.line.equation), `hard 3-digit: ${qq.line.equation}`);
+  }
+  // plot: medium has sparser labels, hard the widest range
+  for (const qq of questionPool('plot', 'medium')) {
+    assert.equal(qq.line.max, 1000, `medium plot max: ${qq.prompt}`);
+    assert.equal(qq.line.majorEvery, 200, `medium plot majors: ${qq.prompt}`);
+  }
+  for (const qq of questionPool('plot', 'hard')) {
+    assert.equal(qq.line.max, 2000, `hard plot max: ${qq.prompt}`);
+    assert.equal(qq.line.majorEvery, 500, `hard plot majors: ${qq.prompt}`);
+  }
+  // compare: medium compares 4-digit numbers; hard compares decimals, signs exact
+  const checkCompare = (d, floor) => {
+    for (const qq of questionPool('compare', d)) {
+      const [a, b] = qq.prompt.match(/(\d+(?:\.\d+)?)/g).map(Number);
+      assert.ok(a >= floor && b >= floor, `${d} compare magnitude: ${qq.prompt}`);
+      assert.equal(qq.answer, a > b ? '>' : a < b ? '<' : '=', `${d} compare sign: ${qq.prompt}`);
+    }
+  };
+  checkCompare('medium', 1000);
+  checkCompare('hard', 0);
+  const hardCompare = questionPool('compare', 'hard');
+  assert.ok(hardCompare.some(qq => /(\d+\.\d+)/.test(qq.prompt)), 'hard compare has decimals');
+  const gt = hardCompare.find(qq => qq.prompt.includes('2.7') && qq.prompt.includes('2.65'));
+  assert.ok(gt, 'found 2.7 vs 2.65');
+  assert.equal(gt.answer, '>');
+  const lt = hardCompare.find(qq => qq.prompt.includes('1.05') && qq.prompt.includes('1.5'));
+  assert.ok(lt, 'found 1.05 vs 1.5');
+  assert.equal(lt.answer, '<');
+});
+
+test('difficulty: medium/hard pools differ from the simple pool', () => {
+  const sig = pool => pool.map(qq => qq.prompt + JSON.stringify(qq.line)).join('\n');
+  for (const isl of ISLANDS) {
+    const simple = sig(questionPool(isl.id, 'simple', seeded(9)));
+    for (const d of ['medium', 'hard']) {
+      assert.notDeepEqual(sig(questionPool(isl.id, d, seeded(9))), simple, `${isl.id}/${d} distinct`);
+    }
+  }
+});
+
+test('difficulty: session draws avoid recently-seen questions', () => {
+  const keys = qs => qs.map(qq => qq.key);
+  for (const isl of ISLANDS) {
+    for (const d of ['medium', 'hard']) {
+      const d1 = makeQuestions(isl.id, d, seeded(101), []);
+      const d2 = makeQuestions(isl.id, d, seeded(102), keys(d1));
+      const d3 = makeQuestions(isl.id, d, seeded(103), keys(d1).concat(keys(d2)));
+      for (const [i, dd] of [[1, d1], [2, d2], [3, d3]]) {
+        assert.equal(new Set(keys(dd)).size, 5, `${isl.id}/${d} draw ${i} unique`);
+      }
+      assert.equal(new Set([...keys(d1), ...keys(d2), ...keys(d3)]).size, 15, `${isl.id}/${d} no repeats across draws`);
+    }
+  }
+});
+
+test('difficulty: medium/hard quiz jumps carry the +N labels the demo teaches', () => {
+  for (const isl of ['addition', 'subtraction']) {
+    for (const d of ['medium', 'hard']) {
+      for (const qq of questionPool(isl, d)) {
+        const js = qq.line.jumps;
+        assert.ok(js.length >= 2, `${isl}/${d}: ${qq.prompt} has jumps`);
+        for (const [a, b, label] of js) {
+          assert.equal(label, `+${b - a}`, `${isl}/${d}: ${qq.prompt} jump ${a}→${b}`);
+        }
+        for (let i = 1; i < js.length; i += 1) {
+          assert.equal(js[i][0], js[i - 1][1], `${isl}/${d}: jumps chain: ${qq.prompt}`);
+        }
+        if (isl === 'addition') {
+          const strat = qq.prompt.match(/from (\d+)/);
+          if (strat) {
+            assert.equal(qq.answer, js[0][1], `${isl}/${d}: first jump landing: ${qq.prompt}`);
+          } else {
+            const m = qq.prompt.match(/What is (\d+) \+ (\d+)/);
+            const sum = Number(m[1]) + Number(m[2]);
+            assert.equal(qq.answer, sum, `${isl}/${d}: sum: ${qq.prompt}`);
+            assert.equal(js.at(-1)[1], sum, `${isl}/${d}: jumps land on the sum: ${qq.prompt}`);
+          }
+        } else {
+          const m = qq.prompt.match(/What is (\d+) − (\d+)/); // U+2212
+          const [a, b] = [Number(m[1]), Number(m[2])];
+          assert.equal(qq.answer, a - b, `${isl}/${d}: difference: ${qq.prompt}`);
+          assert.equal(js[0][0], b, `${isl}/${d}: count-up starts at ${b}: ${qq.prompt}`);
+          assert.equal(js.at(-1)[1], a, `${isl}/${d}: count-up lands on ${a}: ${qq.prompt}`);
         }
       }
     }

@@ -1,6 +1,7 @@
 import React, { useEffect, useId, useRef, useState } from 'react';
 import { ArrowLeft, Play, RotateCcw, Waves } from 'lucide-react';
 import { ding } from './chime.js';
+import { DifficultyPicker } from './difficulty-picker.jsx';
 import { prefersReducedMotion } from './three-fx/three-lazy.js';
 import { ISLANDS, islandById, makeQuestions, PRAISE, tickMarksFor, markLabelRows } from './number-line-voyage-engine.js';
 import Confetti3D from './three-fx/Confetti3D.jsx';
@@ -288,9 +289,15 @@ function starRow(n) {
   );
 }
 
-function IslandPlay({ island, onBack, onComplete }) {
+function IslandPlay({ island, difficulty, onBack, onComplete }) {
   const [phase, setPhase] = useState('learn');
-  const [questions, setQuestions] = useState(() => makeQuestions(island.id));
+  const recentRef = useRef([]);
+  const drawFresh = recent => {
+    const qs = makeQuestions(island.id, difficulty, Math.random, recent);
+    recentRef.current = [...recent, ...qs.map(qq => qq.key)].slice(-60);
+    return qs;
+  };
+  const [questions, setQuestions] = useState(() => drawFresh([]));
   const [qi, setQi] = useState(0);
   const [tries, setTries] = useState(0);
   const [stars, setStars] = useState(0);
@@ -341,7 +348,7 @@ function IslandPlay({ island, onBack, onComplete }) {
   };
 
   const replay = () => {
-    setQuestions(makeQuestions(island.id));
+    setQuestions(drawFresh(recentRef.current));
     setQi(0); setTries(0); setStars(0); setWrongTotal(0);
     setState('open'); setPicked(null); setMsg('');
     started.current = Date.now();
@@ -446,7 +453,7 @@ function IslandPlay({ island, onBack, onComplete }) {
   );
 }
 
-function VoyageMap({ stars, onChoose, onBack }) {
+function VoyageMap({ stars, onChoose, onBack, difficulty, onDifficultyChange }) {
   const total = stars.reduce((a, b) => a + b, 0);
   return (
     <section className="arcade-page">
@@ -459,6 +466,7 @@ function VoyageMap({ stars, onChoose, onBack }) {
           <p>Learn one smart number-line strategy, watch it work, then earn five stars.</p>
         </div>
       </div>
+      <div className="nlv-difficulty-row"><DifficultyPicker value={difficulty} onChange={onDifficultyChange} /></div>
       <div className="nlv-log">
         <Waves size={26} aria-hidden="true" />
         <div><small>CAPTAIN’S LOG</small><b>{total} / 40 stars</b></div>
@@ -479,15 +487,16 @@ function VoyageMap({ stars, onChoose, onBack }) {
   );
 }
 
-export function NumberLineVoyage({ onBack, onSave }) {
+export function NumberLineVoyage({ onBack, onSave, difficulty, onDifficultyChange }) {
   const [stars, setStars] = useState(() => Array(ISLANDS.length).fill(0));
   const [active, setActive] = useState(null);
   const island = active ? islandById(active) : null;
   if (island) {
     return (
       <IslandPlay
-        key={active}
+        key={active + ':' + difficulty}
         island={island}
+        difficulty={difficulty}
         onBack={() => setActive(null)}
         onComplete={({ stars: earned, duration, tries }) => {
           setStars(prev => {
@@ -496,12 +505,12 @@ export function NumberLineVoyage({ onBack, onSave }) {
             nextArr[i] = Math.max(nextArr[i], earned);
             return nextArr;
           });
-          onSave?.({ mode: `voyage-${island.id}`, round: 1, duration, tries });
+          onSave?.({ mode: `voyage-${island.id}`, round: 1, duration, tries, skillId: `voyage-${island.id}:${difficulty}` });
         }}
       />
     );
   }
-  return <VoyageMap stars={stars} onChoose={setActive} onBack={onBack} />;
+  return <VoyageMap stars={stars} onChoose={setActive} onBack={onBack} difficulty={difficulty} onDifficultyChange={onDifficultyChange} />;
 }
 
 export default NumberLineVoyage;
