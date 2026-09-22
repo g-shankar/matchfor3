@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { ISLANDS, islandById, makeQuestions, questionPool, PRAISE, tickMarksFor, markLabelRows, niceCeil } from '../src/number-line-voyage-engine.js';
+import { ISLANDS, islandById, makeQuestions, questionPool, PRAISE, tickMarksFor, markLabelRows, niceCeil, visibleJumps } from '../src/number-line-voyage-engine.js';
 
 const seeded = seed => () => ((seed = Math.imul(seed, 1664525) + 1013904223 >>> 0) / 4294967296);
 
@@ -491,6 +491,111 @@ test('difficulty: medium/hard quiz jumps carry the +N labels the demo teaches', 
           assert.equal(js.at(-1)[1], a, `${isl}/${d}: count-up lands on ${a}: ${qq.prompt}`);
         }
       }
+    }
+  }
+});
+
+/* ---------------- quiz-integrity fixes (2026-09-21) ---------------- */
+
+test('visibleJumps: sum questions show only the first jump; strategy checks show none', () => {
+  for (const d of ['simple', 'medium', 'hard']) {
+    let sums = 0, strats = 0;
+    for (let s = 1; s <= 12; s += 1) {
+      for (const qq of makeQuestions('addition', d, seeded(s))) {
+        assert.equal(qq.kind, 'jumps', `${d}: kind`);
+        if (/^What does the first jump from/.test(qq.prompt)) {
+          assert.equal(visibleJumps(qq), 0, `strategy check shows no jumps: ${qq.prompt}`);
+          strats += 1;
+        } else {
+          assert.match(qq.prompt, /^What is \d+ \+ \d+\?$/, `sum prompt shape: ${qq.prompt}`);
+          assert.equal(visibleJumps(qq), 1, `sum shows first jump only: ${qq.prompt}`);
+          sums += 1;
+        }
+      }
+    }
+    assert.ok(sums > 0, `${d}: saw sum questions`);
+    assert.ok(strats > 0, `${d}: saw strategy checks`);
+  }
+});
+
+test('visibleJumps: non-addition jump questions keep their full chain', () => {
+  for (const d of ['simple', 'medium', 'hard']) {
+    for (const qq of questionPool('subtraction', d, seeded(6))) {
+      assert.equal(visibleJumps(qq), qq.line.jumps.length, `${d}: ${qq.prompt}`);
+      assert.ok(qq.line.jumps.length >= 2, `${d}: chain present: ${qq.prompt}`);
+    }
+  }
+  // kinds without jumps expose nothing to stage
+  for (const qq of questionPool('estimate', 'simple', seeded(6))) {
+    assert.equal(visibleJumps(qq), 0, `estimate: ${qq.prompt}`);
+  }
+});
+
+test('estimate: the question equation shows the ORIGINAL numbers, never the rounded addends', () => {
+  for (const d of ['simple', 'medium', 'hard']) {
+    for (const qq of questionPool('estimate', d, seeded(7))) {
+      const m = qq.prompt.match(/About how much is (\d+) ([+−]) (\d+)\?/);
+      assert.ok(m, `prompt parses: ${qq.prompt}`);
+      const [, a, op, b] = m;
+      assert.equal(qq.line.equation, `${a} ${op} ${b} ≈ ?`, `original numbers shown: ${qq.prompt}`);
+      // the friendly addends must not leak into the displayed equation
+      const [fa, fb] = qq.line.friendly.split(' ').filter(t => /^\d+$/.test(t));
+      assert.ok(fa && fb, `friendly hint stored: ${qq.prompt}`);
+      for (const n of [fa, fb]) {
+        assert.ok(!new RegExp(`(^|\\D)${n}(\\D|$)`).test(qq.line.equation),
+          `rounded addend ${n} absent from equation: ${qq.line.equation}`);
+      }
+    }
+  }
+});
+
+test('visual-only bot: staged addition visuals leak neither the sum nor the first landing', () => {
+  // The bot reads every number the staged visual draws: mark labels, drawn
+  // jump endpoints, and drawn jump labels (arcs the visual hides are unread).
+  for (const d of ['simple', 'medium', 'hard']) {
+    for (const qq of questionPool('addition', d, seeded(8))) {
+      const n = visibleJumps(qq);
+      const drawn = [];
+      for (const mk of qq.line.marks || []) drawn.push(Number(mk.value));
+      for (const [a, b, label] of qq.line.jumps.slice(0, n)) {
+        drawn.push(a, b);
+        for (const t of String(label).match(/\d+/g) || []) drawn.push(Number(t));
+      }
+      const promptNums = (qq.prompt.match(/\d+/g) || []).map(Number);
+      const leaked = drawn.filter(v => !promptNums.includes(v));
+      assert.ok(!leaked.includes(qq.answer),
+        `${d}: bot derives ${qq.answer} from drawn ${JSON.stringify(leaked)} — ${qq.prompt}`);
+      // the final drawn dot in particular must not sit on the answer
+      const lastDot = n > 0 ? qq.line.jumps[n - 1][1] : qq.line.marks[0].value;
+      assert.notEqual(Number(lastDot), qq.answer, `${d}: final dot ≠ answer — ${qq.prompt}`);
+    }
+  }
+});
+
+test('visual-only bot: estimate equation contains the answer nowhere', () => {
+  for (const d of ['simple', 'medium', 'hard']) {
+    for (const qq of questionPool('estimate', d, seeded(9))) {
+      const eqNums = (qq.line.equation.match(/\d+/g) || []).map(Number);
+      assert.ok(!eqNums.includes(qq.answer), `${d}: answer hidden — ${qq.line.equation}`);
+    }
+  }
+});
+
+test('subtraction: every jump chain fits a 390px phone viewport', () => {
+  // Layout contract — mirrors NumberLineSVG geometry (W=760, L=48, R=712)
+  // and the phone CSS (.nlv-line min-width 540px; worksheet padding 9px and
+  // border 5px each side at ≤520px). If the CSS changes, re-verify by hand.
+  const W = 760, L = 48, R = 712;
+  const CSS_W = 540, VIEWPORT = 390 - 2 * 9 - 2 * 5;
+  for (const d of ['simple', 'medium', 'hard']) {
+    for (const qq of questionPool('subtraction', d)) {
+      const x = v => L + ((v - qq.line.min) / (qq.line.max - qq.line.min)) * (R - L);
+      const vals = qq.line.jumps.flatMap(j => [j[0], j[1]]);
+      const lo = Math.min(...vals), hi = Math.max(...vals);
+      // landing-dot radius (9) + start mark label overhang (~25 for 3 digits)
+      const inkUnits = (x(hi) + 9) - (x(lo) - 25);
+      const inkPx = inkUnits * (CSS_W / W);
+      assert.ok(inkPx <= VIEWPORT, `${d}: ${qq.prompt} chain ${inkPx.toFixed(1)}px > ${VIEWPORT}px viewport`);
     }
   }
 });

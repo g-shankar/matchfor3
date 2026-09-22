@@ -36,7 +36,7 @@ export function PaintStudio({onHome}){
         setMarks(m=>[...m,{type:'line',brush,color,size,points:[p],hues:brush==='rainbow'?[startHue]:[],mirror}]);
       }
     }else{
-      setMarks(m=>[...m,{type:'stamp',value:tool,x:p.x,y:p.y,size:36+size}]);
+      setMarks(m=>[...m,{type:'stamp',value:tool,x:p.x,y:p.y,size:36+size,mirror}]);
     }
   };
 

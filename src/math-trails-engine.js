@@ -10,19 +10,41 @@ export const trailModes=modes;
 const pick=(r,a)=>a[Math.floor(r()*a.length)],shuffle=(r,a)=>[...a].sort(()=>r()-.5);
 function pathCells(size,length,random){for(let attempt=0;attempt<100;attempt++){const path=[[Math.floor(random()*size),Math.floor(random()*size)]],seen=new Set([path[0].join(',')]);while(path.length<length){const [r,c]=path.at(-1),choices=shuffle(random,[[1,0],[-1,0],[0,1],[0,-1]]).map(([dr,dc])=>[r+dr,c+dc]).filter(([nr,nc])=>nr>=0&&nr<size&&nc>=0&&nc<size&&!seen.has(`${nr},${nc}`));if(!choices.length)break;const next=choices[0];path.push(next);seen.add(next.join(','));}if(path.length===length)return path;}return Array.from({length},(_,i)=>[Math.floor(i/size),i%size]);}
 function values(mode,difficulty,random){
- if(mode==='decimals'){if(difficulty==='medium'){const start=10+Math.floor(random()*20);return Array.from({length:8},(_,i)=>{const value=start/10+i/10;return {label:value.toFixed(1),value};});}if(difficulty==='hard'){const start=100+Math.floor(random()*400);return Array.from({length:8},(_,i)=>{const value=start/100+i/100;return {label:value.toFixed(2),value};});}const start=1+Math.floor(random()*8);return Array.from({length:8},(_,i)=>{const value=start/10+i/10;return {label:value.toFixed(1),value};});}
- if(mode==='geometry'){if(difficulty==='medium'){const start=20+Math.floor(random()*10)*4;return Array.from({length:8},(_,i)=>{const value=start+i*4;return {label:`${value} cm`,value};});}if(difficulty==='hard'){const start=40+Math.floor(random()*12)*5;return Array.from({length:8},(_,i)=>{const value=start+i*5;return {label:`${value} cm`,value};});}const start=12+Math.floor(random()*6)*2;return Array.from({length:8},(_,i)=>{const value=start+i*2;return {label:`${value} cm`,value};});}
+ if(mode==='decimals'){
+  // integer-unit arithmetic (tenths / hundredths ints) so values/labels never carry float dust
+  const fmt1=t=>`${Math.floor(t/10)}.${t%10}`,fmt2=h=>`${Math.floor(h/100)}.${String(h%100).padStart(2,'0')}`;
+  if(difficulty==='hard'){const start=100+Math.floor(random()*400);return Array.from({length:8},(_,i)=>{const h=start+i,value=h/100,label=fmt2(h),prev=fmt2(h-1);return {label,value,ask:`${prev} → ?`,question:`What comes after ${prev}?`};});}
+  const start=difficulty==='medium'?10+Math.floor(random()*20):1+Math.floor(random()*8);
+  return Array.from({length:8},(_,i)=>{const t=start+i,value=t/10,label=fmt1(t),prev=fmt1(t-1);return {label,value,ask:`${prev} → ?`,question:`What comes after ${prev}?`};});
+ }
+ if(mode==='geometry'){
+  // perimeters stay even so every rectangle has integer sides; sides [a,b] satisfy 2(a+b)===P
+  const perim=(start,step)=>Array.from({length:8},(_,i)=>{const P=start+i*step,k=Math.max(2,Math.round(P/4)-1),a=k,b=P/2-k;return {label:`${P} cm`,value:P,sides:[a,b],question:'How far is it all the way around?'};});
+  if(difficulty==='medium')return perim(20+Math.floor(random()*10)*4,4);
+  if(difficulty==='hard')return perim(40+Math.floor(random()*11)*10,10);
+  return perim(12+Math.floor(random()*6)*2,2);
+ }
  if(mode==='times'){const timesItem=(table,i)=>({question:`${table}×${i+1}`,label:String(table*(i+1)),value:table*(i+1),table,mult:i+1});if(difficulty==='medium'){const table=pick(random,[4,5,6,7,8,9]);return Array.from({length:8},(_,i)=>timesItem(table,i));}if(difficulty==='hard'){const table=pick(random,[6,7,8,9,10,11,12]);return Array.from({length:8},(_,i)=>timesItem(table,i));}const table=pick(random,[2,3,4,5,6,7,8,9]);return Array.from({length:8},(_,i)=>timesItem(table,i));}
- if(mode==='fractions'){const d=pick(random,difficulty==='medium'?[6,9,14]:difficulty==='hard'?[7,11,13]:[8,10,12]);return Array.from({length:8},(_,i)=>{if(i<7)return {label:`${i+1}/${d}`,value:(i+1)/d};if(d<=7)return {label:`8/${d}`,value:8/d};return {label:`${d}/${d}`,value:1};});}
- if(mode==='money'){if(difficulty==='medium'){const cents=pick(random,[[25,50,75,100,125,150,175,200],[10,20,30,40,50,60,70,80]]);return cents.map(x=>({label:`${x}¢`,value:x}));}if(difficulty==='hard'){const dollars=pick(random,[[1.25,1.50,1.75,2.00,2.25,2.50,2.75,3.00],[0.50,0.75,1.00,1.25,1.50,1.75,2.00,2.25]]);return dollars.map(x=>({label:`$${x.toFixed(2)}`,value:x}));}const cents=pick(random,[[1,5,10,25,30,35,40,50],[5,10,15,20,25,30,35,40]]);return cents.map(x=>({label:`${x}¢`,value:x}));}
- if(difficulty==='medium'){const hour=1+Math.floor(random()*12);return Array.from({length:8},(_,i)=>{const total=hour*60+i*10,h=Math.floor(total/60),m=total%60;return {label:`${h}:${String(m).padStart(2,'0')}`,value:total};});}
- if(difficulty==='hard'){const hour=1+Math.floor(random()*12);return Array.from({length:8},(_,i)=>{const total=hour*60+i*5,h=Math.floor(total/60),m=total%60;return {label:`${h}:${String(m).padStart(2,'0')}`,value:total};});}
- const hour=1+Math.floor(random()*6);return Array.from({length:8},(_,i)=>{const total=hour*60+i*15,h=Math.floor(total/60),m=total%60;return {label:`${h}:${String(m).padStart(2,'0')}`,value:total};});
+ if(mode==='fractions'){const d=pick(random,difficulty==='medium'?[6,9,14]:difficulty==='hard'?[7,11,13]:[8,10,12]);return Array.from({length:8},(_,i)=>{let label,value;if(i<7){label=`${i+1}/${d}`;value=(i+1)/d;}else if(d<=7){label=`8/${d}`;value=8/d;}else{label=`${d}/${d}`;value=1;}const prev=i===0?`0/${d}`:i===7?`7/${d}`:`${i}/${d}`;return {label,value,ask:`${prev} → ?`,question:`What comes after ${prev} on the way to one whole?`};});}
+ if(mode==='money'){
+  const coins=cents=>{const out=[];let c=cents;for(const dnm of [100,25,10,5,1]){while(c>=dnm){out.push(dnm);c-=dnm;}}return out;};
+  const q='How much money is this? Count the coins.';
+  if(difficulty==='medium'){const cents=pick(random,[[25,50,75,100,125,150,175,200],[10,20,30,40,50,60,70,80]]);return cents.map(x=>({label:`${x}¢`,value:x,coins:coins(x),question:q}));}
+  if(difficulty==='hard'){const dollars=pick(random,[[1.25,1.50,1.75,2.00,2.25,2.50,2.75,3.00],[0.50,0.75,1.00,1.25,1.50,1.75,2.00,2.25]]);return dollars.map(x=>({label:`$${x.toFixed(2)}`,value:x,coins:coins(Math.round(x*100)),question:q}));}
+  const cents=pick(random,[[5,10,15,25,30,35,40,50],[5,10,15,20,25,30,35,40]]);return cents.map(x=>({label:`${x}¢`,value:x,coins:coins(x),question:q}));
+ }
+ if(difficulty==='medium'){const hour=1+Math.floor(random()*12);return Array.from({length:8},(_,i)=>{const total=hour*60+i*10,h=Math.floor(total/60),m=total%60;return {label:`${h}:${String(m).padStart(2,'0')}`,value:total,h,m,question:'What time is it on the clock?'};});}
+ if(difficulty==='hard'){const hour=1+Math.floor(random()*12);return Array.from({length:8},(_,i)=>{const total=hour*60+i*5,h=Math.floor(total/60),m=total%60;return {label:`${h}:${String(m).padStart(2,'0')}`,value:total,h,m,question:'What time is it on the clock?'};});}
+ const hour=1+Math.floor(random()*6);return Array.from({length:8},(_,i)=>{const total=hour*60+i*15,h=Math.floor(total/60),m=total%60;return {label:`${h}:${String(m).padStart(2,'0')}`,value:total,h,m,question:'What time is it on the clock?'};});
 }
 function nearMiss(mode,difficulty,sequence,random){
  const s=sequence[Math.floor(random()*sequence.length)];
  if(mode==='decimals'){const hard=difficulty==='hard',off=pick(random,hard?[0.01,-0.01,0.02,-0.02]:[0.1,-0.1,0.2,-0.2]);let v=s.value+off;v=hard?Math.max(0.01,Math.round(v*100)/100):Math.max(0.1,Math.round(v*10)/10);return {label:hard?v.toFixed(2):v.toFixed(1),value:v};}
- if(mode==='geometry'){const step=difficulty==='hard'?5:4,v=Math.max(step,s.value+pick(random,[step,-step,2*step,-2*step]));return {label:`${v} cm`,value:v};}
+ if(mode==='geometry'){
+  // 25% of the time plant the classic area-misconception decoy (a*b instead of 2(a+b))
+  if(random()<0.25){const it=sequence[Math.floor(random()*sequence.length)],[a,b]=it.sides;return {label:`${a*b} cm`,value:a*b};}
+  const step=difficulty==='hard'?10:4,v=Math.max(step,s.value+pick(random,[step,-step,2*step,-2*step]));return {label:`${v} cm`,value:v};
+ }
  if(mode==='times'){const table=s.table,v=Math.max(1,s.value+pick(random,[table,-table,1,-1,2,-2]));return {label:String(v),value:v};}
  if(mode==='fractions'){const d=+sequence[0].label.split('/')[1],n=1+Math.floor(random()*d);return {label:`${n}/${d}`,value:n/d};}
  if(mode==='money'&&difficulty==='medium'){const v=Math.max(5,s.value+pick(random,[5,-5,10,-10,15,-15,20,-20]));return {label:`${v}¢`,value:v};}

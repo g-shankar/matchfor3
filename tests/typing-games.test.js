@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {
   LETTERS,MODES,PHONICS,FIRST_WORDS,ORDER_STARTS,ROUND_LEN,
   letterWord,makeTypingRound,nextTypingQuestion,checkAnswer,promptSpoken,
+  firstLetterHintVisible,FIRST_LETTER_HINT_AFTER_WRONGS,
 } from '../src/typing-engine.js';
 
 test('PHONICS covers every letter in "B! buh as in ball" style',()=>{
@@ -110,6 +111,44 @@ test('unknown mode falls back to find',()=>{
   assert.equal(q.mode,'find');
   assert.ok(checkAnswer('banana',{target:'K'},'k'));
   assert.ok(!checkAnswer('banana',{target:'K'},'m'));
+});
+
+test('order rounds shuffle window starts per round seed',()=>{
+  const seen=new Set();
+  for(let s=0;s<12;s++){
+    const round=makeTypingRound('order',seeded(s));
+    assert.equal(round.length,8,'order round keeps 8 questions');
+    const starts=round.map(q=>q.start);
+    seen.add(starts.join(''));
+    // all 8 windows still used exactly once per round: 24 unique letters
+    assert.deepEqual([...starts].sort(),[...ORDER_STARTS].sort(),`seed ${s} must use every window once`);
+    const letters=round.flatMap(q=>q.sequence);
+    assert.equal(new Set(letters).size,24,`seed ${s} must cover all 24 letters`);
+    assert.ok(round.every(q=>q.mode==='order'));
+    assert.ok(round.every(q=>promptSpoken(q).length>0));
+  }
+  assert.ok(seen.size>1,'order rounds must NOT be byte-identical across seeds');
+});
+
+test('find questions carry target + spoken prompt for speech replay',()=>{
+  for(let s=0;s<10;s++){
+    const round=makeTypingRound('find',seeded(s));
+    for(const q of round){
+      assert.ok(LETTERS.includes(q.target));
+      assert.equal(q.spoken,letterWord(q.target));
+      assert.equal(promptSpoken(q),q.spoken);
+    }
+  }
+});
+
+test('first-letter hint scaffold: word hidden until two wrong taps',()=>{
+  assert.equal(FIRST_LETTER_HINT_AFTER_WRONGS,2);
+  assert.ok(!firstLetterHintVisible(0),'no hint before any wrong tap');
+  assert.ok(!firstLetterHintVisible(1),'no hint after one wrong tap');
+  assert.ok(firstLetterHintVisible(2),'hint after two wrong taps');
+  assert.ok(firstLetterHintVisible(7),'hint stays visible afterwards');
+  assert.ok(!firstLetterHintVisible(undefined));
+  assert.ok(!firstLetterHintVisible(null));
 });
 
 test('promptSpoken is safe on empty input',()=>{

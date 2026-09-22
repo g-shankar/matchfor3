@@ -63,3 +63,13 @@ test('stamp, shape, brush, and paper collections are complete',()=>{
   assert.deepEqual(brushes.map(b=>b.id),['classic','neon','rainbow','spray']);
   assert.deepEqual(papers.map(p=>p.id),['white','night','sky']);
 });
+
+test('stamp marks store the mirror flag so Mirror magic applies to stamps',async()=>{
+  const {readFileSync}=await import('node:fs');
+  const {fileURLToPath}=await import('node:url');
+  const {dirname,join}=await import('node:path');
+  const src=readFileSync(join(dirname(fileURLToPath(import.meta.url)),'..','src','paint-studio.jsx'),'utf8');
+  const stampMark=src.match(/\{type:'stamp'[^}]*\}/);
+  assert.ok(stampMark,`no stamp mark creation found`);
+  assert.ok(/mirror/.test(stampMark[0]),`stamp mark does not store the mirror flag: ${stampMark[0]}`);
+});

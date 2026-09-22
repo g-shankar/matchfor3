@@ -65,8 +65,16 @@ function shuffled(rng){
 }
 
 /* ABC-order questions are consecutive letter windows: A–C, D–F, … V–X.
- * A round walks the whole alphabet in order — that IS the lesson. */
+ * A round covers the whole alphabet (all 24 letters, no repeats), but the
+ * windows are shuffled per round so the start letter is never guessable. */
 export const ORDER_STARTS=['A','D','G','J','M','P','S','V'];
+
+/* First-letter hint scaffold: the spelled word stays hidden until the child
+ * has made FIRST_LETTER_HINT_AFTER_WRONGS wrong taps on the same question. */
+export const FIRST_LETTER_HINT_AFTER_WRONGS=2;
+export function firstLetterHintVisible(wrongCount){
+  return Number(wrongCount||0)>=FIRST_LETTER_HINT_AFTER_WRONGS;
+}
 
 function nextOf(L){
   const i=LETTERS.indexOf(L);
@@ -131,7 +139,13 @@ export function nextTypingQuestion(mode,rng=Math.random){
 export function makeTypingRound(mode,rng=Math.random,avoid=null){
   const m=normMode(mode);
   if(m==='order'){
-    return ORDER_STARTS.map(orderQuestion);
+    // Fisher-Yates shuffle of the window starts with the round rng.
+    const starts=[...ORDER_STARTS];
+    for(let i=starts.length-1;i>0;i--){
+      const j=Math.floor(rng()*(i+1));
+      [starts[i],starts[j]]=[starts[j],starts[i]];
+    }
+    return starts.map(orderQuestion);
   }
   let targets=shuffled(rng).slice(0,ROUND_LEN);
   if(avoid&&targets[0]===String(avoid).toUpperCase()){

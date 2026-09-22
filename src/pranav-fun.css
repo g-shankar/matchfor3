@@ -21,6 +21,9 @@
 .typing-prompt{text-align:center;margin:6px 0 14px;min-height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;}
 .typing-prompt small{font-size:1.15rem;opacity:.85;}
 .typing-giant{font-size:6rem;font-weight:900;line-height:1;background:#fff;border-radius:28px;padding:10px 34px;box-shadow:0 6px 0 #d9e2f5;}
+/* Find-the-Letter "?" tile: hides the target glyph, taps replay the letter via speech */
+.typing-mystery{font-size:5rem;font-weight:900;line-height:1;background:#fff;border:none;border-radius:28px;padding:16px 52px;box-shadow:0 6px 0 #d9e2f5;cursor:pointer;color:#1d2b4f;min-height:120px;}
+.typing-mystery:active{transform:translateY(3px);box-shadow:0 3px 0 #d9e2f5;}
 .typing-word{display:flex;flex-direction:column;align-items:center;gap:2px;background:#fff;border-radius:28px;padding:12px 34px;box-shadow:0 6px 0 #d9e2f5;}
 .typing-emoji{font-size:4.4rem;line-height:1.1;}
 .typing-word b{font-size:1.9rem;text-transform:capitalize;}
@@ -35,7 +38,6 @@
 .typing-keyboard{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:10px;margin:0 auto;}
 .type-key{min-height:64px;font-size:1.9rem;font-weight:800;border-radius:18px;border:none;background:linear-gradient(180deg,#ffffff,#e8f0ff);box-shadow:0 5px 0 #c9d6f2;cursor:pointer;touch-action:manipulation;color:#1d2b4f;}
 .type-key:active{transform:translateY(3px);box-shadow:0 1px 0 #c9d6f2;}
-.type-key.next{background:linear-gradient(180deg,#fff7c4,#ffe873);box-shadow:0 5px 0 #d8b93a;}
 .type-key.wiggle{animation:typing-wiggle .5s ease;}
 @keyframes typing-wiggle{0%,100%{transform:rotate(0)}20%{transform:rotate(-7deg)}40%{transform:rotate(6deg)}60%{transform:rotate(-4deg)}80%{transform:rotate(3deg)}}
 
@@ -56,6 +58,7 @@
   .typing-keyboard{grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;}
   .type-key{min-height:56px;font-size:1.6rem;}
   .typing-giant{font-size:4.6rem;}
+  .typing-mystery{font-size:3.8rem;padding:12px 40px;min-height:100px;}
   .typing-seq span{font-size:2.4rem;padding:4px 12px;}
 }
 

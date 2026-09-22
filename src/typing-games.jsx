@@ -1,7 +1,7 @@
 import React,{useEffect,useRef,useState} from 'react';
 import {ArrowLeft,Volume2} from 'lucide-react';
 import {speakFriendly} from './speech.js';
-import {makeTypingRound,checkAnswer,letterWord,promptSpoken,MODE_INFO,LETTERS} from './typing-engine.js';
+import {makeTypingRound,checkAnswer,letterWord,promptSpoken,firstLetterHintVisible,MODE_INFO,LETTERS} from './typing-engine.js';
 import './pranav-fun.css';
 
 const GOOD_TRY=['Try again! You can do it!','Good try! Look again!','Almost! One more try!'];
@@ -15,6 +15,7 @@ export function TypingGames({voiceName,onExit,onSave}){
   const [done,setDone]=useState(false);
   const [stars,setStars]=useState(0);
   const [message,setMessage]=useState('');
+  const [wrongCount,setWrongCount]=useState(0); // wrong taps on current question (first-letter hint scaffold)
   const stats=useRef({lettersTyped:0,rounds:0,best:0});
   const saved=useRef(false);
   const wrongThisQ=useRef(false);
@@ -33,13 +34,14 @@ export function TypingGames({voiceName,onExit,onSave}){
     const r=makeTypingRound(freshMode,Math.random,avoid);
     lastStart.current=modeKey(r[0]);
     setRound(r);setQi(0);setPicked([]);setDone(false);
-    setStars(0);setMessage('');wrongThisQ.current=false;
+    setStars(0);setMessage('');setWrongCount(0);wrongThisQ.current=false;
     announce(r[0]);
   };
   const chooseMode=m=>{setMode(m);startRound(m);};
 
   const wrong=key=>{
     wrongThisQ.current=true;
+    setWrongCount(c=>c+1);
     setWiggle(key);
     setTimeout(()=>setWiggle(w=>w===key?null:w),550);
     setMessage('Good try! Look again 👀');
@@ -58,7 +60,7 @@ export function TypingGames({voiceName,onExit,onSave}){
       speakFriendly(`Amazing! You finished all the letters! You earned ${stars+(firstTry?1:0)} stars!`,{voiceName});
     }else{
       const nq=round[qi+1];
-      setQi(qi+1);setPicked([]);wrongThisQ.current=false;
+      setQi(qi+1);setPicked([]);setWrongCount(0);wrongThisQ.current=false;
       setMessage('');
       announce(nq);
     }
@@ -116,7 +118,6 @@ export function TypingGames({voiceName,onExit,onSave}){
     return 'upper';
   };
   const keyLabel=l=>keyCase()==='lower'?l.toLowerCase():l;
-  const isExpected=l=>mode==='order'&&question?l===question.sequence[picked.length]:false;
 
   const renderPrompt=()=>{
     if(!question)return null;
@@ -124,12 +125,15 @@ export function TypingGames({voiceName,onExit,onSave}){
       return <div className="typing-prompt"><div className="typing-seq">{question.sequence.map((l,i)=><span key={l} className={i<picked.length?'got':i===picked.length?'next':''}>{l}</span>)}</div><small>Tap them in A-B-C order!</small></div>;
     }
     if(mode==='first'){
-      return <div className="typing-prompt"><div className="typing-word"><span className="typing-emoji">{question.emoji}</span><b>{question.word}</b>{question.textFallback&&<small>🩻 x-ray</small>}</div><small>What letter does it start with?</small></div>;
+      // Emoji only at first; the spelled word appears as a hint scaffold
+      // after two wrong taps on the same question, then stays visible.
+      const showWord=firstLetterHintVisible(wrongCount);
+      return <div className="typing-prompt"><div className="typing-word"><span className="typing-emoji">{question.emoji}</span>{showWord&&<b>{question.word}</b>}{showWord&&question.textFallback&&<small>🩻 x-ray</small>}</div><small>What letter does it start with?</small></div>;
     }
     if(mode==='bigsmall'){
       return <div className="typing-prompt"><div className="typing-giant">{question.given}</div><small>Find {question.answer===question.answer.toUpperCase()?'BIG':'little'} {question.answer.toUpperCase()}!</small></div>;
     }
-    return <div className="typing-prompt"><div className="typing-giant">{question.target}</div><small>Find the letter {question.target}!</small></div>;
+    return <div className="typing-prompt"><button className="typing-mystery" aria-label="Hear the letter" onClick={()=>announce(question)}>?</button><small>Find the letter!</small></div>;
   };
 
   if(!mode){
@@ -163,7 +167,7 @@ export function TypingGames({voiceName,onExit,onSave}){
     </div>
     {renderPrompt()}
     <div className="typing-keyboard" aria-label="Letter keyboard">
-      {LETTERS.map(l=><button key={l} className={`type-key${wiggle===keyLabel(l)?' wiggle':''}${isExpected(l)?' next':''}`} onClick={()=>press(keyLabel(l))} style={{touchAction:'manipulation'}} aria-label={`Letter ${l}`}>{keyLabel(l)}</button>)}
+      {LETTERS.map(l=><button key={l} className={`type-key${wiggle===keyLabel(l)?' wiggle':''}`} onClick={()=>press(keyLabel(l))} style={{touchAction:'manipulation'}} aria-label={`Letter ${l}`}>{keyLabel(l)}</button>)}
     </div>
     <p className="typing-message" aria-live="polite">{message}</p>
   </section>;

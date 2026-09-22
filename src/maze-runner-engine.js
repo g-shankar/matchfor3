@@ -6,14 +6,21 @@ export const runnerLevels={
  hard:{label:'Hard',size:13,icon:'🐲',tag:'Epic challenge',gates:4},
 };
 const rand=(random,min,max)=>Math.floor(random()*(max-min+1))+min;
-const shuffled=(items,random)=>[...items].sort(()=>random()-.5);
+// Fisher–Yates shuffle. The old [...items].sort(()=>random()-.5) was biased
+// (the answer landed in choice positions 0/3 ~66% of the time); still used for gem placement.
+export const shuffled=(items,random)=>{const a=[...items];for(let i=a.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+
+// Constructed-response gate check: entry is the digit string typed on the number pad.
+// Empty entries never open a gate (Number('')===0 would be a false pass on 0-answers);
+// leading zeros are harmless since Number normalizes them. Pure — no side effects.
+export function checkGateEntry(entry,answer){return typeof entry==='string'&&entry.length>0&&/^\d+$/.test(entry)&&Number(entry)===answer;}
 
 export function runnerQuestion(level='easy',random=Math.random){
  let a,b,answer,prompt;
  if(level==='easy'){a=rand(random,4,20);b=rand(random,2,a);answer=random()<.5?a+b:a-b;prompt=answer>a?`${a} + ${b}`:`${a} − ${b}`;}
  else if(level==='medium'){a=rand(random,2,10);b=rand(random,2,10);if(random()<.7){answer=a*b;prompt=`${a} × ${b}`;}else{answer=a;prompt=`${a*b} ÷ ${b}`;}}
  else{const kind=rand(random,0,2);if(kind===0){a=rand(random,20,79);b=rand(random,11,40);answer=a+b;prompt=`${a} + ${b}`;}else if(kind===1){a=rand(random,30,99);b=rand(random,10,a-1);answer=a-b;prompt=`${a} − ${b}`;}else{a=rand(random,4,12);b=rand(random,3,12);answer=a*b;prompt=`${a} × ${b}`;}}
- const wrong=new Set();for(const n of [-10,-5,-2,-1,1,2,5,10])if(answer+n>=0)wrong.add(answer+n);return {prompt,answer,choices:shuffled([answer,...shuffled([...wrong],random).slice(0,3)],random)};
+ return {prompt,answer};
 }
 
 export function makeRunnerLevel(level='easy',random=Math.random){

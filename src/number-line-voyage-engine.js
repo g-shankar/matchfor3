@@ -299,7 +299,9 @@ function subQs(rng) {
     return q(rng,
       `What is ${a} − ${b}?`, d, [d, d + 10, d - 10], 'jumps',
       {
-        min: b - 5, max: a + 5, step: 5,
+        // ±10 breathing room (same as the medium pool): the longest jump
+        // chains must fit a 390px phone viewport without clipping.
+        min: b - 10, max: a + 10, step: 5,
         marks: [{ value: b, label: String(b) }],
         jumps: [[b, up, `+${up - b}`], [up, a, `+${a - up}`]],
       },
@@ -320,7 +322,9 @@ function estimateQs(rng) {
     const op = b < 0 ? '−' : '+';
     return q(rng, 
       `About how much is ${a} ${op} ${Math.abs(b)}?`, ans, [ans, exact, wild], 'equation',
-      { equation: `${fa} ${op} ${fb} ≈ ?` },
+      // The visual shows the ORIGINAL numbers — the rounding step is the
+      // child's job. The friendly addends surface only as a post-mistake hint.
+      { equation: `${a} ${op} ${Math.abs(b)} ≈ ?`, friendly: `${fa} ${op} ${fb}` },
       'Round to friendly numbers first — the exact answer is a trap!',
     );
   });
@@ -532,7 +536,9 @@ function estimatePool(rng, difficulty) {
     const op = b < 0 ? '−' : '+';
     return q(rng,
       `About how much is ${a} ${op} ${Math.abs(b)}?`, ans, [ans, exact, wild], 'equation',
-      { equation: `${fa} ${op} ${fb} ≈ ?` },
+      // The visual shows the ORIGINAL numbers — the rounding step is the
+      // child's job. The friendly addends surface only as a post-mistake hint.
+      { equation: `${a} ${op} ${Math.abs(b)} ≈ ?`, friendly: `${fa} ${op} ${fb}` },
       'Round to friendly numbers first — the exact answer is a trap!',
     );
   });
@@ -700,4 +706,27 @@ export function makeQuestions(islandId, difficulty = 'simple', rng = Math.random
 
 export function islandById(id) {
   return ISLANDS.find(x => x.id === id);
+}
+
+/* ---------- staged jump visibility (quiz integrity) ----------
+ * The Jumping Jetty quiz visual used to draw the entire jump chain, so the
+ * final landing dot sat exactly on the answer — and the drawn first-jump
+ * dot gave away the strategy check too. A bot reading dots could "solve"
+ * every question doing zero addition. The visual now renders only the jump
+ * layers the child is allowed to see:
+ *   "What is a + b?" (compute the sum) → the FIRST jump only
+ *   (start dot + first arc + its label; later jumps and the final landing
+ *   dot stay hidden — the child completes the decomposition mentally).
+ *   "What does the first jump from a land on?" (strategy check) → NO jumps
+ *   at all (start dot only).
+ * Every other jump question (subtraction count-ups) keeps its full chain.
+ * Returns how many jump layers the visual may render. */
+export function visibleJumps(question) {
+  const total = question && question.line && Array.isArray(question.line.jumps)
+    ? question.line.jumps.length : 0;
+  if (!question || question.kind !== 'jumps') return 0;
+  const prompt = question.prompt || '';
+  if (/^What does the first jump from/.test(prompt)) return 0;
+  if (/^What is \d+ \+ \d+\?/.test(prompt)) return Math.min(1, total);
+  return total;
 }

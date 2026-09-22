@@ -3,52 +3,62 @@ import { ArrowLeft, Play, RotateCcw, Waves } from 'lucide-react';
 import { ding } from './chime.js';
 import { DifficultyPicker } from './difficulty-picker.jsx';
 import { prefersReducedMotion } from './three-fx/three-lazy.js';
-import { ISLANDS, islandById, makeQuestions, PRAISE, tickMarksFor, markLabelRows } from './number-line-voyage-engine.js';
+import { ISLANDS, islandById, makeQuestions, PRAISE, tickMarksFor, markLabelRows, visibleJumps } from './number-line-voyage-engine.js';
 import Confetti3D from './three-fx/Confetti3D.jsx';
 import Star3D from './three-fx/Star3D.jsx';
 
 /* Crisp, readable SVG number lines. Stage semantics: 0 = bounds only,
  * then layers reveal in order: [bounds, mid?, marks, jump0, jump1, ...].
  * Quiz visuals pass stage={Infinity} to show the finished line. */
-function NumberLineSVG({ spec, stage = Infinity }) {
+function NumberLineSVG({ spec, stage = Infinity, maxJumps = Infinity }) {
   const W = 760, H = 196, L = 48, R = 712, Y = 112;
   const uid = useId().replace(/[^a-zA-Z0-9]/g, '');
   const markerId = `nlv-arr-${uid}`;
   const wrapRef = useRef(null);
   const x = v => L + ((v - spec.min) / (spec.max - spec.min)) * (R - L);
+  // Quiz integrity: the caller caps how many jump layers may render
+  // (see visibleJumps in the engine) — hidden jumps never reach the DOM.
+  const jumps = (spec.jumps || []).slice(0, maxJumps);
   const layers = ['bounds'];
   if (spec.mid != null) layers.push('mid');
   layers.push('marks');
-  (spec.jumps || []).forEach((_, i) => layers.push(`j${i}`));
+  jumps.forEach((_, i) => layers.push(`j${i}`));
   const shown = new Set(layers.slice(0, stage === Infinity ? layers.length : stage + 1));
   const showMid = shown.has('mid'), showMarks = shown.has('marks');
   const jumpCount = [...shown].filter(l => l[0] === 'j').length;
 
-  // On phones the line is wider than the screen (horizontal scroll). Keep the
-  // action in view: scroll the wrap so the shown marks / jump landings / mid
-  // are centered instead of leaving them off-screen to the right.
+  // On phones the line is wider than the screen (horizontal scroll). Fit the
+  // chain's bounding box into the initial viewport: pad for landing dots and
+  // mark labels, then scroll so the whole box is visible — centered when it
+  // fits, centered best-effort when it doesn't. The canvas stays scrollable.
   useEffect(() => {
     const wrap = wrapRef.current;
     if (!wrap) return;
     const focus = [];
     if (showMid && spec.mid != null) focus.push(spec.mid);
     if (showMarks) (spec.marks || []).forEach(m => focus.push(m.value));
-    (spec.jumps || []).slice(0, jumpCount).forEach(jm => { focus.push(jm[0]); focus.push(jm[1]); });
+    jumps.slice(0, jumpCount).forEach(jm => { focus.push(jm[0]); focus.push(jm[1]); });
     (spec.candidates || []).forEach(c => focus.push(c.value));
     const scrollW = wrap.scrollWidth - wrap.clientWidth;
     if (scrollW <= 0) return;
+    const scale = wrap.scrollWidth / W;
+    const PAD = 22; // SVG units: landing-dot radius + mark-label overhang
     // With nothing to focus on (bounds-only lines), start at the left edge so
-    // the axis minimum is always visible. Otherwise center the focus span.
+    // the axis minimum is always visible.
     const left = focus.length
       ? (() => {
-        const midVal = (Math.min(...focus) + Math.max(...focus)) / 2;
-        const scale = wrap.scrollWidth / W;
-        return Math.max(0, Math.min(scrollW, x(midVal) * scale - wrap.clientWidth / 2));
+        const loPx = x(Math.min(...focus)) * scale - PAD * scale;
+        const hiPx = x(Math.max(...focus)) * scale + PAD * scale;
+        const cw = wrap.clientWidth;
+        const l = hiPx - loPx <= cw
+          ? loPx - (cw - (hiPx - loPx)) / 2  // whole box fits: center it
+          : (loPx + hiPx) / 2 - cw / 2;       // too wide: center, best effort
+        return Math.max(0, Math.min(scrollW, l));
       })()
       : 0;
     wrap.scrollTo({ left, behavior: 'auto' });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [spec, stage, spec.min, spec.max, showMid, showMarks, jumpCount]);
+  }, [spec, stage, spec.min, spec.max, showMid, showMarks, jumpCount, maxJumps]);
 
   // Ticks snap to multiples of step; every major tick is labeled (see engine).
   const { ticks } = tickMarksFor(spec);
@@ -142,7 +152,7 @@ function NumberLineSVG({ spec, stage = Infinity }) {
           </g>
         );
       })}
-      {(spec.jumps || []).slice(0, jumpCount).map((jm, i) => {
+      {jumps.slice(0, jumpCount).map((jm, i) => {
         const [a, b, label] = jm;
         const xa = x(a), xb = x(b);
         const spanPx = Math.abs(xb - xa);
@@ -254,11 +264,20 @@ function NumberLineDemo({ spec }) {
   );
 }
 
-function QuestionVisual({ q }) {
+function QuestionVisual({ q, mistakes = 0 }) {
   if (q.kind === 'line' || q.kind === 'jumps' || q.kind === 'candidates') {
-    return <NumberLineSVG spec={q.line} stage={Infinity} />;
+    return <NumberLineSVG spec={q.line} stage={Infinity} maxJumps={visibleJumps(q)} />;
   }
-  if (q.kind === 'equation') return <div className="nlv-equation">{q.line.equation}</div>;
+  if (q.kind === 'equation') {
+    return (
+      <div>
+        <div className="nlv-equation">{q.line.equation}</div>
+        {mistakes > 0 && q.line.friendly && (
+          <p className="nlv-friendly-hint">💡 Try friendly numbers: {q.line.friendly}</p>
+        )}
+      </div>
+    );
+  }
   if (q.kind === 'pattern') {
     return (
       <div className="nlv-pattern">
@@ -424,7 +443,7 @@ function IslandPlay({ island, difficulty, onBack, onComplete }) {
           </div>
           <div className="trail-score"><b>{qi + 1}</b><small>of {questions.length}</small></div>
         </div>
-        <QuestionVisual q={q} />
+        <QuestionVisual q={q} mistakes={tries} />
         <div className="nlv-choices">
           {q.choices.map((c, i) => {
             const isAnswer = String(c.value) === String(q.answer);
